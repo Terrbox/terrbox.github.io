@@ -1,0 +1,3388 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Terrbox DnD Encounter</title>
+    <link rel="shortcut icon" href="Favicon.ico" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="copy.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="./api/showdown.js"></script>
+    <script src="index.js"></script>
+</head>
+<body>
+
+<div class="left">
+    <h1 class="page-heading">Random</h1>
+    <form id="select_form" method="get" action="/">
+        <table class="center form">
+            <tbody><tr>
+                <td class="key">What:</td>
+                <td class="value">
+                    <select id="type" name="type" onchange="set_type(this)">
+                        <optgroup label="Adventures">
+                            <option value="encounter">Encounters</option>
+                        </optgroup>
+                    </select>
+                </td>
+            </tr>
+            <tr id="tr-common" style="display: none;">
+                <td class="key">&nbsp;</td>
+                <td class="value">
+                    <input type="submit" value="Select" onclick="get_items()"></td>
+            </tr>
+            <tr id="tr-encounter" style="">
+                <td class="key">&nbsp;</td>
+                <td class="value">
+                    <select id="encounter-n_pc" name="encounter-n_pc" onchange="get_items()" class="num">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4" selected="selected">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                    </select>
+                    x &nbsp; <select id="encounter-level" name="encounter-level" onchange="get_items()">
+                    <option value="1">Level 1 PC</option>
+                    <option value="2">Level 2</option>
+                    <option value="3">Level 3</option>
+                    <option value="4">Level 4</option>
+                    <option value="5">Level 5</option>
+                    <option value="6">Level 6</option>
+                    <option value="7">Level 7</option>
+                    <option value="8">Level 8</option>
+                    <option value="9">Level 9</option>
+                    <option value="10">Level 10</option>
+                    <option value="11">Level 11</option>
+                    <option value="12">Level 12</option>
+                    <option value="13">Level 13</option>
+                    <option value="14">Level 14</option>
+                    <option value="15">Level 15</option>
+                    <option value="16">Level 16</option>
+                    <option value="17">Level 17</option>
+                    <option value="18">Level 18</option>
+                    <option value="19">Level 19</option>
+                    <option value="20">Level 20</option>
+                </select>
+                    &nbsp; <select id="encounter-difficulty" name="encounter-difficulty" onchange="get_items()">
+                    <option value="any">Any Difficulty</option>
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                    <option value="deadly">Deadly</option>
+                </select>
+                    &nbsp; <select id="encounter-environment" name="encounter-environment" onchange="get_items()">
+                    <optgroup label="Environment">
+                        <option value="Arctic">Arctic</option>
+                        <option value="Coastal">Coastal</option>
+                        <option value="Desert">Desert</option>
+                        <option value="Forest">Forest</option>
+                        <option value="Grassland">Grassland</option>
+                        <option value="Hill">Hill</option>
+                        <option value="Mountain">Mountain</option>
+                        <option value="Swamp">Swamp</option>
+                        <option value="Underdark">Underdark</option>
+                        <option value="Underwater">Underwater</option>
+                        <option value="Urban">Urban</option>
+                        <option value="Other Plane">Other Plane</option>
+                    </optgroup>
+                </select>
+                    <input type="button" value="Select" onclick="get_items()"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </form>
+    <div id='resultencounter'></div>
+</div>
+<div class="right">
+    <div class="cross">Add</div>
+    <div class="cross random">Ran.</div>
+    <h1 class="page-heading">Monster List</h1>
+    <div id='resultmonster'></div>
+</div>
+<div class="popup" style='display:none'>
+    <div class="cross">X</div>
+    <h1 class="page-heading">All Creatures</h1>
+    <input type="text" class="searcher" placeholder="Search by name...">
+    <div class="home">
+
+        <a id="cr0"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 0</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="augrek brighthelm">
+                    <a class="post-link" href="/bestiary/creatures/augrek-brighthelm">Augrek Brighthelm</a>
+                </li>
+
+                <li data-jets="awakened shrub">
+                    <a class="post-link" href="/bestiary/creatures/awakened-shrub">Awakened Shrub</a>
+                </li>
+
+                <li data-jets="baboon">
+                    <a class="post-link" href="/bestiary/creatures/baboon">Baboon</a>
+                </li>
+
+                <li data-jets="badger">
+                    <a class="post-link" href="/bestiary/creatures/badger">Badger</a>
+                </li>
+
+                <li data-jets="bat">
+                    <a class="post-link" href="/bestiary/creatures/bat">Bat</a>
+                </li>
+
+                <li data-jets="beldora">
+                    <a class="post-link" href="/bestiary/creatures/beldora">Beldora</a>
+                </li>
+
+                <li data-jets="cat">
+                    <a class="post-link" href="/bestiary/creatures/cat">Cat</a>
+                </li>
+
+                <li data-jets="commoner">
+                    <a class="post-link" href="/bestiary/creatures/commoner">Commoner</a>
+                </li>
+
+                <li data-jets="crab">
+                    <a class="post-link" href="/bestiary/creatures/crab">Crab</a>
+                </li>
+
+                <li data-jets="cranium rat">
+                    <a class="post-link" href="/bestiary/creatures/cranium-rat">Cranium Rat</a>
+                </li>
+
+                <li data-jets="crawling claw">
+                    <a class="post-link" href="/bestiary/creatures/crawling-claw">Crawling Claw</a>
+                </li>
+
+                <li data-jets="darathra shendrel">
+                    <a class="post-link" href="/bestiary/creatures/darathra-shendrel">Darathra Shendrel</a>
+                </li>
+
+                <li data-jets="darz helgar">
+                    <a class="post-link" href="/bestiary/creatures/darz-helgar">Darz Helgar</a>
+                </li>
+
+                <li data-jets="deer">
+                    <a class="post-link" href="/bestiary/creatures/deer">Deer</a>
+                </li>
+
+                <li data-jets="duvessa shane">
+                    <a class="post-link" href="/bestiary/creatures/duvessa-shane">Duvessa Shane</a>
+                </li>
+
+                <li data-jets="eagle">
+                    <a class="post-link" href="/bestiary/creatures/eagle">Eagle</a>
+                </li>
+
+                <li data-jets="frog">
+                    <a class="post-link" href="/bestiary/creatures/frog">Frog</a>
+                </li>
+
+                <li data-jets="giant fire beetle">
+                    <a class="post-link" href="/bestiary/creatures/giant-fire-beetle">Giant Fire Beetle</a>
+                </li>
+
+                <li data-jets="giant fly">
+                    <a class="post-link" href="/bestiary/creatures/giant-fly">Giant Fly</a>
+                </li>
+
+                <li data-jets="goat">
+                    <a class="post-link" href="/bestiary/creatures/goat">Goat</a>
+                </li>
+
+                <li data-jets="hawk">
+                    <a class="post-link" href="/bestiary/creatures/hawk">Hawk</a>
+                </li>
+
+                <li data-jets="homunculus">
+                    <a class="post-link" href="/bestiary/creatures/homunculus">Homunculus</a>
+                </li>
+
+                <li data-jets="hyena">
+                    <a class="post-link" href="/bestiary/creatures/hyena">Hyena</a>
+                </li>
+
+                <li data-jets="jackal">
+                    <a class="post-link" href="/bestiary/creatures/jackal">Jackal</a>
+                </li>
+
+                <li data-jets="lemure">
+                    <a class="post-link" href="/bestiary/creatures/lemure">Lemure</a>
+                </li>
+
+                <li data-jets="lifferlas">
+                    <a class="post-link" href="/bestiary/creatures/lifferlas">Lifferlas</a>
+                </li>
+
+                <li data-jets="lizard">
+                    <a class="post-link" href="/bestiary/creatures/lizard">Lizard</a>
+                </li>
+
+                <li data-jets="markham southwell">
+                    <a class="post-link" href="/bestiary/creatures/markham-southwell">Markham Southwell</a>
+                </li>
+
+                <li data-jets="miros xelbrin">
+                    <a class="post-link" href="/bestiary/creatures/miros-xelbrin">Miros Xelbrin</a>
+                </li>
+
+                <li data-jets="myconid sprout">
+                    <a class="post-link" href="/bestiary/creatures/myconid-sprout">Myconid Sprout</a>
+                </li>
+
+                <li data-jets="narth tezrin">
+                    <a class="post-link" href="/bestiary/creatures/narth-tezrin">Narth Tezrin</a>
+                </li>
+
+                <li data-jets="naxene drathkala">
+                    <a class="post-link" href="/bestiary/creatures/naxene-drathkala">Naxene Drathkala</a>
+                </li>
+
+                <li data-jets="octopus">
+                    <a class="post-link" href="/bestiary/creatures/octopus">Octopus</a>
+                </li>
+
+                <li data-jets="oren yogilvy">
+                    <a class="post-link" href="/bestiary/creatures/oren-yogilvy">Oren Yogilvy</a>
+                </li>
+
+                <li data-jets="owl">
+                    <a class="post-link" href="/bestiary/creatures/owl">Owl</a>
+                </li>
+
+                <li data-jets="quipper">
+                    <a class="post-link" href="/bestiary/creatures/quipper">Quipper</a>
+                </li>
+
+                <li data-jets="rat">
+                    <a class="post-link" href="/bestiary/creatures/rat">Rat</a>
+                </li>
+
+                <li data-jets="raven">
+                    <a class="post-link" href="/bestiary/creatures/raven">Raven</a>
+                </li>
+
+                <li data-jets="scorpion">
+                    <a class="post-link" href="/bestiary/creatures/scorpion">Scorpion</a>
+                </li>
+
+                <li data-jets="sea horse">
+                    <a class="post-link" href="/bestiary/creatures/sea-horse">Sea Horse</a>
+                </li>
+
+                <li data-jets="shalvus martholio">
+                    <a class="post-link" href="/bestiary/creatures/shalvus-martholio">Shalvus Martholio</a>
+                </li>
+
+                <li data-jets="shrieker">
+                    <a class="post-link" href="/bestiary/creatures/shrieker">Shrieker</a>
+                </li>
+
+                <li data-jets="sir baric nylef">
+                    <a class="post-link" href="/bestiary/creatures/sir-baric-nylef">Sir Baric Nylef</a>
+                </li>
+
+                <li data-jets="sirac of suzail">
+                    <a class="post-link" href="/bestiary/creatures/sirac-of-suzail">Sirac of Suzail</a>
+                </li>
+
+                <li data-jets="spider">
+                    <a class="post-link" href="/bestiary/creatures/spider">Spider</a>
+                </li>
+
+                <li data-jets="tressym">
+                    <a class="post-link" href="/bestiary/creatures/tressym">Tressym</a>
+                </li>
+
+                <li data-jets="vulture">
+                    <a class="post-link" href="/bestiary/creatures/vulture">Vulture</a>
+                </li>
+
+                <li data-jets="weasel">
+                    <a class="post-link" href="/bestiary/creatures/weasel">Weasel</a>
+                </li>
+
+                <li data-jets="zi liang">
+                    <a class="post-link" href="/bestiary/creatures/zi-liang">Zi Liang</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr1/8"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 1/8</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="bandit">
+                    <a class="post-link" href="/bestiary/creatures/bandit">Bandit</a>
+                </li>
+
+                <li data-jets="blood hawk">
+                    <a class="post-link" href="/bestiary/creatures/blood-hawk">Blood Hawk</a>
+                </li>
+
+                <li data-jets="boggle">
+                    <a class="post-link" href="/bestiary/creatures/boggle">Boggle</a>
+                </li>
+
+                <li data-jets="bridesmaid of zuggtmoy">
+                    <a class="post-link" href="/bestiary/creatures/bridesmaid-of-zuggtmoy">Bridesmaid of Zuggtmoy</a>
+                </li>
+
+                <li data-jets="camel">
+                    <a class="post-link" href="/bestiary/creatures/camel">Camel</a>
+                </li>
+
+                <li data-jets="cultist">
+                    <a class="post-link" href="/bestiary/creatures/cultist">Cultist</a>
+                </li>
+
+                <li data-jets="dolphin">
+                    <a class="post-link" href="/bestiary/creatures/dolphin">Dolphin</a>
+                </li>
+
+                <li data-jets="drow spore servant">
+                    <a class="post-link" href="/bestiary/creatures/drow-spore-servant">Drow Spore Servant</a>
+                </li>
+
+                <li data-jets="flumph">
+                    <a class="post-link" href="/bestiary/creatures/flumph">Flumph</a>
+                </li>
+
+                <li data-jets="flying snake">
+                    <a class="post-link" href="/bestiary/creatures/flying-snake">Flying Snake</a>
+                </li>
+
+                <li data-jets="giant crab">
+                    <a class="post-link" href="/bestiary/creatures/giant-crab">Giant Crab</a>
+                </li>
+
+                <li data-jets="giant rat">
+                    <a class="post-link" href="/bestiary/creatures/giant-rat">Giant Rat</a>
+                </li>
+
+                <li data-jets="giant rat (diseased)">
+                    <a class="post-link" href="/bestiary/creatures/giant-rat-(diseased)">Giant Rat (Diseased)</a>
+                </li>
+
+                <li data-jets="giant weasel">
+                    <a class="post-link" href="/bestiary/creatures/giant-weasel">Giant Weasel</a>
+                </li>
+
+                <li data-jets="guard">
+                    <a class="post-link" href="/bestiary/creatures/guard">Guard</a>
+                </li>
+
+                <li data-jets="howling hatred initiate">
+                    <a class="post-link" href="/bestiary/creatures/howling-hatred-initiate">Howling Hatred Initiate</a>
+                </li>
+
+                <li data-jets="kobold">
+                    <a class="post-link" href="/bestiary/creatures/kobold">Kobold</a>
+                </li>
+
+                <li data-jets="manes">
+                    <a class="post-link" href="/bestiary/creatures/manes">Manes</a>
+                </li>
+
+                <li data-jets="mastiff">
+                    <a class="post-link" href="/bestiary/creatures/mastiff">Mastiff</a>
+                </li>
+
+                <li data-jets="merfolk">
+                    <a class="post-link" href="/bestiary/creatures/merfolk">Merfolk</a>
+                </li>
+
+                <li data-jets="monodrone">
+                    <a class="post-link" href="/bestiary/creatures/monodrone">Monodrone</a>
+                </li>
+
+                <li data-jets="mule">
+                    <a class="post-link" href="/bestiary/creatures/mule">Mule</a>
+                </li>
+
+                <li data-jets="neogi hatchling">
+                    <a class="post-link" href="/bestiary/creatures/neogi-hatchling">Neogi Hatchling</a>
+                </li>
+
+                <li data-jets="noble">
+                    <a class="post-link" href="/bestiary/creatures/noble">Noble</a>
+                </li>
+
+                <li data-jets="poisonous snake">
+                    <a class="post-link" href="/bestiary/creatures/poisonous-snake">Poisonous Snake</a>
+                </li>
+
+                <li data-jets="pony">
+                    <a class="post-link" href="/bestiary/creatures/pony">Pony</a>
+                </li>
+
+                <li data-jets="slaad tadpole">
+                    <a class="post-link" href="/bestiary/creatures/slaad-tadpole">Slaad Tadpole</a>
+                </li>
+
+                <li data-jets="stirge">
+                    <a class="post-link" href="/bestiary/creatures/stirge">Stirge</a>
+                </li>
+
+                <li data-jets="tribal warrior">
+                    <a class="post-link" href="/bestiary/creatures/tribal-warrior">Tribal Warrior</a>
+                </li>
+
+                <li data-jets="twig blight">
+                    <a class="post-link" href="/bestiary/creatures/twig-blight">Twig Blight</a>
+                </li>
+
+                <li data-jets="xvart">
+                    <a class="post-link" href="/bestiary/creatures/xvart">Xvart</a>
+                </li>
+
+                <li data-jets="xvart speaker">
+                    <a class="post-link" href="/bestiary/creatures/xvart-speaker">Xvart Speaker</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr1/4"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 1/4</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="aarakocra">
+                    <a class="post-link" href="/bestiary/creatures/aarakocra">Aarakocra</a>
+                </li>
+
+                <li data-jets="acolyte">
+                    <a class="post-link" href="/bestiary/creatures/acolyte">Acolyte</a>
+                </li>
+
+                <li data-jets="apprentice wizard">
+                    <a class="post-link" href="/bestiary/creatures/apprentice-wizard">Apprentice Wizard</a>
+                </li>
+
+                <li data-jets="axe beak">
+                    <a class="post-link" href="/bestiary/creatures/axe-beak">Axe Beak</a>
+                </li>
+
+                <li data-jets="blink dog">
+                    <a class="post-link" href="/bestiary/creatures/blink-dog">Blink Dog</a>
+                </li>
+
+                <li data-jets="boar">
+                    <a class="post-link" href="/bestiary/creatures/boar">Boar</a>
+                </li>
+
+                <li data-jets="broom of animated attack">
+                    <a class="post-link" href="/bestiary/creatures/broom-of-animated-attack">Broom of Animated Attack</a>
+                </li>
+
+                <li data-jets="bullywug">
+                    <a class="post-link" href="/bestiary/creatures/bullywug">Bullywug</a>
+                </li>
+
+                <li data-jets="constrictor snake">
+                    <a class="post-link" href="/bestiary/creatures/constrictor-snake">Constrictor Snake</a>
+                </li>
+
+                <li data-jets="cow">
+                    <a class="post-link" href="/bestiary/creatures/cow">Cow</a>
+                </li>
+
+                <li data-jets="deep rothe">
+                    <a class="post-link" href="/bestiary/creatures/deep-rothe">Deep Rothe</a>
+                </li>
+
+                <li data-jets="derro">
+                    <a class="post-link" href="/bestiary/creatures/derro">Derro</a>
+                </li>
+
+                <li data-jets="dimetrodon">
+                    <a class="post-link" href="/bestiary/creatures/dimetrodon">Dimetrodon</a>
+                </li>
+
+                <li data-jets="draft horse">
+                    <a class="post-link" href="/bestiary/creatures/draft-horse">Draft Horse</a>
+                </li>
+
+                <li data-jets="dretch">
+                    <a class="post-link" href="/bestiary/creatures/dretch">Dretch</a>
+                </li>
+
+                <li data-jets="drow">
+                    <a class="post-link" href="/bestiary/creatures/drow">Drow</a>
+                </li>
+
+                <li data-jets="duodrone">
+                    <a class="post-link" href="/bestiary/creatures/duodrone">Duodrone</a>
+                </li>
+
+                <li data-jets="elk">
+                    <a class="post-link" href="/bestiary/creatures/elk">Elk</a>
+                </li>
+
+                <li data-jets="flying sword">
+                    <a class="post-link" href="/bestiary/creatures/flying-sword">Flying Sword</a>
+                </li>
+
+                <li data-jets="giant badger">
+                    <a class="post-link" href="/bestiary/creatures/giant-badger">Giant Badger</a>
+                </li>
+
+                <li data-jets="giant bat">
+                    <a class="post-link" href="/bestiary/creatures/giant-bat">Giant Bat</a>
+                </li>
+
+                <li data-jets="giant centipede">
+                    <a class="post-link" href="/bestiary/creatures/giant-centipede">Giant Centipede</a>
+                </li>
+
+                <li data-jets="giant frog">
+                    <a class="post-link" href="/bestiary/creatures/giant-frog">Giant Frog</a>
+                </li>
+
+                <li data-jets="giant lizard">
+                    <a class="post-link" href="/bestiary/creatures/giant-lizard">Giant Lizard</a>
+                </li>
+
+                <li data-jets="giant owl">
+                    <a class="post-link" href="/bestiary/creatures/giant-owl">Giant Owl</a>
+                </li>
+
+                <li data-jets="giant poisonous snake">
+                    <a class="post-link" href="/bestiary/creatures/giant-poisonous-snake">Giant Poisonous Snake</a>
+                </li>
+
+                <li data-jets="giant wolf spider">
+                    <a class="post-link" href="/bestiary/creatures/giant-wolf-spider">Giant Wolf Spider</a>
+                </li>
+
+                <li data-jets="gnoll witherling">
+                    <a class="post-link" href="/bestiary/creatures/gnoll-witherling">Gnoll Witherling</a>
+                </li>
+
+                <li data-jets="goblin">
+                    <a class="post-link" href="/bestiary/creatures/goblin">Goblin</a>
+                </li>
+
+                <li data-jets="grimlock">
+                    <a class="post-link" href="/bestiary/creatures/grimlock">Grimlock</a>
+                </li>
+
+                <li data-jets="grung">
+                    <a class="post-link" href="/bestiary/creatures/grung">Grung</a>
+                </li>
+
+                <li data-jets="hadrosaurus">
+                    <a class="post-link" href="/bestiary/creatures/hadrosaurus">Hadrosaurus</a>
+                </li>
+
+                <li data-jets="ixitxachitl">
+                    <a class="post-link" href="/bestiary/creatures/ixitxachitl">Ixitxachitl</a>
+                </li>
+
+                <li data-jets="ixitxachitl cleric">
+                    <a class="post-link" href="/bestiary/creatures/ixitxachitl-cleric">Ixitxachitl Cleric</a>
+                </li>
+
+                <li data-jets="kenku">
+                    <a class="post-link" href="/bestiary/creatures/kenku">Kenku</a>
+                </li>
+
+                <li data-jets="kobold inventor">
+                    <a class="post-link" href="/bestiary/creatures/kobold-inventor">Kobold Inventor</a>
+                </li>
+
+                <li data-jets="kuo-toa">
+                    <a class="post-link" href="/bestiary/creatures/kuo-toa">Kuo-Toa</a>
+                </li>
+
+                <li data-jets="male steeder">
+                    <a class="post-link" href="/bestiary/creatures/male-steeder">Male Steeder</a>
+                </li>
+
+                <li data-jets="mongrelfolk">
+                    <a class="post-link" href="/bestiary/creatures/mongrelfolk">Mongrelfolk</a>
+                </li>
+
+                <li data-jets="mud mephit">
+                    <a class="post-link" href="/bestiary/creatures/mud-mephit">Mud Mephit</a>
+                </li>
+
+                <li data-jets="needle blight">
+                    <a class="post-link" href="/bestiary/creatures/needle-blight">Needle Blight</a>
+                </li>
+
+                <li data-jets="ox">
+                    <a class="post-link" href="/bestiary/creatures/ox">Ox</a>
+                </li>
+
+                <li data-jets="panther">
+                    <a class="post-link" href="/bestiary/creatures/panther">Panther</a>
+                </li>
+
+                <li data-jets="pidlwick ii">
+                    <a class="post-link" href="/bestiary/creatures/pidlwick-ii">Pidlwick II</a>
+                </li>
+
+                <li data-jets="pixie">
+                    <a class="post-link" href="/bestiary/creatures/pixie">Pixie</a>
+                </li>
+
+                <li data-jets="pseudodragon">
+                    <a class="post-link" href="/bestiary/creatures/pseudodragon">Pseudodragon</a>
+                </li>
+
+                <li data-jets="pteranodon">
+                    <a class="post-link" href="/bestiary/creatures/pteranodon">Pteranodon</a>
+                </li>
+
+                <li data-jets="riding horse">
+                    <a class="post-link" href="/bestiary/creatures/riding-horse">Riding Horse</a>
+                </li>
+
+                <li data-jets="rothe">
+                    <a class="post-link" href="/bestiary/creatures/rothe">Rothe</a>
+                </li>
+
+                <li data-jets="skeleton">
+                    <a class="post-link" href="/bestiary/creatures/skeleton">Skeleton</a>
+                </li>
+
+                <li data-jets="smoke mephit">
+                    <a class="post-link" href="/bestiary/creatures/smoke-mephit">Smoke Mephit</a>
+                </li>
+
+                <li data-jets="sprite">
+                    <a class="post-link" href="/bestiary/creatures/sprite">Sprite</a>
+                </li>
+
+                <li data-jets="steam mephit">
+                    <a class="post-link" href="/bestiary/creatures/steam-mephit">Steam Mephit</a>
+                </li>
+
+                <li data-jets="stench kow">
+                    <a class="post-link" href="/bestiary/creatures/stench-kow">Stench Kow</a>
+                </li>
+
+                <li data-jets="swarm of bats">
+                    <a class="post-link" href="/bestiary/creatures/swarm-of-bats">Swarm of Bats</a>
+                </li>
+
+                <li data-jets="swarm of rats">
+                    <a class="post-link" href="/bestiary/creatures/swarm-of-rats">Swarm of Rats</a>
+                </li>
+
+                <li data-jets="swarm of ravens">
+                    <a class="post-link" href="/bestiary/creatures/swarm-of-ravens">Swarm of Ravens</a>
+                </li>
+
+                <li data-jets="troglodyte">
+                    <a class="post-link" href="/bestiary/creatures/troglodyte">Troglodyte</a>
+                </li>
+
+                <li data-jets="vegepygmy">
+                    <a class="post-link" href="/bestiary/creatures/vegepygmy">Vegepygmy</a>
+                </li>
+
+                <li data-jets="velociraptor">
+                    <a class="post-link" href="/bestiary/creatures/velociraptor">Velociraptor</a>
+                </li>
+
+                <li data-jets="violet fungus">
+                    <a class="post-link" href="/bestiary/creatures/violet-fungus">Violet Fungus</a>
+                </li>
+
+                <li data-jets="winged kobold">
+                    <a class="post-link" href="/bestiary/creatures/winged-kobold">Winged Kobold</a>
+                </li>
+
+                <li data-jets="wolf">
+                    <a class="post-link" href="/bestiary/creatures/wolf">Wolf</a>
+                </li>
+
+                <li data-jets="zombie">
+                    <a class="post-link" href="/bestiary/creatures/zombie">Zombie</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr1/2"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 1/2</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="ambush drake">
+                    <a class="post-link" href="/bestiary/creatures/ambush-drake">Ambush Drake</a>
+                </li>
+
+                <li data-jets="ape">
+                    <a class="post-link" href="/bestiary/creatures/ape">Ape</a>
+                </li>
+
+                <li data-jets="barovian witch">
+                    <a class="post-link" href="/bestiary/creatures/barovian-witch">Barovian Witch</a>
+                </li>
+
+                <li data-jets="black bear">
+                    <a class="post-link" href="/bestiary/creatures/black-bear">Black Bear</a>
+                </li>
+
+                <li data-jets="chitine">
+                    <a class="post-link" href="/bestiary/creatures/chitine">Chitine</a>
+                </li>
+
+                <li data-jets="cockatrice">
+                    <a class="post-link" href="/bestiary/creatures/cockatrice">Cockatrice</a>
+                </li>
+
+                <li data-jets="crocodile">
+                    <a class="post-link" href="/bestiary/creatures/crocodile">Crocodile</a>
+                </li>
+
+                <li data-jets="crushing wave reaver">
+                    <a class="post-link" href="/bestiary/creatures/crushing-wave-reaver">Crushing Wave Reaver</a>
+                </li>
+
+                <li data-jets="darkling">
+                    <a class="post-link" href="/bestiary/creatures/darkling">Darkling</a>
+                </li>
+
+                <li data-jets="darkmantle">
+                    <a class="post-link" href="/bestiary/creatures/darkmantle">Darkmantle</a>
+                </li>
+
+                <li data-jets="deep gnome (svirfneblin)">
+                    <a class="post-link" href="/bestiary/creatures/deep-gnome-(svirfneblin)">Deep Gnome (Svirfneblin)</a>
+                </li>
+
+                <li data-jets="duergar spore servant">
+                    <a class="post-link" href="/bestiary/creatures/duergar-spore-servant">Duergar Spore Servant</a>
+                </li>
+
+                <li data-jets="dust mephit">
+                    <a class="post-link" href="/bestiary/creatures/dust-mephit">Dust Mephit</a>
+                </li>
+
+                <li data-jets="firenewt warrior">
+                    <a class="post-link" href="/bestiary/creatures/firenewt-warrior">Firenewt Warrior</a>
+                </li>
+
+                <li data-jets="gas spore">
+                    <a class="post-link" href="/bestiary/creatures/gas-spore">Gas Spore</a>
+                </li>
+
+                <li data-jets="gazer">
+                    <a class="post-link" href="/bestiary/creatures/gazer">Gazer</a>
+                </li>
+
+                <li data-jets="giant goat">
+                    <a class="post-link" href="/bestiary/creatures/giant-goat">Giant Goat</a>
+                </li>
+
+                <li data-jets="giant sea horse">
+                    <a class="post-link" href="/bestiary/creatures/giant-sea-horse">Giant Sea Horse</a>
+                </li>
+
+                <li data-jets="giant wasp">
+                    <a class="post-link" href="/bestiary/creatures/giant-wasp">Giant Wasp</a>
+                </li>
+
+                <li data-jets="gnoll">
+                    <a class="post-link" href="/bestiary/creatures/gnoll">Gnoll</a>
+                </li>
+
+                <li data-jets="gnoll hunter">
+                    <a class="post-link" href="/bestiary/creatures/gnoll-hunter">Gnoll Hunter</a>
+                </li>
+
+                <li data-jets="gray ooze">
+                    <a class="post-link" href="/bestiary/creatures/gray-ooze">Gray Ooze</a>
+                </li>
+
+                <li data-jets="gray ooze (psychic)">
+                    <a class="post-link" href="/bestiary/creatures/gray-ooze-(psychic)">Gray Ooze (Psychic)</a>
+                </li>
+
+                <li data-jets="hobgoblin">
+                    <a class="post-link" href="/bestiary/creatures/hobgoblin">Hobgoblin</a>
+                </li>
+
+                <li data-jets="ice mephit">
+                    <a class="post-link" href="/bestiary/creatures/ice-mephit">Ice Mephit</a>
+                </li>
+
+                <li data-jets="jackalwere">
+                    <a class="post-link" href="/bestiary/creatures/jackalwere">Jackalwere</a>
+                </li>
+
+                <li data-jets="lizardfolk">
+                    <a class="post-link" href="/bestiary/creatures/lizardfolk">Lizardfolk</a>
+                </li>
+
+                <li data-jets="magma mephit">
+                    <a class="post-link" href="/bestiary/creatures/magma-mephit">Magma Mephit</a>
+                </li>
+
+                <li data-jets="magmin">
+                    <a class="post-link" href="/bestiary/creatures/magmin">Magmin</a>
+                </li>
+
+                <li data-jets="myconid adult">
+                    <a class="post-link" href="/bestiary/creatures/myconid-adult">Myconid Adult</a>
+                </li>
+
+                <li data-jets="orc">
+                    <a class="post-link" href="/bestiary/creatures/orc">Orc</a>
+                </li>
+
+                <li data-jets="orc nurtured one of yurtrus">
+                    <a class="post-link" href="/bestiary/creatures/orc-nurtured-one-of-yurtrus">Orc Nurtured One of Yurtrus</a>
+                </li>
+
+                <li data-jets="piercer">
+                    <a class="post-link" href="/bestiary/creatures/piercer">Piercer</a>
+                </li>
+
+                <li data-jets="redbrand ruffian">
+                    <a class="post-link" href="/bestiary/creatures/redbrand-ruffian">Redbrand Ruffian</a>
+                </li>
+
+                <li data-jets="reef shark">
+                    <a class="post-link" href="/bestiary/creatures/reef-shark">Reef Shark</a>
+                </li>
+
+                <li data-jets="rust monster">
+                    <a class="post-link" href="/bestiary/creatures/rust-monster">Rust Monster</a>
+                </li>
+
+                <li data-jets="sacred stone monk">
+                    <a class="post-link" href="/bestiary/creatures/sacred-stone-monk">Sacred Stone Monk</a>
+                </li>
+
+                <li data-jets="sahuagin">
+                    <a class="post-link" href="/bestiary/creatures/sahuagin">Sahuagin</a>
+                </li>
+
+                <li data-jets="satyr">
+                    <a class="post-link" href="/bestiary/creatures/satyr">Satyr</a>
+                </li>
+
+                <li data-jets="scout">
+                    <a class="post-link" href="/bestiary/creatures/scout">Scout</a>
+                </li>
+
+                <li data-jets="shadow">
+                    <a class="post-link" href="/bestiary/creatures/shadow">Shadow</a>
+                </li>
+
+                <li data-jets="sharwyn hucrele">
+                    <a class="post-link" href="/bestiary/creatures/sharwyn-hucrele">Sharwyn Hucrele</a>
+                </li>
+
+                <li data-jets="sir braford">
+                    <a class="post-link" href="/bestiary/creatures/sir-braford">Sir Braford</a>
+                </li>
+
+                <li data-jets="swarm of beetles">
+                    <a class="post-link" href="/bestiary/creatures/swarm-of-beetles">Swarm of Beetles</a>
+                </li>
+
+                <li data-jets="swarm of centipedes">
+                    <a class="post-link" href="/bestiary/creatures/swarm-of-centipedes">Swarm of Centipedes</a>
+                </li>
+
+                <li data-jets="swarm of insects">
+                    <a class="post-link" href="/bestiary/creatures/swarm-of-insects">Swarm of Insects</a>
+                </li>
+
+                <li data-jets="swarm of rot grubs">
+                    <a class="post-link" href="/bestiary/creatures/swarm-of-rot-grubs">Swarm of Rot Grubs</a>
+                </li>
+
+                <li data-jets="swarm of spiders">
+                    <a class="post-link" href="/bestiary/creatures/swarm-of-spiders">Swarm of Spiders</a>
+                </li>
+
+                <li data-jets="swarm of wasps">
+                    <a class="post-link" href="/bestiary/creatures/swarm-of-wasps">Swarm of Wasps</a>
+                </li>
+
+                <li data-jets="thorn slinger">
+                    <a class="post-link" href="/bestiary/creatures/thorn-slinger">Thorn Slinger</a>
+                </li>
+
+                <li data-jets="thug">
+                    <a class="post-link" href="/bestiary/creatures/thug">Thug</a>
+                </li>
+
+                <li data-jets="tridrone">
+                    <a class="post-link" href="/bestiary/creatures/tridrone">Tridrone</a>
+                </li>
+
+                <li data-jets="vine blight">
+                    <a class="post-link" href="/bestiary/creatures/vine-blight">Vine Blight</a>
+                </li>
+
+                <li data-jets="warhorse">
+                    <a class="post-link" href="/bestiary/creatures/warhorse">Warhorse</a>
+                </li>
+
+                <li data-jets="warhorse skeleton">
+                    <a class="post-link" href="/bestiary/creatures/warhorse-skeleton">Warhorse Skeleton</a>
+                </li>
+
+                <li data-jets="worg">
+                    <a class="post-link" href="/bestiary/creatures/worg">Worg</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr1"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 1</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="animated armor">
+                    <a class="post-link" href="/bestiary/creatures/animated-armor">Animated Armor</a>
+                </li>
+
+                <li data-jets="brass dragon wyrmling">
+                    <a class="post-link" href="/bestiary/creatures/brass-dragon-wyrmling">Brass Dragon Wyrmling</a>
+                </li>
+
+                <li data-jets="brown bear">
+                    <a class="post-link" href="/bestiary/creatures/brown-bear">Brown Bear</a>
+                </li>
+
+                <li data-jets="bugbear">
+                    <a class="post-link" href="/bestiary/creatures/bugbear">Bugbear</a>
+                </li>
+
+                <li data-jets="copper dragon wyrmling">
+                    <a class="post-link" href="/bestiary/creatures/copper-dragon-wyrmling">Copper Dragon Wyrmling</a>
+                </li>
+
+                <li data-jets="crag cat">
+                    <a class="post-link" href="/bestiary/creatures/crag-cat">Crag Cat</a>
+                </li>
+
+                <li data-jets="death dog">
+                    <a class="post-link" href="/bestiary/creatures/death-dog">Death Dog</a>
+                </li>
+
+                <li data-jets="deinonychus">
+                    <a class="post-link" href="/bestiary/creatures/deinonychus">Deinonychus</a>
+                </li>
+
+                <li data-jets="dire wolf">
+                    <a class="post-link" href="/bestiary/creatures/dire-wolf">Dire Wolf</a>
+                </li>
+
+                <li data-jets="dragonclaw">
+                    <a class="post-link" href="/bestiary/creatures/dragonclaw">Dragonclaw</a>
+                </li>
+
+                <li data-jets="dryad">
+                    <a class="post-link" href="/bestiary/creatures/dryad">Dryad</a>
+                </li>
+
+                <li data-jets="duergar">
+                    <a class="post-link" href="/bestiary/creatures/duergar">Duergar</a>
+                </li>
+
+                <li data-jets="duergar soulblade">
+                    <a class="post-link" href="/bestiary/creatures/duergar-soulblade">Duergar Soulblade</a>
+                </li>
+
+                <li data-jets="evil mage">
+                    <a class="post-link" href="/bestiary/creatures/evil-mage">Evil Mage</a>
+                </li>
+
+                <li data-jets="faerie dragon (orange)">
+                    <a class="post-link" href="/bestiary/creatures/faerie-dragon-(orange)">Faerie Dragon (Orange)</a>
+                </li>
+
+                <li data-jets="faerie dragon (red)">
+                    <a class="post-link" href="/bestiary/creatures/faerie-dragon-(red)">Faerie Dragon (Red)</a>
+                </li>
+
+                <li data-jets="faerie dragon (yellow)">
+                    <a class="post-link" href="/bestiary/creatures/faerie-dragon-(yellow)">Faerie Dragon (Yellow)</a>
+                </li>
+
+                <li data-jets="feathergale knight">
+                    <a class="post-link" href="/bestiary/creatures/feathergale-knight">Feathergale Knight</a>
+                </li>
+
+                <li data-jets="female steeder">
+                    <a class="post-link" href="/bestiary/creatures/female-steeder">Female Steeder</a>
+                </li>
+
+                <li data-jets="fire snake">
+                    <a class="post-link" href="/bestiary/creatures/fire-snake">Fire Snake</a>
+                </li>
+
+                <li data-jets="firenewt warlock of imix">
+                    <a class="post-link" href="/bestiary/creatures/firenewt-warlock-of-imix">Firenewt Warlock of Imix</a>
+                </li>
+
+                <li data-jets="ghoul">
+                    <a class="post-link" href="/bestiary/creatures/ghoul">Ghoul</a>
+                </li>
+
+                <li data-jets="giant eagle">
+                    <a class="post-link" href="/bestiary/creatures/giant-eagle">Giant Eagle</a>
+                </li>
+
+                <li data-jets="giant hyena">
+                    <a class="post-link" href="/bestiary/creatures/giant-hyena">Giant Hyena</a>
+                </li>
+
+                <li data-jets="giant octopus">
+                    <a class="post-link" href="/bestiary/creatures/giant-octopus">Giant Octopus</a>
+                </li>
+
+                <li data-jets="giant spider">
+                    <a class="post-link" href="/bestiary/creatures/giant-spider">Giant Spider</a>
+                </li>
+
+                <li data-jets="giant strider">
+                    <a class="post-link" href="/bestiary/creatures/giant-strider">Giant Strider</a>
+                </li>
+
+                <li data-jets="giant toad">
+                    <a class="post-link" href="/bestiary/creatures/giant-toad">Giant Toad</a>
+                </li>
+
+                <li data-jets="giant vulture">
+                    <a class="post-link" href="/bestiary/creatures/giant-vulture">Giant Vulture</a>
+                </li>
+
+                <li data-jets="gnoll flesh gnawer">
+                    <a class="post-link" href="/bestiary/creatures/gnoll-flesh-gnawer">Gnoll Flesh Gnawer</a>
+                </li>
+
+                <li data-jets="goblin boss">
+                    <a class="post-link" href="/bestiary/creatures/goblin-boss">Goblin Boss</a>
+                </li>
+
+                <li data-jets="grung wildling">
+                    <a class="post-link" href="/bestiary/creatures/grung-wildling">Grung Wildling</a>
+                </li>
+
+                <li data-jets="guardian portrait">
+                    <a class="post-link" href="/bestiary/creatures/guardian-portrait">Guardian Portrait</a>
+                </li>
+
+                <li data-jets="half-ogre (ogrillon)">
+                    <a class="post-link" href="/bestiary/creatures/half-ogre-(ogrillon)">Half-Ogre (Ogrillon)</a>
+                </li>
+
+                <li data-jets="harpy">
+                    <a class="post-link" href="/bestiary/creatures/harpy">Harpy</a>
+                </li>
+
+                <li data-jets="hippogriff">
+                    <a class="post-link" href="/bestiary/creatures/hippogriff">Hippogriff</a>
+                </li>
+
+                <li data-jets="ice toad">
+                    <a class="post-link" href="/bestiary/creatures/ice-toad">Ice Toad</a>
+                </li>
+
+                <li data-jets="imp">
+                    <a class="post-link" href="/bestiary/creatures/imp">Imp</a>
+                </li>
+
+                <li data-jets="jamna gleamsilver">
+                    <a class="post-link" href="/bestiary/creatures/jamna-gleamsilver">Jamna Gleamsilver</a>
+                </li>
+
+                <li data-jets="kobold dragonshield">
+                    <a class="post-link" href="/bestiary/creatures/kobold-dragonshield">Kobold Dragonshield</a>
+                </li>
+
+                <li data-jets="kobold scale sorcerer">
+                    <a class="post-link" href="/bestiary/creatures/kobold-scale-sorcerer">Kobold Scale Sorcerer</a>
+                </li>
+
+                <li data-jets="kuo-toa whip">
+                    <a class="post-link" href="/bestiary/creatures/kuo-toa-whip">Kuo-Toa Whip</a>
+                </li>
+
+                <li data-jets="lion">
+                    <a class="post-link" href="/bestiary/creatures/lion">Lion</a>
+                </li>
+
+                <li data-jets="maw demon">
+                    <a class="post-link" href="/bestiary/creatures/maw-demon">Maw Demon</a>
+                </li>
+
+                <li data-jets="nilbog">
+                    <a class="post-link" href="/bestiary/creatures/nilbog">Nilbog</a>
+                </li>
+
+                <li data-jets="phantom warrior">
+                    <a class="post-link" href="/bestiary/creatures/phantom-warrior">Phantom Warrior</a>
+                </li>
+
+                <li data-jets="quadrone">
+                    <a class="post-link" href="/bestiary/creatures/quadrone">Quadrone</a>
+                </li>
+
+                <li data-jets="quaggoth spore servant">
+                    <a class="post-link" href="/bestiary/creatures/quaggoth-spore-servant">Quaggoth Spore Servant</a>
+                </li>
+
+                <li data-jets="quasit">
+                    <a class="post-link" href="/bestiary/creatures/quasit">Quasit</a>
+                </li>
+
+                <li data-jets="quickling">
+                    <a class="post-link" href="/bestiary/creatures/quickling">Quickling</a>
+                </li>
+
+                <li data-jets="scarecrow">
+                    <a class="post-link" href="/bestiary/creatures/scarecrow">Scarecrow</a>
+                </li>
+
+                <li data-jets="sea spawn">
+                    <a class="post-link" href="/bestiary/creatures/sea-spawn">Sea Spawn</a>
+                </li>
+
+                <li data-jets="sildar hallwinter">
+                    <a class="post-link" href="/bestiary/creatures/sildar-hallwinter">Sildar Hallwinter</a>
+                </li>
+
+                <li data-jets="specter">
+                    <a class="post-link" href="/bestiary/creatures/specter">Specter</a>
+                </li>
+
+                <li data-jets="spy">
+                    <a class="post-link" href="/bestiary/creatures/spy">Spy</a>
+                </li>
+
+                <li data-jets="strahd zombie">
+                    <a class="post-link" href="/bestiary/creatures/strahd-zombie">Strahd Zombie</a>
+                </li>
+
+                <li data-jets="swarm of quippers">
+                    <a class="post-link" href="/bestiary/creatures/swarm-of-quippers">Swarm of Quippers</a>
+                </li>
+
+                <li data-jets="thorny">
+                    <a class="post-link" href="/bestiary/creatures/thorny">Thorny</a>
+                </li>
+
+                <li data-jets="thri-kreen">
+                    <a class="post-link" href="/bestiary/creatures/thri-kreen">Thri-kreen</a>
+                </li>
+
+                <li data-jets="thri-kreen (psionic)">
+                    <a class="post-link" href="/bestiary/creatures/thri-kreen-(psionic)">Thri-kreen (Psionic)</a>
+                </li>
+
+                <li data-jets="tiger">
+                    <a class="post-link" href="/bestiary/creatures/tiger">Tiger</a>
+                </li>
+
+                <li data-jets="vargouille">
+                    <a class="post-link" href="/bestiary/creatures/vargouille">Vargouille</a>
+                </li>
+
+                <li data-jets="xvart warlock of raxivort">
+                    <a class="post-link" href="/bestiary/creatures/xvart-warlock-of-raxivort">Xvart Warlock of Raxivort</a>
+                </li>
+
+                <li data-jets="yuan-ti pureblood">
+                    <a class="post-link" href="/bestiary/creatures/yuan-ti-pureblood">Yuan-ti Pureblood</a>
+                </li>
+
+                <li data-jets="yusdrayl">
+                    <a class="post-link" href="/bestiary/creatures/yusdrayl">Yusdrayl</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr2"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 2</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="allosaurus">
+                    <a class="post-link" href="/bestiary/creatures/allosaurus">Allosaurus</a>
+                </li>
+
+                <li data-jets="animated table">
+                    <a class="post-link" href="/bestiary/creatures/animated-table">Animated Table</a>
+                </li>
+
+                <li data-jets="ankheg">
+                    <a class="post-link" href="/bestiary/creatures/ankheg">Ankheg</a>
+                </li>
+
+                <li data-jets="aurochs">
+                    <a class="post-link" href="/bestiary/creatures/aurochs">Aurochs</a>
+                </li>
+
+                <li data-jets="awakened tree">
+                    <a class="post-link" href="/bestiary/creatures/awakened-tree">Awakened Tree</a>
+                </li>
+
+                <li data-jets="awakened zurkhwood">
+                    <a class="post-link" href="/bestiary/creatures/awakened-zurkhwood">Awakened Zurkhwood</a>
+                </li>
+
+                <li data-jets="azer">
+                    <a class="post-link" href="/bestiary/creatures/azer">Azer</a>
+                </li>
+
+                <li data-jets="bandit captain">
+                    <a class="post-link" href="/bestiary/creatures/bandit-captain">Bandit Captain</a>
+                </li>
+
+                <li data-jets="bard">
+                    <a class="post-link" href="/bestiary/creatures/bard">Bard</a>
+                </li>
+
+                <li data-jets="berserker">
+                    <a class="post-link" href="/bestiary/creatures/berserker">Berserker</a>
+                </li>
+
+                <li data-jets="black dragon wyrmling">
+                    <a class="post-link" href="/bestiary/creatures/black-dragon-wyrmling">Black Dragon Wyrmling</a>
+                </li>
+
+                <li data-jets="black earth guard">
+                    <a class="post-link" href="/bestiary/creatures/black-earth-guard">Black Earth Guard</a>
+                </li>
+
+                <li data-jets="black guard drake">
+                    <a class="post-link" href="/bestiary/creatures/black-guard-drake">Black Guard Drake</a>
+                </li>
+
+                <li data-jets="blue guard drake">
+                    <a class="post-link" href="/bestiary/creatures/blue-guard-drake">Blue Guard Drake</a>
+                </li>
+
+                <li data-jets="bronze dragon wyrmling">
+                    <a class="post-link" href="/bestiary/creatures/bronze-dragon-wyrmling">Bronze Dragon Wyrmling</a>
+                </li>
+
+                <li data-jets="carrion crawler">
+                    <a class="post-link" href="/bestiary/creatures/carrion-crawler">Carrion Crawler</a>
+                </li>
+
+                <li data-jets="cave bear">
+                    <a class="post-link" href="/bestiary/creatures/cave-bear">Cave Bear</a>
+                </li>
+
+                <li data-jets="centaur">
+                    <a class="post-link" href="/bestiary/creatures/centaur">Centaur</a>
+                </li>
+
+                <li data-jets="chamberlain of zuggtmoy">
+                    <a class="post-link" href="/bestiary/creatures/chamberlain-of-zuggtmoy">Chamberlain of Zuggtmoy</a>
+                </li>
+
+                <li data-jets="crushing wave priest">
+                    <a class="post-link" href="/bestiary/creatures/crushing-wave-priest">Crushing Wave Priest</a>
+                </li>
+
+                <li data-jets="cult fanatic">
+                    <a class="post-link" href="/bestiary/creatures/cult-fanatic">Cult Fanatic</a>
+                </li>
+
+                <li data-jets="darkling elder">
+                    <a class="post-link" href="/bestiary/creatures/darkling-elder">Darkling Elder</a>
+                </li>
+
+                <li data-jets="dragonwing">
+                    <a class="post-link" href="/bestiary/creatures/dragonwing">Dragonwing</a>
+                </li>
+
+                <li data-jets="droki">
+                    <a class="post-link" href="/bestiary/creatures/droki">Droki</a>
+                </li>
+
+                <li data-jets="druid">
+                    <a class="post-link" href="/bestiary/creatures/druid">Druid</a>
+                </li>
+
+                <li data-jets="duergar darkhaft">
+                    <a class="post-link" href="/bestiary/creatures/duergar-darkhaft">Duergar Darkhaft</a>
+                </li>
+
+                <li data-jets="duergar kavalrachni">
+                    <a class="post-link" href="/bestiary/creatures/duergar-kavalrachni">Duergar Kavalrachni</a>
+                </li>
+
+                <li data-jets="duergar keeper of the flame">
+                    <a class="post-link" href="/bestiary/creatures/duergar-keeper-of-the-flame">Duergar Keeper of the Flame</a>
+                </li>
+
+                <li data-jets="duergar spy">
+                    <a class="post-link" href="/bestiary/creatures/duergar-spy">Duergar Spy</a>
+                </li>
+
+                <li data-jets="duergar stone guard">
+                    <a class="post-link" href="/bestiary/creatures/duergar-stone-guard">Duergar Stone Guard</a>
+                </li>
+
+                <li data-jets="duergar xarron">
+                    <a class="post-link" href="/bestiary/creatures/duergar-xarron">Duergar Xarron</a>
+                </li>
+
+                <li data-jets="eternal flame guardian">
+                    <a class="post-link" href="/bestiary/creatures/eternal-flame-guardian">Eternal Flame Guardian</a>
+                </li>
+
+                <li data-jets="ettercap">
+                    <a class="post-link" href="/bestiary/creatures/ettercap">Ettercap</a>
+                </li>
+
+                <li data-jets="faerie dragon (blue)">
+                    <a class="post-link" href="/bestiary/creatures/faerie-dragon-(blue)">Faerie Dragon (Blue)</a>
+                </li>
+
+                <li data-jets="faerie dragon (green)">
+                    <a class="post-link" href="/bestiary/creatures/faerie-dragon-(green)">Faerie Dragon (Green)</a>
+                </li>
+
+                <li data-jets="faerie dragon (indigo)">
+                    <a class="post-link" href="/bestiary/creatures/faerie-dragon-(indigo)">Faerie Dragon (Indigo)</a>
+                </li>
+
+                <li data-jets="faerie dragon (violet)">
+                    <a class="post-link" href="/bestiary/creatures/faerie-dragon-(violet)">Faerie Dragon (Violet)</a>
+                </li>
+
+                <li data-jets="fathomer">
+                    <a class="post-link" href="/bestiary/creatures/fathomer">Fathomer</a>
+                </li>
+
+                <li data-jets="frulam mondath">
+                    <a class="post-link" href="/bestiary/creatures/frulam-mondath">Frulam Mondath</a>
+                </li>
+
+                <li data-jets="gargoyle">
+                    <a class="post-link" href="/bestiary/creatures/gargoyle">Gargoyle</a>
+                </li>
+
+                <li data-jets="gelatinous cube">
+                    <a class="post-link" href="/bestiary/creatures/gelatinous-cube">Gelatinous Cube</a>
+                </li>
+
+                <li data-jets="ghast">
+                    <a class="post-link" href="/bestiary/creatures/ghast">Ghast</a>
+                </li>
+
+                <li data-jets="giant boar">
+                    <a class="post-link" href="/bestiary/creatures/giant-boar">Giant Boar</a>
+                </li>
+
+                <li data-jets="giant constrictor snake">
+                    <a class="post-link" href="/bestiary/creatures/giant-constrictor-snake">Giant Constrictor Snake</a>
+                </li>
+
+                <li data-jets="giant crayfish">
+                    <a class="post-link" href="/bestiary/creatures/giant-crayfish">Giant Crayfish</a>
+                </li>
+
+                <li data-jets="giant elk">
+                    <a class="post-link" href="/bestiary/creatures/giant-elk">Giant Elk</a>
+                </li>
+
+                <li data-jets="gibbering mouther">
+                    <a class="post-link" href="/bestiary/creatures/gibbering-mouther">Gibbering Mouther</a>
+                </li>
+
+                <li data-jets="githzerai monk">
+                    <a class="post-link" href="/bestiary/creatures/githzerai-monk">Githzerai Monk</a>
+                </li>
+
+                <li data-jets="gnoll pack lord">
+                    <a class="post-link" href="/bestiary/creatures/gnoll-pack-lord">Gnoll Pack Lord</a>
+                </li>
+
+                <li data-jets="green dragon wyrmling">
+                    <a class="post-link" href="/bestiary/creatures/green-dragon-wyrmling">Green Dragon Wyrmling</a>
+                </li>
+
+                <li data-jets="green guard drake">
+                    <a class="post-link" href="/bestiary/creatures/green-guard-drake">Green Guard Drake</a>
+                </li>
+
+                <li data-jets="grick">
+                    <a class="post-link" href="/bestiary/creatures/grick">Grick</a>
+                </li>
+
+                <li data-jets="griffon">
+                    <a class="post-link" href="/bestiary/creatures/griffon">Griffon</a>
+                </li>
+
+                <li data-jets="grisha">
+                    <a class="post-link" href="/bestiary/creatures/grisha">Grisha</a>
+                </li>
+
+                <li data-jets="grung elite warrior">
+                    <a class="post-link" href="/bestiary/creatures/grung-elite-warrior">Grung Elite Warrior</a>
+                </li>
+
+                <li data-jets="guard drake">
+                    <a class="post-link" href="/bestiary/creatures/guard-drake">Guard Drake</a>
+                </li>
+
+                <li data-jets="hobgoblin iron shadow">
+                    <a class="post-link" href="/bestiary/creatures/hobgoblin-iron-shadow">Hobgoblin Iron Shadow</a>
+                </li>
+
+                <li data-jets="howling hatred priest">
+                    <a class="post-link" href="/bestiary/creatures/howling-hatred-priest">Howling Hatred Priest</a>
+                </li>
+
+                <li data-jets="hunter shark">
+                    <a class="post-link" href="/bestiary/creatures/hunter-shark">Hunter Shark</a>
+                </li>
+
+                <li data-jets="hurricane">
+                    <a class="post-link" href="/bestiary/creatures/hurricane">Hurricane</a>
+                </li>
+
+                <li data-jets="intellect devourer">
+                    <a class="post-link" href="/bestiary/creatures/intellect-devourer">Intellect Devourer</a>
+                </li>
+
+                <li data-jets="kuo-toa monitor">
+                    <a class="post-link" href="/bestiary/creatures/kuo-toa-monitor">Kuo-Toa Monitor</a>
+                </li>
+
+                <li data-jets="lizardfolk shaman">
+                    <a class="post-link" href="/bestiary/creatures/lizardfolk-shaman">Lizardfolk Shaman</a>
+                </li>
+
+                <li data-jets="meenlock">
+                    <a class="post-link" href="/bestiary/creatures/meenlock">Meenlock</a>
+                </li>
+
+                <li data-jets="merrow">
+                    <a class="post-link" href="/bestiary/creatures/merrow">Merrow</a>
+                </li>
+
+                <li data-jets="mimic">
+                    <a class="post-link" href="/bestiary/creatures/mimic">Mimic</a>
+                </li>
+
+                <li data-jets="minotaur skeleton">
+                    <a class="post-link" href="/bestiary/creatures/minotaur-skeleton">Minotaur Skeleton</a>
+                </li>
+
+                <li data-jets="myconid sovereign">
+                    <a class="post-link" href="/bestiary/creatures/myconid-sovereign">Myconid Sovereign</a>
+                </li>
+
+                <li data-jets="narrak">
+                    <a class="post-link" href="/bestiary/creatures/narrak">Narrak</a>
+                </li>
+
+                <li data-jets="nereid">
+                    <a class="post-link" href="/bestiary/creatures/nereid">Nereid</a>
+                </li>
+
+                <li data-jets="nezznar the black spider">
+                    <a class="post-link" href="/bestiary/creatures/nezznar-the-black-spider">Nezznar the Black Spider</a>
+                </li>
+
+                <li data-jets="nothic">
+                    <a class="post-link" href="/bestiary/creatures/nothic">Nothic</a>
+                </li>
+
+                <li data-jets="ochre jelly">
+                    <a class="post-link" href="/bestiary/creatures/ochre-jelly">Ochre Jelly</a>
+                </li>
+
+                <li data-jets="ogre">
+                    <a class="post-link" href="/bestiary/creatures/ogre">Ogre</a>
+                </li>
+
+                <li data-jets="ogre zombie">
+                    <a class="post-link" href="/bestiary/creatures/ogre-zombie">Ogre Zombie</a>
+                </li>
+
+                <li data-jets="orc claw of luthic">
+                    <a class="post-link" href="/bestiary/creatures/orc-claw-of-luthic">Orc Claw of Luthic</a>
+                </li>
+
+                <li data-jets="orc eye of gruumsh">
+                    <a class="post-link" href="/bestiary/creatures/orc-eye-of-gruumsh">Orc Eye of Gruumsh</a>
+                </li>
+
+                <li data-jets="orc hand of yurtrus">
+                    <a class="post-link" href="/bestiary/creatures/orc-hand-of-yurtrus">Orc Hand of Yurtrus</a>
+                </li>
+
+                <li data-jets="oreioth">
+                    <a class="post-link" href="/bestiary/creatures/oreioth">Oreioth</a>
+                </li>
+
+                <li data-jets="orog">
+                    <a class="post-link" href="/bestiary/creatures/orog">Orog</a>
+                </li>
+
+                <li data-jets="pegasus">
+                    <a class="post-link" href="/bestiary/creatures/pegasus">Pegasus</a>
+                </li>
+
+                <li data-jets="pentadrone">
+                    <a class="post-link" href="/bestiary/creatures/pentadrone">Pentadrone</a>
+                </li>
+
+                <li data-jets="peryton">
+                    <a class="post-link" href="/bestiary/creatures/peryton">Peryton</a>
+                </li>
+
+                <li data-jets="plesiosaurus">
+                    <a class="post-link" href="/bestiary/creatures/plesiosaurus">Plesiosaurus</a>
+                </li>
+
+                <li data-jets="polar bear">
+                    <a class="post-link" href="/bestiary/creatures/polar-bear">Polar Bear</a>
+                </li>
+
+                <li data-jets="poltergeist">
+                    <a class="post-link" href="/bestiary/creatures/poltergeist">Poltergeist</a>
+                </li>
+
+                <li data-jets="priest">
+                    <a class="post-link" href="/bestiary/creatures/priest">Priest</a>
+                </li>
+
+                <li data-jets="purple wormling">
+                    <a class="post-link" href="/bestiary/creatures/purple-wormling">Purple Wormling</a>
+                </li>
+
+                <li data-jets="quaggoth">
+                    <a class="post-link" href="/bestiary/creatures/quaggoth">Quaggoth</a>
+                </li>
+
+                <li data-jets="quetzalcoatlus">
+                    <a class="post-link" href="/bestiary/creatures/quetzalcoatlus">Quetzalcoatlus</a>
+                </li>
+
+                <li data-jets="red guard drake">
+                    <a class="post-link" href="/bestiary/creatures/red-guard-drake">Red Guard Drake</a>
+                </li>
+
+                <li data-jets="rhinoceros">
+                    <a class="post-link" href="/bestiary/creatures/rhinoceros">Rhinoceros</a>
+                </li>
+
+                <li data-jets="rug of smothering">
+                    <a class="post-link" href="/bestiary/creatures/rug-of-smothering">Rug of Smothering</a>
+                </li>
+
+                <li data-jets="saber-toothed tiger">
+                    <a class="post-link" href="/bestiary/creatures/saber-toothed-tiger">Saber-Toothed Tiger</a>
+                </li>
+
+                <li data-jets="sahuagin priestess">
+                    <a class="post-link" href="/bestiary/creatures/sahuagin-priestess">Sahuagin Priestess</a>
+                </li>
+
+                <li data-jets="sea hag">
+                    <a class="post-link" href="/bestiary/creatures/sea-hag">Sea Hag</a>
+                </li>
+
+                <li data-jets="shadow mastiff">
+                    <a class="post-link" href="/bestiary/creatures/shadow-mastiff">Shadow Mastiff</a>
+                </li>
+
+                <li data-jets="silver dragon wyrmling">
+                    <a class="post-link" href="/bestiary/creatures/silver-dragon-wyrmling">Silver Dragon Wyrmling</a>
+                </li>
+
+                <li data-jets="spined devil">
+                    <a class="post-link" href="/bestiary/creatures/spined-devil">Spined Devil</a>
+                </li>
+
+                <li data-jets="swarm of poisonous snakes">
+                    <a class="post-link" href="/bestiary/creatures/swarm-of-poisonous-snakes">Swarm of Poisonous Snakes</a>
+                </li>
+
+                <li data-jets="thayan warrior">
+                    <a class="post-link" href="/bestiary/creatures/thayan-warrior">Thayan Warrior</a>
+                </li>
+
+                <li data-jets="uthgardt shaman">
+                    <a class="post-link" href="/bestiary/creatures/uthgardt-shaman">Uthgardt Shaman</a>
+                </li>
+
+                <li data-jets="vampiric ixitxachitl">
+                    <a class="post-link" href="/bestiary/creatures/vampiric-ixitxachitl">Vampiric Ixitxachitl</a>
+                </li>
+
+                <li data-jets="vampiric ixitxachitl cleric">
+                    <a class="post-link" href="/bestiary/creatures/vampiric-ixitxachitl-cleric">Vampiric Ixitxachitl Cleric</a>
+                </li>
+
+                <li data-jets="vegepygmy chief">
+                    <a class="post-link" href="/bestiary/creatures/vegepygmy-chief">Vegepygmy Chief</a>
+                </li>
+
+                <li data-jets="wererat">
+                    <a class="post-link" href="/bestiary/creatures/wererat">Wererat</a>
+                </li>
+
+                <li data-jets="wereraven">
+                    <a class="post-link" href="/bestiary/creatures/wereraven">Wereraven</a>
+                </li>
+
+                <li data-jets="white dragon wyrmling">
+                    <a class="post-link" href="/bestiary/creatures/white-dragon-wyrmling">White Dragon Wyrmling</a>
+                </li>
+
+                <li data-jets="white guard drake">
+                    <a class="post-link" href="/bestiary/creatures/white-guard-drake">White Guard Drake</a>
+                </li>
+
+                <li data-jets="wiggan nettlebee">
+                    <a class="post-link" href="/bestiary/creatures/wiggan-nettlebee">Wiggan Nettlebee</a>
+                </li>
+
+                <li data-jets="will-o'-wisp">
+                    <a class="post-link" href="/bestiary/creatures/will-o-wisp">Will-o'-Wisp</a>
+                </li>
+
+                <li data-jets="yuan-ti broodguard">
+                    <a class="post-link" href="/bestiary/creatures/yuan-ti-broodguard">Yuan-ti Broodguard</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr3"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 3</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="ankylosaurus">
+                    <a class="post-link" href="/bestiary/creatures/ankylosaurus">Ankylosaurus</a>
+                </li>
+
+                <li data-jets="archer">
+                    <a class="post-link" href="/bestiary/creatures/archer">Archer</a>
+                </li>
+
+                <li data-jets="basilisk">
+                    <a class="post-link" href="/bestiary/creatures/basilisk">Basilisk</a>
+                </li>
+
+                <li data-jets="bearded devil">
+                    <a class="post-link" href="/bestiary/creatures/bearded-devil">Bearded Devil</a>
+                </li>
+
+                <li data-jets="black earth priest">
+                    <a class="post-link" href="/bestiary/creatures/black-earth-priest">Black Earth Priest</a>
+                </li>
+
+                <li data-jets="blue dragon wyrmling">
+                    <a class="post-link" href="/bestiary/creatures/blue-dragon-wyrmling">Blue Dragon Wyrmling</a>
+                </li>
+
+                <li data-jets="bugbear chief">
+                    <a class="post-link" href="/bestiary/creatures/bugbear-chief">Bugbear Chief</a>
+                </li>
+
+                <li data-jets="cave fisher">
+                    <a class="post-link" href="/bestiary/creatures/cave-fisher">Cave Fisher</a>
+                </li>
+
+                <li data-jets="choldrith">
+                    <a class="post-link" href="/bestiary/creatures/choldrith">Choldrith</a>
+                </li>
+
+                <li data-jets="dark tide knight">
+                    <a class="post-link" href="/bestiary/creatures/dark-tide-knight">Dark Tide Knight</a>
+                </li>
+
+                <li data-jets="deathlock wight">
+                    <a class="post-link" href="/bestiary/creatures/deathlock-wight">Deathlock Wight</a>
+                </li>
+
+                <li data-jets="deep scion">
+                    <a class="post-link" href="/bestiary/creatures/deep-scion">Deep Scion</a>
+                </li>
+
+                <li data-jets="derro savant">
+                    <a class="post-link" href="/bestiary/creatures/derro-savant">Derro Savant</a>
+                </li>
+
+                <li data-jets="displacer beast">
+                    <a class="post-link" href="/bestiary/creatures/displacer-beast">Displacer Beast</a>
+                </li>
+
+                <li data-jets="doppelganger">
+                    <a class="post-link" href="/bestiary/creatures/doppelganger">Doppelganger</a>
+                </li>
+
+                <li data-jets="dralmorrer borngray">
+                    <a class="post-link" href="/bestiary/creatures/dralmorrer-borngray">Dralmorrer Borngray</a>
+                </li>
+
+                <li data-jets="eternal flame priest">
+                    <a class="post-link" href="/bestiary/creatures/eternal-flame-priest">Eternal Flame Priest</a>
+                </li>
+
+                <li data-jets="flail snail">
+                    <a class="post-link" href="/bestiary/creatures/flail-snail">Flail Snail</a>
+                </li>
+
+                <li data-jets="giant lightning eel">
+                    <a class="post-link" href="/bestiary/creatures/giant-lightning-eel">Giant Lightning Eel</a>
+                </li>
+
+                <li data-jets="giant scorpion">
+                    <a class="post-link" href="/bestiary/creatures/giant-scorpion">Giant Scorpion</a>
+                </li>
+
+                <li data-jets="githyanki warrior">
+                    <a class="post-link" href="/bestiary/creatures/githyanki-warrior">Githyanki Warrior</a>
+                </li>
+
+                <li data-jets="gold dragon wyrmling">
+                    <a class="post-link" href="/bestiary/creatures/gold-dragon-wyrmling">Gold Dragon Wyrmling</a>
+                </li>
+
+                <li data-jets="green hag">
+                    <a class="post-link" href="/bestiary/creatures/green-hag">Green Hag</a>
+                </li>
+
+                <li data-jets="grell">
+                    <a class="post-link" href="/bestiary/creatures/grell">Grell</a>
+                </li>
+
+                <li data-jets="hell hound">
+                    <a class="post-link" href="/bestiary/creatures/hell-hound">Hell Hound</a>
+                </li>
+
+                <li data-jets="hobgoblin captain">
+                    <a class="post-link" href="/bestiary/creatures/hobgoblin-captain">Hobgoblin Captain</a>
+                </li>
+
+                <li data-jets="hook horror">
+                    <a class="post-link" href="/bestiary/creatures/hook-horror">Hook Horror</a>
+                </li>
+
+                <li data-jets="hook horror spore servant">
+                    <a class="post-link" href="/bestiary/creatures/hook-horror-spore-servant">Hook Horror Spore Servant</a>
+                </li>
+
+                <li data-jets="illusionist">
+                    <a class="post-link" href="/bestiary/creatures/illusionist">Illusionist</a>
+                </li>
+
+                <li data-jets="kalka-kylla">
+                    <a class="post-link" href="/bestiary/creatures/kalka-kylla">Kalka-Kylla</a>
+                </li>
+
+                <li data-jets="killer whale">
+                    <a class="post-link" href="/bestiary/creatures/killer-whale">Killer Whale</a>
+                </li>
+
+                <li data-jets="knight">
+                    <a class="post-link" href="/bestiary/creatures/knight">Knight</a>
+                </li>
+
+                <li data-jets="leucrotta">
+                    <a class="post-link" href="/bestiary/creatures/leucrotta">Leucrotta</a>
+                </li>
+
+                <li data-jets="manticore">
+                    <a class="post-link" href="/bestiary/creatures/manticore">Manticore</a>
+                </li>
+
+                <li data-jets="martial arts adept">
+                    <a class="post-link" href="/bestiary/creatures/martial-arts-adept">Martial Arts Adept</a>
+                </li>
+
+                <li data-jets="minotaur">
+                    <a class="post-link" href="/bestiary/creatures/minotaur">Minotaur</a>
+                </li>
+
+                <li data-jets="mormesk the wraith">
+                    <a class="post-link" href="/bestiary/creatures/mormesk-the-wraith">Mormesk the Wraith</a>
+                </li>
+
+                <li data-jets="mummy">
+                    <a class="post-link" href="/bestiary/creatures/mummy">Mummy</a>
+                </li>
+
+                <li data-jets="neogi">
+                    <a class="post-link" href="/bestiary/creatures/neogi">Neogi</a>
+                </li>
+
+                <li data-jets="nightmare">
+                    <a class="post-link" href="/bestiary/creatures/nightmare">Nightmare</a>
+                </li>
+
+                <li data-jets="one-eyed shiver">
+                    <a class="post-link" href="/bestiary/creatures/one-eyed-shiver">One-Eyed Shiver</a>
+                </li>
+
+                <li data-jets="orc red fang of shargaas">
+                    <a class="post-link" href="/bestiary/creatures/orc-red-fang-of-shargaas">Orc Red Fang of Shargaas</a>
+                </li>
+
+                <li data-jets="owlbear">
+                    <a class="post-link" href="/bestiary/creatures/owlbear">Owlbear</a>
+                </li>
+
+                <li data-jets="pharblex spattergoo">
+                    <a class="post-link" href="/bestiary/creatures/pharblex-spattergoo">Pharblex Spattergoo</a>
+                </li>
+
+                <li data-jets="phase spider">
+                    <a class="post-link" href="/bestiary/creatures/phase-spider">Phase Spider</a>
+                </li>
+
+                <li data-jets="quaggoth thonot">
+                    <a class="post-link" href="/bestiary/creatures/quaggoth-thonot">Quaggoth Thonot</a>
+                </li>
+
+                <li data-jets="redcap">
+                    <a class="post-link" href="/bestiary/creatures/redcap">Redcap</a>
+                </li>
+
+                <li data-jets="siren">
+                    <a class="post-link" href="/bestiary/creatures/siren">Siren</a>
+                </li>
+
+                <li data-jets="skyweaver">
+                    <a class="post-link" href="/bestiary/creatures/skyweaver">Skyweaver</a>
+                </li>
+
+                <li data-jets="slithering tracker">
+                    <a class="post-link" href="/bestiary/creatures/slithering-tracker">Slithering Tracker</a>
+                </li>
+
+                <li data-jets="spectator">
+                    <a class="post-link" href="/bestiary/creatures/spectator">Spectator</a>
+                </li>
+
+                <li data-jets="swashbuckler">
+                    <a class="post-link" href="/bestiary/creatures/swashbuckler">Swashbuckler</a>
+                </li>
+
+                <li data-jets="thurl merosska">
+                    <a class="post-link" href="/bestiary/creatures/thurl-merosska">Thurl Merosska</a>
+                </li>
+
+                <li data-jets="trapper">
+                    <a class="post-link" href="/bestiary/creatures/trapper">Trapper</a>
+                </li>
+
+                <li data-jets="troglodyte champion of laogzed">
+                    <a class="post-link" href="/bestiary/creatures/troglodyte-champion-of-laogzed">Troglodyte Champion of Laogzed</a>
+                </li>
+
+                <li data-jets="vampiric mist">
+                    <a class="post-link" href="/bestiary/creatures/vampiric-mist">Vampiric Mist</a>
+                </li>
+
+                <li data-jets="veteran">
+                    <a class="post-link" href="/bestiary/creatures/veteran">Veteran</a>
+                </li>
+
+                <li data-jets="water weird">
+                    <a class="post-link" href="/bestiary/creatures/water-weird">Water Weird</a>
+                </li>
+
+                <li data-jets="werewolf">
+                    <a class="post-link" href="/bestiary/creatures/werewolf">Werewolf</a>
+                </li>
+
+                <li data-jets="wight">
+                    <a class="post-link" href="/bestiary/creatures/wight">Wight</a>
+                </li>
+
+                <li data-jets="windharrow">
+                    <a class="post-link" href="/bestiary/creatures/windharrow">Windharrow</a>
+                </li>
+
+                <li data-jets="winter wolf">
+                    <a class="post-link" href="/bestiary/creatures/winter-wolf">Winter Wolf</a>
+                </li>
+
+                <li data-jets="yakfolk warrior">
+                    <a class="post-link" href="/bestiary/creatures/yakfolk-warrior">Yakfolk Warrior</a>
+                </li>
+
+                <li data-jets="yeti">
+                    <a class="post-link" href="/bestiary/creatures/yeti">Yeti</a>
+                </li>
+
+                <li data-jets="yuan-ti malison type 1">
+                    <a class="post-link" href="/bestiary/creatures/yuan-ti-malison-type-1">Yuan-ti Malison Type 1</a>
+                </li>
+
+                <li data-jets="yuan-ti malison type 2">
+                    <a class="post-link" href="/bestiary/creatures/yuan-ti-malison-type-2">Yuan-ti Malison Type 2</a>
+                </li>
+
+                <li data-jets="yuan-ti malison type 3">
+                    <a class="post-link" href="/bestiary/creatures/yuan-ti-malison-type-3">Yuan-ti Malison Type 3</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr4"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 4</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="azbara jos">
+                    <a class="post-link" href="/bestiary/creatures/azbara-jos">Azbara Jos</a>
+                </li>
+
+                <li data-jets="babau">
+                    <a class="post-link" href="/bestiary/creatures/babau">Babau</a>
+                </li>
+
+                <li data-jets="banshee">
+                    <a class="post-link" href="/bestiary/creatures/banshee">Banshee</a>
+                </li>
+
+                <li data-jets="barghest">
+                    <a class="post-link" href="/bestiary/creatures/barghest">Barghest</a>
+                </li>
+
+                <li data-jets="black pudding">
+                    <a class="post-link" href="/bestiary/creatures/black-pudding">Black Pudding</a>
+                </li>
+
+                <li data-jets="bone naga (guardian)">
+                    <a class="post-link" href="/bestiary/creatures/bone-naga-(guardian)">Bone Naga (Guardian)</a>
+                </li>
+
+                <li data-jets="bone naga (spirit)">
+                    <a class="post-link" href="/bestiary/creatures/bone-naga-(spirit)">Bone Naga (Spirit)</a>
+                </li>
+
+                <li data-jets="burrowshark">
+                    <a class="post-link" href="/bestiary/creatures/burrowshark">Burrowshark</a>
+                </li>
+
+                <li data-jets="chuul">
+                    <a class="post-link" href="/bestiary/creatures/chuul">Chuul</a>
+                </li>
+
+                <li data-jets="chuul spore servant">
+                    <a class="post-link" href="/bestiary/creatures/chuul-spore-servant">Chuul Spore Servant</a>
+                </li>
+
+                <li data-jets="couatl">
+                    <a class="post-link" href="/bestiary/creatures/couatl">Couatl</a>
+                </li>
+
+                <li data-jets="elephant">
+                    <a class="post-link" href="/bestiary/creatures/elephant">Elephant</a>
+                </li>
+
+                <li data-jets="ettin">
+                    <a class="post-link" href="/bestiary/creatures/ettin">Ettin</a>
+                </li>
+
+                <li data-jets="flameskull">
+                    <a class="post-link" href="/bestiary/creatures/flameskull">Flameskull</a>
+                </li>
+
+                <li data-jets="ghost">
+                    <a class="post-link" href="/bestiary/creatures/ghost">Ghost</a>
+                </li>
+
+                <li data-jets="giant subterranean lizard">
+                    <a class="post-link" href="/bestiary/creatures/giant-subterranean-lizard">Giant Subterranean Lizard</a>
+                </li>
+
+                <li data-jets="girallon">
+                    <a class="post-link" href="/bestiary/creatures/girallon">Girallon</a>
+                </li>
+
+                <li data-jets="gnoll fang of yeenoghu">
+                    <a class="post-link" href="/bestiary/creatures/gnoll-fang-of-yeenoghu">Gnoll Fang of Yeenoghu</a>
+                </li>
+
+                <li data-jets="helmed horror">
+                    <a class="post-link" href="/bestiary/creatures/helmed-horror">Helmed Horror</a>
+                </li>
+
+                <li data-jets="hobgoblin devastator">
+                    <a class="post-link" href="/bestiary/creatures/hobgoblin-devastator">Hobgoblin Devastator</a>
+                </li>
+
+                <li data-jets="kelpie">
+                    <a class="post-link" href="/bestiary/creatures/kelpie">Kelpie</a>
+                </li>
+
+                <li data-jets="lamia">
+                    <a class="post-link" href="/bestiary/creatures/lamia">Lamia</a>
+                </li>
+
+                <li data-jets="langdedrosa cyanwrath">
+                    <a class="post-link" href="/bestiary/creatures/langdedrosa-cyanwrath">Langdedrosa Cyanwrath</a>
+                </li>
+
+                <li data-jets="lizard king/queen">
+                    <a class="post-link" href="/bestiary/creatures/lizard-king-queen">Lizard King/Queen</a>
+                </li>
+
+                <li data-jets="neogi master">
+                    <a class="post-link" href="/bestiary/creatures/neogi-master">Neogi Master</a>
+                </li>
+
+                <li data-jets="orc blade of ilneval">
+                    <a class="post-link" href="/bestiary/creatures/orc-blade-of-ilneval">Orc Blade of Ilneval</a>
+                </li>
+
+                <li data-jets="orc war chief">
+                    <a class="post-link" href="/bestiary/creatures/orc-war-chief">Orc War Chief</a>
+                </li>
+
+                <li data-jets="red dragon wyrmling">
+                    <a class="post-link" href="/bestiary/creatures/red-dragon-wyrmling">Red Dragon Wyrmling</a>
+                </li>
+
+                <li data-jets="shadow demon">
+                    <a class="post-link" href="/bestiary/creatures/shadow-demon">Shadow Demon</a>
+                </li>
+
+                <li data-jets="shoalar quanderil">
+                    <a class="post-link" href="/bestiary/creatures/shoalar-quanderil">Shoalar Quanderil</a>
+                </li>
+
+                <li data-jets="stegosaurus">
+                    <a class="post-link" href="/bestiary/creatures/stegosaurus">Stegosaurus</a>
+                </li>
+
+                <li data-jets="stonemelder">
+                    <a class="post-link" href="/bestiary/creatures/stonemelder">Stonemelder</a>
+                </li>
+
+                <li data-jets="succubus/incubus">
+                    <a class="post-link" href="/bestiary/creatures/succubus-incubus">Succubus/Incubus</a>
+                </li>
+
+                <li data-jets="the pudding king">
+                    <a class="post-link" href="/bestiary/creatures/the-pudding-king">The Pudding King</a>
+                </li>
+
+                <li data-jets="warlock of the archfey">
+                    <a class="post-link" href="/bestiary/creatures/warlock-of-the-archfey">Warlock of the Archfey</a>
+                </li>
+
+                <li data-jets="wereboar">
+                    <a class="post-link" href="/bestiary/creatures/wereboar">Wereboar</a>
+                </li>
+
+                <li data-jets="weretiger">
+                    <a class="post-link" href="/bestiary/creatures/weretiger">Weretiger</a>
+                </li>
+
+                <li data-jets="yakfolk priest">
+                    <a class="post-link" href="/bestiary/creatures/yakfolk-priest">Yakfolk Priest</a>
+                </li>
+
+                <li data-jets="yestabrod">
+                    <a class="post-link" href="/bestiary/creatures/yestabrod">Yestabrod</a>
+                </li>
+
+                <li data-jets="yeth hound">
+                    <a class="post-link" href="/bestiary/creatures/yeth-hound">Yeth Hound</a>
+                </li>
+
+                <li data-jets="yuan-ti mind whisperer">
+                    <a class="post-link" href="/bestiary/creatures/yuan-ti-mind-whisperer">Yuan-ti Mind Whisperer</a>
+                </li>
+
+                <li data-jets="yuan-ti nightmare speaker">
+                    <a class="post-link" href="/bestiary/creatures/yuan-ti-nightmare-speaker">Yuan-ti Nightmare Speaker</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr5"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 5</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="air elemental">
+                    <a class="post-link" href="/bestiary/creatures/air-elemental">Air Elemental</a>
+                </li>
+
+                <li data-jets="banderhobb">
+                    <a class="post-link" href="/bestiary/creatures/banderhobb">Banderhobb</a>
+                </li>
+
+                <li data-jets="barbed devil">
+                    <a class="post-link" href="/bestiary/creatures/barbed-devil">Barbed Devil</a>
+                </li>
+
+                <li data-jets="barlgura">
+                    <a class="post-link" href="/bestiary/creatures/barlgura">Barlgura</a>
+                </li>
+
+                <li data-jets="beholder zombie">
+                    <a class="post-link" href="/bestiary/creatures/beholder-zombie">Beholder Zombie</a>
+                </li>
+
+                <li data-jets="brontosaurus">
+                    <a class="post-link" href="/bestiary/creatures/brontosaurus">Brontosaurus</a>
+                </li>
+
+                <li data-jets="bulette">
+                    <a class="post-link" href="/bestiary/creatures/bulette">Bulette</a>
+                </li>
+
+                <li data-jets="cambion">
+                    <a class="post-link" href="/bestiary/creatures/cambion">Cambion</a>
+                </li>
+
+                <li data-jets="captain othelstan">
+                    <a class="post-link" href="/bestiary/creatures/captain-othelstan">Captain Othelstan</a>
+                </li>
+
+                <li data-jets="catoblepas">
+                    <a class="post-link" href="/bestiary/creatures/catoblepas">Catoblepas</a>
+                </li>
+
+                <li data-jets="dragonfang">
+                    <a class="post-link" href="/bestiary/creatures/dragonfang">Dragonfang</a>
+                </li>
+
+                <li data-jets="drow elite warrior">
+                    <a class="post-link" href="/bestiary/creatures/drow-elite-warrior">Drow Elite Warrior</a>
+                </li>
+
+                <li data-jets="earth elemental">
+                    <a class="post-link" href="/bestiary/creatures/earth-elemental">Earth Elemental</a>
+                </li>
+
+                <li data-jets="elizar dryflagon">
+                    <a class="post-link" href="/bestiary/creatures/elizar-dryflagon">Elizar Dryflagon</a>
+                </li>
+
+                <li data-jets="enchanter">
+                    <a class="post-link" href="/bestiary/creatures/enchanter">Enchanter</a>
+                </li>
+
+                <li data-jets="fire elemental">
+                    <a class="post-link" href="/bestiary/creatures/fire-elemental">Fire Elemental</a>
+                </li>
+
+                <li data-jets="flesh golem">
+                    <a class="post-link" href="/bestiary/creatures/flesh-golem">Flesh Golem</a>
+                </li>
+
+                <li data-jets="giant crocodile">
+                    <a class="post-link" href="/bestiary/creatures/giant-crocodile">Giant Crocodile</a>
+                </li>
+
+                <li data-jets="giant shark">
+                    <a class="post-link" href="/bestiary/creatures/giant-shark">Giant Shark</a>
+                </li>
+
+                <li data-jets="gladiator">
+                    <a class="post-link" href="/bestiary/creatures/gladiator">Gladiator</a>
+                </li>
+
+                <li data-jets="gorgon">
+                    <a class="post-link" href="/bestiary/creatures/gorgon">Gorgon</a>
+                </li>
+
+                <li data-jets="greater zombie">
+                    <a class="post-link" href="/bestiary/creatures/greater-zombie">Greater Zombie</a>
+                </li>
+
+                <li data-jets="half-red dragon veteran">
+                    <a class="post-link" href="/bestiary/creatures/half-red-dragon-veteran">Half-Red Dragon Veteran</a>
+                </li>
+
+                <li data-jets="hellenrae">
+                    <a class="post-link" href="/bestiary/creatures/hellenrae">Hellenrae</a>
+                </li>
+
+                <li data-jets="hill giant">
+                    <a class="post-link" href="/bestiary/creatures/hill-giant">Hill Giant</a>
+                </li>
+
+                <li data-jets="hulking crab">
+                    <a class="post-link" href="/bestiary/creatures/hulking-crab">Hulking Crab</a>
+                </li>
+
+                <li data-jets="izek strazni">
+                    <a class="post-link" href="/bestiary/creatures/izek-strazni">Izek Strazni</a>
+                </li>
+
+                <li data-jets="kraken priest">
+                    <a class="post-link" href="/bestiary/creatures/kraken-priest">Kraken Priest</a>
+                </li>
+
+                <li data-jets="master thief">
+                    <a class="post-link" href="/bestiary/creatures/master-thief">Master Thief</a>
+                </li>
+
+                <li data-jets="mezzoloth">
+                    <a class="post-link" href="/bestiary/creatures/mezzoloth">Mezzoloth</a>
+                </li>
+
+                <li data-jets="mindwitness">
+                    <a class="post-link" href="/bestiary/creatures/mindwitness">Mindwitness</a>
+                </li>
+
+                <li data-jets="night hag">
+                    <a class="post-link" href="/bestiary/creatures/night-hag">Night Hag</a>
+                </li>
+
+                <li data-jets="otyugh">
+                    <a class="post-link" href="/bestiary/creatures/otyugh">Otyugh</a>
+                </li>
+
+                <li data-jets="razerblast">
+                    <a class="post-link" href="/bestiary/creatures/razerblast">Razerblast</a>
+                </li>
+
+                <li data-jets="red slaad">
+                    <a class="post-link" href="/bestiary/creatures/red-slaad">Red Slaad</a>
+                </li>
+
+                <li data-jets="revenant">
+                    <a class="post-link" href="/bestiary/creatures/revenant">Revenant</a>
+                </li>
+
+                <li data-jets="rictavio">
+                    <a class="post-link" href="/bestiary/creatures/rictavio">Rictavio</a>
+                </li>
+
+                <li data-jets="roper">
+                    <a class="post-link" href="/bestiary/creatures/roper">Roper</a>
+                </li>
+
+                <li data-jets="sahuagin baron">
+                    <a class="post-link" href="/bestiary/creatures/sahuagin-baron">Sahuagin Baron</a>
+                </li>
+
+                <li data-jets="salamander">
+                    <a class="post-link" href="/bestiary/creatures/salamander">Salamander</a>
+                </li>
+
+                <li data-jets="sea lion">
+                    <a class="post-link" href="/bestiary/creatures/sea-lion">Sea Lion</a>
+                </li>
+
+                <li data-jets="shambling mound">
+                    <a class="post-link" href="/bestiary/creatures/shambling-mound">Shambling Mound</a>
+                </li>
+
+                <li data-jets="spawn of kyuss">
+                    <a class="post-link" href="/bestiary/creatures/spawn-of-kyuss">Spawn of Kyuss</a>
+                </li>
+
+                <li data-jets="swarm of cranium rats">
+                    <a class="post-link" href="/bestiary/creatures/swarm-of-cranium-rats">Swarm of Cranium Rats</a>
+                </li>
+
+                <li data-jets="talis the white">
+                    <a class="post-link" href="/bestiary/creatures/talis-the-white">Talis the White</a>
+                </li>
+
+                <li data-jets="tanarukk">
+                    <a class="post-link" href="/bestiary/creatures/tanarukk">Tanarukk</a>
+                </li>
+
+                <li data-jets="tlincalli">
+                    <a class="post-link" href="/bestiary/creatures/tlincalli">Tlincalli</a>
+                </li>
+
+                <li data-jets="transmuter">
+                    <a class="post-link" href="/bestiary/creatures/transmuter">Transmuter</a>
+                </li>
+
+                <li data-jets="triceratops">
+                    <a class="post-link" href="/bestiary/creatures/triceratops">Triceratops</a>
+                </li>
+
+                <li data-jets="troll">
+                    <a class="post-link" href="/bestiary/creatures/troll">Troll</a>
+                </li>
+
+                <li data-jets="umber hulk">
+                    <a class="post-link" href="/bestiary/creatures/umber-hulk">Umber Hulk</a>
+                </li>
+
+                <li data-jets="unicorn">
+                    <a class="post-link" href="/bestiary/creatures/unicorn">Unicorn</a>
+                </li>
+
+                <li data-jets="vampire spawn">
+                    <a class="post-link" href="/bestiary/creatures/vampire-spawn">Vampire Spawn</a>
+                </li>
+
+                <li data-jets="water elemental">
+                    <a class="post-link" href="/bestiary/creatures/water-elemental">Water Elemental</a>
+                </li>
+
+                <li data-jets="werebear">
+                    <a class="post-link" href="/bestiary/creatures/werebear">Werebear</a>
+                </li>
+
+                <li data-jets="wood woad">
+                    <a class="post-link" href="/bestiary/creatures/wood-woad">Wood Woad</a>
+                </li>
+
+                <li data-jets="wraith">
+                    <a class="post-link" href="/bestiary/creatures/wraith">Wraith</a>
+                </li>
+
+                <li data-jets="xorn">
+                    <a class="post-link" href="/bestiary/creatures/xorn">Xorn</a>
+                </li>
+
+                <li data-jets="young remorhaz">
+                    <a class="post-link" href="/bestiary/creatures/young-remorhaz">Young Remorhaz</a>
+                </li>
+
+                <li data-jets="yuan-ti pit master">
+                    <a class="post-link" href="/bestiary/creatures/yuan-ti-pit-master">Yuan-ti Pit Master</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr6"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 6</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="annis hag">
+                    <a class="post-link" href="/bestiary/creatures/annis-hag">Annis Hag</a>
+                </li>
+
+                <li data-jets="bodak">
+                    <a class="post-link" href="/bestiary/creatures/bodak">Bodak</a>
+                </li>
+
+                <li data-jets="centaur mummy">
+                    <a class="post-link" href="/bestiary/creatures/centaur-mummy">Centaur Mummy</a>
+                </li>
+
+                <li data-jets="chasme">
+                    <a class="post-link" href="/bestiary/creatures/chasme">Chasme</a>
+                </li>
+
+                <li data-jets="chimera">
+                    <a class="post-link" href="/bestiary/creatures/chimera">Chimera</a>
+                </li>
+
+                <li data-jets="conjurer">
+                    <a class="post-link" href="/bestiary/creatures/conjurer">Conjurer</a>
+                </li>
+
+                <li data-jets="cyclops">
+                    <a class="post-link" href="/bestiary/creatures/cyclops">Cyclops</a>
+                </li>
+
+                <li data-jets="drider">
+                    <a class="post-link" href="/bestiary/creatures/drider">Drider</a>
+                </li>
+
+                <li data-jets="drider spellcaster">
+                    <a class="post-link" href="/bestiary/creatures/drider-spellcaster">Drider Spellcaster</a>
+                </li>
+
+                <li data-jets="flamewrath">
+                    <a class="post-link" href="/bestiary/creatures/flamewrath">Flamewrath</a>
+                </li>
+
+                <li data-jets="galeb duhr">
+                    <a class="post-link" href="/bestiary/creatures/galeb-duhr">Galeb Duhr</a>
+                </li>
+
+                <li data-jets="gauth">
+                    <a class="post-link" href="/bestiary/creatures/gauth">Gauth</a>
+                </li>
+
+                <li data-jets="githzerai zerth">
+                    <a class="post-link" href="/bestiary/creatures/githzerai-zerth">Githzerai Zerth</a>
+                </li>
+
+                <li data-jets="hobgoblin warlord">
+                    <a class="post-link" href="/bestiary/creatures/hobgoblin-warlord">Hobgoblin Warlord</a>
+                </li>
+
+                <li data-jets="invisible stalker">
+                    <a class="post-link" href="/bestiary/creatures/invisible-stalker">Invisible Stalker</a>
+                </li>
+
+                <li data-jets="kuo-toa archpriest">
+                    <a class="post-link" href="/bestiary/creatures/kuo-toa-archpriest">Kuo-Toa Archpriest</a>
+                </li>
+
+                <li data-jets="mage">
+                    <a class="post-link" href="/bestiary/creatures/mage">Mage</a>
+                </li>
+
+                <li data-jets="mammoth">
+                    <a class="post-link" href="/bestiary/creatures/mammoth">Mammoth</a>
+                </li>
+
+                <li data-jets="medusa">
+                    <a class="post-link" href="/bestiary/creatures/medusa">Medusa</a>
+                </li>
+
+                <li data-jets="miraj vizann">
+                    <a class="post-link" href="/bestiary/creatures/miraj-vizann">Miraj Vizann</a>
+                </li>
+
+                <li data-jets="mouth of grolantor">
+                    <a class="post-link" href="/bestiary/creatures/mouth-of-grolantor">Mouth of Grolantor</a>
+                </li>
+
+                <li data-jets="rath modar">
+                    <a class="post-link" href="/bestiary/creatures/rath-modar">Rath Modar</a>
+                </li>
+
+                <li data-jets="strahd's animated armor">
+                    <a class="post-link" href="/bestiary/creatures/strahds-animated-armor">Strahd's Animated Armor</a>
+                </li>
+
+                <li data-jets="vrock">
+                    <a class="post-link" href="/bestiary/creatures/vrock">Vrock</a>
+                </li>
+
+                <li data-jets="warlock of the great old one">
+                    <a class="post-link" href="/bestiary/creatures/warlock-of-the-great-old-one">Warlock of the Great Old One</a>
+                </li>
+
+                <li data-jets="wyvern">
+                    <a class="post-link" href="/bestiary/creatures/wyvern">Wyvern</a>
+                </li>
+
+                <li data-jets="young brass dragon">
+                    <a class="post-link" href="/bestiary/creatures/young-brass-dragon">Young Brass Dragon</a>
+                </li>
+
+                <li data-jets="young white dragon">
+                    <a class="post-link" href="/bestiary/creatures/young-white-dragon">Young White Dragon</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr7"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 7</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="aerisi kalinoth">
+                    <a class="post-link" href="/bestiary/creatures/aerisi-kalinoth">Aerisi Kalinoth</a>
+                </li>
+
+                <li data-jets="air elemental myrmidon">
+                    <a class="post-link" href="/bestiary/creatures/air-elemental-myrmidon">Air Elemental Myrmidon</a>
+                </li>
+
+                <li data-jets="bheur hag">
+                    <a class="post-link" href="/bestiary/creatures/bheur-hag">Bheur Hag</a>
+                </li>
+
+                <li data-jets="blue slaad">
+                    <a class="post-link" href="/bestiary/creatures/blue-slaad">Blue Slaad</a>
+                </li>
+
+                <li data-jets="draegloth">
+                    <a class="post-link" href="/bestiary/creatures/draegloth">Draegloth</a>
+                </li>
+
+                <li data-jets="dragonsoul">
+                    <a class="post-link" href="/bestiary/creatures/dragonsoul">Dragonsoul</a>
+                </li>
+
+                <li data-jets="drannin splithelm">
+                    <a class="post-link" href="/bestiary/creatures/drannin-splithelm">Drannin Splithelm</a>
+                </li>
+
+                <li data-jets="drow mage">
+                    <a class="post-link" href="/bestiary/creatures/drow-mage">Drow Mage</a>
+                </li>
+
+                <li data-jets="earth elemental myrmidon">
+                    <a class="post-link" href="/bestiary/creatures/earth-elemental-myrmidon">Earth Elemental Myrmidon</a>
+                </li>
+
+                <li data-jets="fire elemental myrmidon">
+                    <a class="post-link" href="/bestiary/creatures/fire-elemental-myrmidon">Fire Elemental Myrmidon</a>
+                </li>
+
+                <li data-jets="ghald">
+                    <a class="post-link" href="/bestiary/creatures/ghald">Ghald</a>
+                </li>
+
+                <li data-jets="giant ape">
+                    <a class="post-link" href="/bestiary/creatures/giant-ape">Giant Ape</a>
+                </li>
+
+                <li data-jets="grick alpha">
+                    <a class="post-link" href="/bestiary/creatures/grick-alpha">Grick Alpha</a>
+                </li>
+
+                <li data-jets="korred">
+                    <a class="post-link" href="/bestiary/creatures/korred">Korred</a>
+                </li>
+
+                <li data-jets="mind flayer">
+                    <a class="post-link" href="/bestiary/creatures/mind-flayer">Mind Flayer</a>
+                </li>
+
+                <li data-jets="oni">
+                    <a class="post-link" href="/bestiary/creatures/oni">Oni</a>
+                </li>
+
+                <li data-jets="rezmir">
+                    <a class="post-link" href="/bestiary/creatures/rezmir">Rezmir</a>
+                </li>
+
+                <li data-jets="shield guardian">
+                    <a class="post-link" href="/bestiary/creatures/shield-guardian">Shield Guardian</a>
+                </li>
+
+                <li data-jets="stone giant">
+                    <a class="post-link" href="/bestiary/creatures/stone-giant">Stone Giant</a>
+                </li>
+
+                <li data-jets="tree blight">
+                    <a class="post-link" href="/bestiary/creatures/tree-blight">Tree Blight</a>
+                </li>
+
+                <li data-jets="vladimir horngaard">
+                    <a class="post-link" href="/bestiary/creatures/vladimir-horngaard">Vladimir Horngaard</a>
+                </li>
+
+                <li data-jets="warlock of the fiend">
+                    <a class="post-link" href="/bestiary/creatures/warlock-of-the-fiend">Warlock of the Fiend</a>
+                </li>
+
+                <li data-jets="water elemental myrmidon">
+                    <a class="post-link" href="/bestiary/creatures/water-elemental-myrmidon">Water Elemental Myrmidon</a>
+                </li>
+
+                <li data-jets="young black dragon">
+                    <a class="post-link" href="/bestiary/creatures/young-black-dragon">Young Black Dragon</a>
+                </li>
+
+                <li data-jets="young copper dragon">
+                    <a class="post-link" href="/bestiary/creatures/young-copper-dragon">Young Copper Dragon</a>
+                </li>
+
+                <li data-jets="yuan-ti abomination">
+                    <a class="post-link" href="/bestiary/creatures/yuan-ti-abomination">Yuan-ti Abomination</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr8"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 8</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="assassin">
+                    <a class="post-link" href="/bestiary/creatures/assassin">Assassin</a>
+                </li>
+
+                <li data-jets="bastian thermandar">
+                    <a class="post-link" href="/bestiary/creatures/bastian-thermandar">Bastian Thermandar</a>
+                </li>
+
+                <li data-jets="blackguard">
+                    <a class="post-link" href="/bestiary/creatures/blackguard">Blackguard</a>
+                </li>
+
+                <li data-jets="cloaker">
+                    <a class="post-link" href="/bestiary/creatures/cloaker">Cloaker</a>
+                </li>
+
+                <li data-jets="diviner">
+                    <a class="post-link" href="/bestiary/creatures/diviner">Diviner</a>
+                </li>
+
+                <li data-jets="drow priestess of lolth">
+                    <a class="post-link" href="/bestiary/creatures/drow-priestess-of-lolth">Drow Priestess of Lolth</a>
+                </li>
+
+                <li data-jets="ezmerelda d'avenir">
+                    <a class="post-link" href="/bestiary/creatures/ezmerelda-davenir">Ezmerelda d'Avenir</a>
+                </li>
+
+                <li data-jets="fomorian">
+                    <a class="post-link" href="/bestiary/creatures/fomorian">Fomorian</a>
+                </li>
+
+                <li data-jets="frost giant">
+                    <a class="post-link" href="/bestiary/creatures/frost-giant">Frost Giant</a>
+                </li>
+
+                <li data-jets="githyanki knight">
+                    <a class="post-link" href="/bestiary/creatures/githyanki-knight">Githyanki Knight</a>
+                </li>
+
+                <li data-jets="green slaad">
+                    <a class="post-link" href="/bestiary/creatures/green-slaad">Green Slaad</a>
+                </li>
+
+                <li data-jets="hezrou">
+                    <a class="post-link" href="/bestiary/creatures/hezrou">Hezrou</a>
+                </li>
+
+                <li data-jets="hydra">
+                    <a class="post-link" href="/bestiary/creatures/hydra">Hydra</a>
+                </li>
+
+                <li data-jets="marlos urnrayle">
+                    <a class="post-link" href="/bestiary/creatures/marlos-urnrayle">Marlos Urnrayle</a>
+                </li>
+
+                <li data-jets="mind flayer arcanist">
+                    <a class="post-link" href="/bestiary/creatures/mind-flayer-arcanist">Mind Flayer Arcanist</a>
+                </li>
+
+                <li data-jets="mind flayer psion">
+                    <a class="post-link" href="/bestiary/creatures/mind-flayer-psion">Mind Flayer Psion</a>
+                </li>
+
+                <li data-jets="shoosuva">
+                    <a class="post-link" href="/bestiary/creatures/shoosuva">Shoosuva</a>
+                </li>
+
+                <li data-jets="spirit naga">
+                    <a class="post-link" href="/bestiary/creatures/spirit-naga">Spirit Naga</a>
+                </li>
+
+                <li data-jets="tyrannosaurus rex">
+                    <a class="post-link" href="/bestiary/creatures/tyrannosaurus-rex">Tyrannosaurus Rex</a>
+                </li>
+
+                <li data-jets="young bronze dragon">
+                    <a class="post-link" href="/bestiary/creatures/young-bronze-dragon">Young Bronze Dragon</a>
+                </li>
+
+                <li data-jets="young green dragon">
+                    <a class="post-link" href="/bestiary/creatures/young-green-dragon">Young Green Dragon</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr9"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 9</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="abjurer">
+                    <a class="post-link" href="/bestiary/creatures/abjurer">Abjurer</a>
+                </li>
+
+                <li data-jets="abominable yeti">
+                    <a class="post-link" href="/bestiary/creatures/abominable-yeti">Abominable Yeti</a>
+                </li>
+
+                <li data-jets="blagothkus">
+                    <a class="post-link" href="/bestiary/creatures/blagothkus">Blagothkus</a>
+                </li>
+
+                <li data-jets="champion">
+                    <a class="post-link" href="/bestiary/creatures/champion">Champion</a>
+                </li>
+
+                <li data-jets="clay golem">
+                    <a class="post-link" href="/bestiary/creatures/clay-golem">Clay Golem</a>
+                </li>
+
+                <li data-jets="cloud giant">
+                    <a class="post-link" href="/bestiary/creatures/cloud-giant">Cloud Giant</a>
+                </li>
+
+                <li data-jets="evoker">
+                    <a class="post-link" href="/bestiary/creatures/evoker">Evoker</a>
+                </li>
+
+                <li data-jets="fire giant">
+                    <a class="post-link" href="/bestiary/creatures/fire-giant">Fire Giant</a>
+                </li>
+
+                <li data-jets="flind">
+                    <a class="post-link" href="/bestiary/creatures/flind">Flind</a>
+                </li>
+
+                <li data-jets="gar shatterkeel">
+                    <a class="post-link" href="/bestiary/creatures/gar-shatterkeel">Gar Shatterkeel</a>
+                </li>
+
+                <li data-jets="glabrezu">
+                    <a class="post-link" href="/bestiary/creatures/glabrezu">Glabrezu</a>
+                </li>
+
+                <li data-jets="gray slaad">
+                    <a class="post-link" href="/bestiary/creatures/gray-slaad">Gray Slaad</a>
+                </li>
+
+                <li data-jets="necromancer">
+                    <a class="post-link" href="/bestiary/creatures/necromancer">Necromancer</a>
+                </li>
+
+                <li data-jets="neronvain">
+                    <a class="post-link" href="/bestiary/creatures/neronvain">Neronvain</a>
+                </li>
+
+                <li data-jets="nycaloth">
+                    <a class="post-link" href="/bestiary/creatures/nycaloth">Nycaloth</a>
+                </li>
+
+                <li data-jets="treant">
+                    <a class="post-link" href="/bestiary/creatures/treant">Treant</a>
+                </li>
+
+                <li data-jets="ulitharid">
+                    <a class="post-link" href="/bestiary/creatures/ulitharid">Ulitharid</a>
+                </li>
+
+                <li data-jets="vanifer">
+                    <a class="post-link" href="/bestiary/creatures/vanifer">Vanifer</a>
+                </li>
+
+                <li data-jets="war priest">
+                    <a class="post-link" href="/bestiary/creatures/war-priest">War Priest</a>
+                </li>
+
+                <li data-jets="young blue dragon">
+                    <a class="post-link" href="/bestiary/creatures/young-blue-dragon">Young Blue Dragon</a>
+                </li>
+
+                <li data-jets="young silver dragon">
+                    <a class="post-link" href="/bestiary/creatures/young-silver-dragon">Young Silver Dragon</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr10"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 10</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="aboleth">
+                    <a class="post-link" href="/bestiary/creatures/aboleth">Aboleth</a>
+                </li>
+
+                <li data-jets="alhoon">
+                    <a class="post-link" href="/bestiary/creatures/alhoon">Alhoon</a>
+                </li>
+
+                <li data-jets="death kiss">
+                    <a class="post-link" href="/bestiary/creatures/death-kiss">Death Kiss</a>
+                </li>
+
+                <li data-jets="death slaad">
+                    <a class="post-link" href="/bestiary/creatures/death-slaad">Death Slaad</a>
+                </li>
+
+                <li data-jets="deva">
+                    <a class="post-link" href="/bestiary/creatures/deva">Deva</a>
+                </li>
+
+                <li data-jets="froghemoth">
+                    <a class="post-link" href="/bestiary/creatures/froghemoth">Froghemoth</a>
+                </li>
+
+                <li data-jets="guardian naga">
+                    <a class="post-link" href="/bestiary/creatures/guardian-naga">Guardian Naga</a>
+                </li>
+
+                <li data-jets="madam eva">
+                    <a class="post-link" href="/bestiary/creatures/madam-eva">Madam Eva</a>
+                </li>
+
+                <li data-jets="malformed kraken">
+                    <a class="post-link" href="/bestiary/creatures/malformed-kraken">Malformed Kraken</a>
+                </li>
+
+                <li data-jets="ooze master">
+                    <a class="post-link" href="/bestiary/creatures/ooze-master">Ooze Master</a>
+                </li>
+
+                <li data-jets="rahadin">
+                    <a class="post-link" href="/bestiary/creatures/rahadin">Rahadin</a>
+                </li>
+
+                <li data-jets="stone giant dreamwalker">
+                    <a class="post-link" href="/bestiary/creatures/stone-giant-dreamwalker">Stone Giant Dreamwalker</a>
+                </li>
+
+                <li data-jets="stone golem">
+                    <a class="post-link" href="/bestiary/creatures/stone-golem">Stone Golem</a>
+                </li>
+
+                <li data-jets="white maw">
+                    <a class="post-link" href="/bestiary/creatures/white-maw">White Maw</a>
+                </li>
+
+                <li data-jets="yochlol">
+                    <a class="post-link" href="/bestiary/creatures/yochlol">Yochlol</a>
+                </li>
+
+                <li data-jets="young gold dragon">
+                    <a class="post-link" href="/bestiary/creatures/young-gold-dragon">Young Gold Dragon</a>
+                </li>
+
+                <li data-jets="young red dragon">
+                    <a class="post-link" href="/bestiary/creatures/young-red-dragon">Young Red Dragon</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr11"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 11</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="baba lysaga">
+                    <a class="post-link" href="/bestiary/creatures/baba-lysaga">Baba Lysaga</a>
+                </li>
+
+                <li data-jets="baba lysaga's creeping hut">
+                    <a class="post-link" href="/bestiary/creatures/baba-lysagas-creeping-hut">Baba Lysaga's Creeping Hut</a>
+                </li>
+
+                <li data-jets="behir">
+                    <a class="post-link" href="/bestiary/creatures/behir">Behir</a>
+                </li>
+
+                <li data-jets="chain devil">
+                    <a class="post-link" href="/bestiary/creatures/chain-devil">Chain Devil</a>
+                </li>
+
+                <li data-jets="cloud giant smiling one">
+                    <a class="post-link" href="/bestiary/creatures/cloud-giant-smiling-one">Cloud Giant Smiling One</a>
+                </li>
+
+                <li data-jets="dao">
+                    <a class="post-link" href="/bestiary/creatures/dao">Dao</a>
+                </li>
+
+                <li data-jets="djinni">
+                    <a class="post-link" href="/bestiary/creatures/djinni">Djinni</a>
+                </li>
+
+                <li data-jets="efreeti">
+                    <a class="post-link" href="/bestiary/creatures/efreeti">Efreeti</a>
+                </li>
+
+                <li data-jets="gynosphinx">
+                    <a class="post-link" href="/bestiary/creatures/gynosphinx">Gynosphinx</a>
+                </li>
+
+                <li data-jets="horned devil">
+                    <a class="post-link" href="/bestiary/creatures/horned-devil">Horned Devil</a>
+                </li>
+
+                <li data-jets="marid">
+                    <a class="post-link" href="/bestiary/creatures/marid">Marid</a>
+                </li>
+
+                <li data-jets="morkoth">
+                    <a class="post-link" href="/bestiary/creatures/morkoth">Morkoth</a>
+                </li>
+
+                <li data-jets="naergoth bladelord">
+                    <a class="post-link" href="/bestiary/creatures/naergoth-bladelord">Naergoth Bladelord</a>
+                </li>
+
+                <li data-jets="remorhaz">
+                    <a class="post-link" href="/bestiary/creatures/remorhaz">Remorhaz</a>
+                </li>
+
+                <li data-jets="roc">
+                    <a class="post-link" href="/bestiary/creatures/roc">Roc</a>
+                </li>
+
+                <li data-jets="severin">
+                    <a class="post-link" href="/bestiary/creatures/severin">Severin</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr12"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 12</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="arcanaloth">
+                    <a class="post-link" href="/bestiary/creatures/arcanaloth">Arcanaloth</a>
+                </li>
+
+                <li data-jets="archdruid">
+                    <a class="post-link" href="/bestiary/creatures/archdruid">Archdruid</a>
+                </li>
+
+                <li data-jets="archmage">
+                    <a class="post-link" href="/bestiary/creatures/archmage">Archmage</a>
+                </li>
+
+                <li data-jets="bone devil">
+                    <a class="post-link" href="/bestiary/creatures/bone-devil">Bone Devil</a>
+                </li>
+
+                <li data-jets="bone devil polearm">
+                    <a class="post-link" href="/bestiary/creatures/bone-devil-polearm">Bone Devil Polearm</a>
+                </li>
+
+                <li data-jets="erinyes">
+                    <a class="post-link" href="/bestiary/creatures/erinyes">Erinyes</a>
+                </li>
+
+                <li data-jets="frost giant everlasting one">
+                    <a class="post-link" href="/bestiary/creatures/frost-giant-everlasting-one">Frost Giant Everlasting One</a>
+                </li>
+
+                <li data-jets="ki-rin">
+                    <a class="post-link" href="/bestiary/creatures/ki-rin">Ki-rin</a>
+                </li>
+
+                <li data-jets="warlord">
+                    <a class="post-link" href="/bestiary/creatures/warlord">Warlord</a>
+                </li>
+
+                <li data-jets="yuan-ti anathema">
+                    <a class="post-link" href="/bestiary/creatures/yuan-ti-anathema">Yuan-ti Anathema</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr13"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 13</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="adult brass dragon">
+                    <a class="post-link" href="/bestiary/creatures/adult-brass-dragon">Adult Brass Dragon</a>
+                </li>
+
+                <li data-jets="adult white dragon">
+                    <a class="post-link" href="/bestiary/creatures/adult-white-dragon">Adult White Dragon</a>
+                </li>
+
+                <li data-jets="beholder">
+                    <a class="post-link" href="/bestiary/creatures/beholder">Beholder</a>
+                </li>
+
+                <li data-jets="devourer">
+                    <a class="post-link" href="/bestiary/creatures/devourer">Devourer</a>
+                </li>
+
+                <li data-jets="nalfeshnee">
+                    <a class="post-link" href="/bestiary/creatures/nalfeshnee">Nalfeshnee</a>
+                </li>
+
+                <li data-jets="neothelid">
+                    <a class="post-link" href="/bestiary/creatures/neothelid">Neothelid</a>
+                </li>
+
+                <li data-jets="rakshasa">
+                    <a class="post-link" href="/bestiary/creatures/rakshasa">Rakshasa</a>
+                </li>
+
+                <li data-jets="storm giant">
+                    <a class="post-link" href="/bestiary/creatures/storm-giant">Storm Giant</a>
+                </li>
+
+                <li data-jets="tarul var">
+                    <a class="post-link" href="/bestiary/creatures/tarul-var">Tarul Var</a>
+                </li>
+
+                <li data-jets="ultroloth">
+                    <a class="post-link" href="/bestiary/creatures/ultroloth">Ultroloth</a>
+                </li>
+
+                <li data-jets="vampire">
+                    <a class="post-link" href="/bestiary/creatures/vampire">Vampire</a>
+                </li>
+
+                <li data-jets="young red shadow dragon">
+                    <a class="post-link" href="/bestiary/creatures/young-red-shadow-dragon">Young Red Shadow Dragon</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr14"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 14</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="adult black dragon">
+                    <a class="post-link" href="/bestiary/creatures/adult-black-dragon">Adult Black Dragon</a>
+                </li>
+
+                <li data-jets="adult copper dragon">
+                    <a class="post-link" href="/bestiary/creatures/adult-copper-dragon">Adult Copper Dragon</a>
+                </li>
+
+                <li data-jets="death tyrant">
+                    <a class="post-link" href="/bestiary/creatures/death-tyrant">Death Tyrant</a>
+                </li>
+
+                <li data-jets="elder brain">
+                    <a class="post-link" href="/bestiary/creatures/elder-brain">Elder Brain</a>
+                </li>
+
+                <li data-jets="fire giant dreadnought">
+                    <a class="post-link" href="/bestiary/creatures/fire-giant-dreadnought">Fire Giant Dreadnought</a>
+                </li>
+
+                <li data-jets="ice devil">
+                    <a class="post-link" href="/bestiary/creatures/ice-devil">Ice Devil</a>
+                </li>
+
+                <li data-jets="ice devil spear">
+                    <a class="post-link" href="/bestiary/creatures/ice-devil-spear">Ice Devil Spear</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr15"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 15</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="adult bronze dragon">
+                    <a class="post-link" href="/bestiary/creatures/adult-bronze-dragon">Adult Bronze Dragon</a>
+                </li>
+
+                <li data-jets="adult green dragon">
+                    <a class="post-link" href="/bestiary/creatures/adult-green-dragon">Adult Green Dragon</a>
+                </li>
+
+                <li data-jets="mummy lord">
+                    <a class="post-link" href="/bestiary/creatures/mummy-lord">Mummy Lord</a>
+                </li>
+
+                <li data-jets="purple worm">
+                    <a class="post-link" href="/bestiary/creatures/purple-worm">Purple Worm</a>
+                </li>
+
+                <li data-jets="strahd von zarovich">
+                    <a class="post-link" href="/bestiary/creatures/strahd-von-zarovich">Strahd von Zarovich</a>
+                </li>
+
+                <li data-jets="vampire spellcaster">
+                    <a class="post-link" href="/bestiary/creatures/vampire-spellcaster">Vampire Spellcaster</a>
+                </li>
+
+                <li data-jets="vampire warrior">
+                    <a class="post-link" href="/bestiary/creatures/vampire-warrior">Vampire Warrior</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr16"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 16</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="adult blue dragon">
+                    <a class="post-link" href="/bestiary/creatures/adult-blue-dragon">Adult Blue Dragon</a>
+                </li>
+
+                <li data-jets="adult silver dragon">
+                    <a class="post-link" href="/bestiary/creatures/adult-silver-dragon">Adult Silver Dragon</a>
+                </li>
+
+                <li data-jets="iron golem">
+                    <a class="post-link" href="/bestiary/creatures/iron-golem">Iron Golem</a>
+                </li>
+
+                <li data-jets="marilith">
+                    <a class="post-link" href="/bestiary/creatures/marilith">Marilith</a>
+                </li>
+
+                <li data-jets="planetar">
+                    <a class="post-link" href="/bestiary/creatures/planetar">Planetar</a>
+                </li>
+
+                <li data-jets="storm giant quintessent">
+                    <a class="post-link" href="/bestiary/creatures/storm-giant-quintessent">Storm Giant Quintessent</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr17"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 17</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="adult blue dracolich">
+                    <a class="post-link" href="/bestiary/creatures/adult-blue-dracolich">Adult Blue Dracolich</a>
+                </li>
+
+                <li data-jets="adult gold dragon">
+                    <a class="post-link" href="/bestiary/creatures/adult-gold-dragon">Adult Gold Dragon</a>
+                </li>
+
+                <li data-jets="adult red dragon">
+                    <a class="post-link" href="/bestiary/creatures/adult-red-dragon">Adult Red Dragon</a>
+                </li>
+
+                <li data-jets="androsphinx">
+                    <a class="post-link" href="/bestiary/creatures/androsphinx">Androsphinx</a>
+                </li>
+
+                <li data-jets="death knight">
+                    <a class="post-link" href="/bestiary/creatures/death-knight">Death Knight</a>
+                </li>
+
+                <li data-jets="dragon turtle">
+                    <a class="post-link" href="/bestiary/creatures/dragon-turtle">Dragon Turtle</a>
+                </li>
+
+                <li data-jets="goristro">
+                    <a class="post-link" href="/bestiary/creatures/goristro">Goristro</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr19"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 19</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="balor">
+                    <a class="post-link" href="/bestiary/creatures/balor">Balor</a>
+                </li>
+
+                <li data-jets="imix">
+                    <a class="post-link" href="/bestiary/creatures/imix">Imix</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr20"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 20</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="ancient brass dragon">
+                    <a class="post-link" href="/bestiary/creatures/ancient-brass-dragon">Ancient Brass Dragon</a>
+                </li>
+
+                <li data-jets="ancient white dragon">
+                    <a class="post-link" href="/bestiary/creatures/ancient-white-dragon">Ancient White Dragon</a>
+                </li>
+
+                <li data-jets="ogremoch">
+                    <a class="post-link" href="/bestiary/creatures/ogremoch">Ogremoch</a>
+                </li>
+
+                <li data-jets="pit fiend">
+                    <a class="post-link" href="/bestiary/creatures/pit-fiend">Pit Fiend</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr21"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 21</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="ancient black dragon">
+                    <a class="post-link" href="/bestiary/creatures/ancient-black-dragon">Ancient Black Dragon</a>
+                </li>
+
+                <li data-jets="ancient copper dragon">
+                    <a class="post-link" href="/bestiary/creatures/ancient-copper-dragon">Ancient Copper Dragon</a>
+                </li>
+
+                <li data-jets="lich">
+                    <a class="post-link" href="/bestiary/creatures/lich">Lich</a>
+                </li>
+
+                <li data-jets="solar">
+                    <a class="post-link" href="/bestiary/creatures/solar">Solar</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr22"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 22</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="ancient bronze dragon">
+                    <a class="post-link" href="/bestiary/creatures/ancient-bronze-dragon">Ancient Bronze Dragon</a>
+                </li>
+
+                <li data-jets="ancient green dragon">
+                    <a class="post-link" href="/bestiary/creatures/ancient-green-dragon">Ancient Green Dragon</a>
+                </li>
+
+                <li data-jets="illithilich">
+                    <a class="post-link" href="/bestiary/creatures/illithilich">Illithilich</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr23"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 23</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="ancient blue dragon">
+                    <a class="post-link" href="/bestiary/creatures/ancient-blue-dragon">Ancient Blue Dragon</a>
+                </li>
+
+                <li data-jets="ancient silver dragon">
+                    <a class="post-link" href="/bestiary/creatures/ancient-silver-dragon">Ancient Silver Dragon</a>
+                </li>
+
+                <li data-jets="baphomet">
+                    <a class="post-link" href="/bestiary/creatures/baphomet">Baphomet</a>
+                </li>
+
+                <li data-jets="empyrean">
+                    <a class="post-link" href="/bestiary/creatures/empyrean">Empyrean</a>
+                </li>
+
+                <li data-jets="fraz-urb'luu">
+                    <a class="post-link" href="/bestiary/creatures/fraz-urbluu">Fraz-Urb'luu</a>
+                </li>
+
+                <li data-jets="iymrith, ancient blue dragon">
+                    <a class="post-link" href="/bestiary/creatures/iymrith-ancient-blue-dragon">Iymrith, Ancient Blue Dragon</a>
+                </li>
+
+                <li data-jets="juiblex">
+                    <a class="post-link" href="/bestiary/creatures/juiblex">Juiblex</a>
+                </li>
+
+                <li data-jets="kraken">
+                    <a class="post-link" href="/bestiary/creatures/kraken">Kraken</a>
+                </li>
+
+                <li data-jets="maegera the dawn titan">
+                    <a class="post-link" href="/bestiary/creatures/maegera-the-dawn-titan">Maegera the Dawn Titan</a>
+                </li>
+
+                <li data-jets="zuggtmoy">
+                    <a class="post-link" href="/bestiary/creatures/zuggtmoy">Zuggtmoy</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr24"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 24</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="ancient gold dragon">
+                    <a class="post-link" href="/bestiary/creatures/ancient-gold-dragon">Ancient Gold Dragon</a>
+                </li>
+
+                <li data-jets="ancient red dragon">
+                    <a class="post-link" href="/bestiary/creatures/ancient-red-dragon">Ancient Red Dragon</a>
+                </li>
+
+                <li data-jets="graz'zt">
+                    <a class="post-link" href="/bestiary/creatures/grazzt">Graz'zt</a>
+                </li>
+
+                <li data-jets="yeenoghu">
+                    <a class="post-link" href="/bestiary/creatures/yeenoghu">Yeenoghu</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <a id="cr30"></a>
+        <div class="cr"><h2 class="post-list-head jetsHide">Challenge 30</h2>
+            <ul class="post-list jetsContent">
+
+
+                <li data-jets="tarrasque">
+                    <a class="post-link" href="/bestiary/creatures/tarrasque">Tarrasque</a>
+                </li>
+
+                <li data-jets="tiamat">
+                    <a class="post-link" href="/bestiary/creatures/tiamat">Tiamat</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+    </div>
+</div>
+</body>
+</html>
