@@ -20,6 +20,7 @@ body{font-family: 'Roboto', sans-serif;}
 div#resultmonster {
     overflow-x: auto;
     white-space: nowrap;
+    padding-top:75px;
 }
 .monster p,.monster h2 {
     white-space: normal;
