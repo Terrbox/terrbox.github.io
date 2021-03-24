@@ -3,7 +3,7 @@ $.getJSON("./api/monsters.json", function(data) {
     json_monsters = data;
 });
 $(document).on('click', '.monster>h2', function(event){
-    $(this).siblings('p,table,ul,.img').toggle();
+    $(this).siblings('p,table,ul,.img,ol').toggle();
 });
 $(document).on('click', '.monster>.img', function (event) {
     img = this;
