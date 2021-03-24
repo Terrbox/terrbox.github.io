@@ -155,8 +155,17 @@ html {
         width: initial;
     }
     .monster h2 {max-width: 75%;}
-.monster p, .monster table,.monster ul,.monster .img, .monster ol {
+.monster>p, .monster>table,.monster>ul,.monster>.img, .monster>ol, .monster>blockquote {
     display: none;
 }
 
+}
+
+.popup {
+    width: 100%;
+}
+
+th {
+    background: #b2bec2;
+    color:black;
 }

@@ -3,7 +3,7 @@ $.getJSON("./api/monsters.json", function(data) {
     json_monsters = data;
 });
 $(document).on('click', '.monster>h2', function(event){
-    $(this).siblings('p,table,ul,.img,ol').toggle();
+    $(this).siblings('p,table,ul,.img,ol,blockquote').toggle();
 });
 $(document).on('click', '.monster>.img', function (event) {
     img = this;
@@ -39,6 +39,14 @@ $(document).on('keyup', 'input.searcher', function () {
             $(this).show();
         else
             $(this).hide();
+    })
+
+    $('.popup .post-list').each(function()
+    {
+        $(this).parent().show();
+        if($(this).children(':visible').length == 0)
+            $(this).parent().hide();
+            
     })
 })
 
