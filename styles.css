@@ -165,7 +165,7 @@ input.searcher {
 }
 
 .right>.cross {
-    top: 3px;
+    top: 6px;
     padding: 5px 11px;
     font-size: 26px;
     line-height: 26px;
@@ -181,7 +181,7 @@ input.searcher {
     background-color: #2d3436;
     margin-top: 0;
     border-bottom: 1px solid #636e72;
-    font-size: 24px;
+    font-size: 30px;
     z-index: 1;
 }
 
@@ -198,4 +198,11 @@ div#resultmonster{
 th {
     background: #b2bec2;
     color:black;
+}
+blockquote p {
+    color: white;
+}
+
+.hideimportant{
+    display:none!important;
 }
