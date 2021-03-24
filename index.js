@@ -104,6 +104,7 @@ function get_monsters_no_api(monsters) {
                 $("." + idimg + " h2").html($("." + idimg + " p").eq(0).text() + $("." + idimg + " h2").html());
                 $("." + idimg + " p").eq(0).remove();
                 var urlsearch = 'https://www.googleapis.com/customsearch/v1?searchType=image&q=' + search + '&key=AIzaSyBx6r6YMITZtWB2AR_WuLBr14UU4D7p--s&cx=006721926462795274470%3A9i78bwvk0ry';
+                $("." + idimg + " .img").hide();
                 $.ajax({
                     url: urlsearch,
                     type: 'GET',
@@ -111,6 +112,7 @@ function get_monsters_no_api(monsters) {
                     success: function (data2) {
                         var image = data2['items']['0']['link'];
                         $("." + idimg + " .img").attr('style', 'background-image:url("' + data2['items']['0']['link'] + '")');
+                        $("." + idimg + " .img").show();
                     }
                 });
 
