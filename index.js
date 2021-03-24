@@ -2,7 +2,9 @@ var json_monsters = false;
 $.getJSON("./api/monsters.json", function(data) {
     json_monsters = data;
 });
-
+$(document).on('click', '.monster>h2', function(event){
+    $(this).siblings('p,table,ul,.img').toggle();
+});
 $(document).on('click', '.monster>.img', function (event) {
     img = this;
     style = img.currentStyle || window.getComputedStyle(img, false);
@@ -87,7 +89,10 @@ function get_monsters_no_api(monsters) {
                 var d20 = parseInt((Math.random() * 20) + 1);
                 var dex = $("." + idimg + " table tbody td").eq(1).text();
                 dex = dex.substring(dex.lastIndexOf("(") + 1, dex.lastIndexOf(")"));
-                $("." + idimg + " .initiative").text(Number(d20) + Number(dex));
+                var init = Number(d20) + Number(dex);
+                if(init <= 0)
+                    init = 1;
+                $("." + idimg + " .initiative").text(init);
                 $("." + idimg + " h2").html($("." + idimg + " p").eq(0).text() + $("." + idimg + " h2").html());
                 $("." + idimg + " p").eq(0).remove();
                 var urlsearch = 'https://www.googleapis.com/customsearch/v1?searchType=image&q=' + search + '&key=AIzaSyBx6r6YMITZtWB2AR_WuLBr14UU4D7p--s&cx=006721926462795274470%3A9i78bwvk0ry';
