@@ -1,4 +1,5 @@
-html{background:#fef1dc}
+html{background: #2d3436;
+    color: white;}
 body{font-family: 'Roboto', sans-serif;}
 .right,.left{padding:25px;position:relative;}
 .left{display:none;}
@@ -63,7 +64,7 @@ a.post-meta.jetsHide[href='#top'] {
     overflow: scroll;
     max-width: calc(100% - 50px);
     height: 100%;
-    z-index: 1;
+    z-index: 3;
 }
 .popup .cross{
     color:black;
@@ -127,11 +128,6 @@ input.searcher {
     display: none;
 }
 
-html {
-    background: #2d3436;
-    color: white;
-}
-
 .right>.cross {
     right: 10px;
     top: 35px;
@@ -157,6 +153,31 @@ html {
     .monster h2 {max-width: 75%;}
 .monster>p, .monster>table,.monster>ul,.monster>.img, .monster>ol, .monster>blockquote {
     display: none;
+}
+
+.right>.cross {
+    top: 3px;
+    padding: 5px 11px;
+    font-size: 26px;
+    line-height: 26px;
+    z-index: 2;
+}
+
+.right>h1.page-heading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 7px 15px;
+    background-color: #2d3436;
+    margin-top: 0;
+    border-bottom: 1px solid #636e72;
+    font-size: 24px;
+    z-index: 1;
+}
+
+div#resultmonster{
+    margin-top:40px;
 }
 
 }
