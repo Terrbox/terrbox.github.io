@@ -155,7 +155,7 @@ html {
         width: initial;
     }
     .monster h2 {max-width: 75%;}
-.monster p, .monster table,.monster ul,.monster, .monster ol {
+.monster p, .monster table,.monster ul,.monster .img, .monster ol {
     display: none;
 }
 
