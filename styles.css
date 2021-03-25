@@ -20,6 +20,7 @@ body{font-family: 'Roboto', sans-serif;}
 
 div#resultmonster {
     white-space: nowrap;
+    background-color:#2d3436;
 }
 .monster p,.monster h2 {
     white-space: normal;
@@ -133,10 +134,6 @@ input.searcher {
     border:0;
 }
 
-.cross.random {
-    display: none;
-}
-
 .right>.cross {
     right: 10px;
     top: 35px;
@@ -152,7 +149,69 @@ input.searcher {
     background-color: #636e72;
     border-color: transparent;
 }
+.left {
+    margin-top: 25px;
+}
+.cross.random>img {
+    width: 28px;
+    position: relative;
+    bottom: 2px;
+}
+
+.cross.random {
+    background: white;
+    padding: 0 9px;
+    display:none;
+}
+.aviso {
+    background: #2d3436;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    border-top: 1px solid #636e72;
+    opacity:0;
+    z-index:100;
+    transition:all ease 0.5s;
+    pointer-events: none;
+}
+
+.aviso.show{
+    opacity:1;
+}
+
+.tutorial {
+    position: absolute;
+    text-align: left;
+    margin-top: 20px;
+    z-index: -1;
+    top: 85px;
+}
+
+
+
 @media (max-width:500px){
+    .tutorial {
+    
+        left: 0;
+        text-align: center;
+        width: 100%;
+        top: 71px;
+        
+    }
+    
+    .cross.random {
+        background: white;
+        padding: 2px 4px!important;
+        top: 6px!important;
+        right: 57px;
+    }
+    
+    .cross.random img {
+        width: 28px;
+        bottom:0;
+    }
     .monster {display: block!important;
         margin-bottom: 30px;
         margin-left: 0;
@@ -206,3 +265,4 @@ blockquote p {
 .hideimportant{
     display:none!important;
 }
+

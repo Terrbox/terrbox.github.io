@@ -49,9 +49,15 @@ $(document).on('keyup', 'input.searcher', function () {
             
     })
 })
-
+var timeout;
 $(document).on('click', '.encounter,.post-link', function (event) {
     event.preventDefault();
+    $('.aviso .name').text($(this).text());
+    $('.aviso').addClass('show');
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+        $('.aviso').removeClass('show');
+    }, 2000)
     if ($(this).hasClass('encounter'))
         $("#resultmonster").empty();
     $('.encounter').removeClass('selected');
@@ -66,7 +72,7 @@ $(document).on('click', '.encounter,.post-link', function (event) {
         monsters[i] = monsters[i].trim();
         monsters[i] = monsters[i].replace(/ /g, "-");
     });
-
+    $('.left').hide();
     get_monsters_no_api(monsters);
 
 })
