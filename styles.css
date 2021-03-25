@@ -21,6 +21,9 @@ body{font-family: 'Roboto', sans-serif;}
 div#resultmonster {
     white-space: nowrap;
     background-color:#2d3436;
+        max-width: 100%;
+        overflow: scroll;
+        padding-bottom: 20px;
 }
 .monster p,.monster h2 {
     white-space: normal;
@@ -186,7 +189,7 @@ input.searcher {
     text-align: left;
     margin-top: 20px;
     z-index: -1;
-    top: 85px;
+    top: 100px;
 }
 
 
@@ -246,6 +249,8 @@ input.searcher {
 
 div#resultmonster{
     margin-top:40px;
+    overflow:visible;
+    
 }
 
 }
