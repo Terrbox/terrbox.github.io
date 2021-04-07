@@ -41,6 +41,9 @@ div#resultmonster {
 .monster table {font-size: 14px;white-space: normal;}
 .cr {
     display: inline-block;
+    margin: 15px 15px;
+    background-color: #636e72;
+    padding: 0 15px;
 }
 
 .post-list {
