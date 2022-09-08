@@ -1,0 +1,84 @@
+.App, html {
+  text-align: left;
+  background-color: #282c34;
+}
+
+.toolbar span {
+  font-size: 14px;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+.htmlmonster img{
+  display:none;
+}
+.htmlmonster {
+  max-height: 400px;
+  overflow:scroll;
+}
+.hanging-indent{display:block}
+.htmlmonster a{color:white!important}
+.htmlmonster * {
+  font-size: 18px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+.creature p {margin:0;display:inline-block;}
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  font-size:24px;
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@font-face {
+  font-family: 'ActionIcons';
+  src: url('../public/action_icons.woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.title span {float:right}
+
+span.action {
+  font-family: 'ActionIcons';
+  font-variant: normal;
+  font-weight: normal;
+}
+
+
+.title .action{
+  margin-left:0.3rem;
+}
+
+.action.action-1:before{content:'\00E1'}
+.action.action-2:before{content:'\00E2'}
+.action.action-3:before{content:'\00E3'}
+.action.action-4:before{content:'\00E4'}
+.action.action-5:before{content:'\00E0'}
+
+
+.traitalignment, .traitsize, .trait {
+  margin-right: 10px;
+}
+
+.EWChange{
+  color:red;
+}
