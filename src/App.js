@@ -220,7 +220,6 @@ function App() {
   }
 
   var exp = 0;
-  var difficulty = "Trivial";
 
   if(playerCount > 0)
   {
@@ -233,26 +232,30 @@ function App() {
     var extreme = 160 + difference * 40;
 
     list.forEach((item) => {
-      const partyLevelDifference = item.adjustedLevel - playersLevel;
+      if(item.type !== 'player')
+      {
+        const partyLevelDifference = item.adjustedLevel - playersLevel;
 
-      if(partyLevelDifference === -4)
-        exp += item.count * 10;
-      else if(partyLevelDifference === -3)
-        exp += item.count * 15;
-      else if(partyLevelDifference === -2)
-        exp += item.count * 20;
-      else if(partyLevelDifference === -1)
-        exp += item.count * 30;
-      else if(partyLevelDifference === 0)
-        exp += item.count * 40;
-      else if(partyLevelDifference === 1)
-        exp += item.count * 60;
-      else if(partyLevelDifference === 2)
-        exp += item.count * 80;
-      else if(partyLevelDifference === 3)
-        exp += item.count * 120;
-      else if(partyLevelDifference >= 4)
-        exp += item.count * 160;
+        if(partyLevelDifference === -4)
+          exp += item.count * 10;
+        else if(partyLevelDifference === -3)
+          exp += item.count * 15;
+        else if(partyLevelDifference === -2)
+          exp += item.count * 20;
+        else if(partyLevelDifference === -1)
+          exp += item.count * 30;
+        else if(partyLevelDifference === 0)
+          exp += item.count * 40;
+        else if(partyLevelDifference === 1)
+          exp += item.count * 60;
+        else if(partyLevelDifference === 2)
+          exp += item.count * 80;
+        else if(partyLevelDifference === 3)
+          exp += item.count * 120;
+        else if(partyLevelDifference >= 4)
+          exp += item.count * 160;
+
+      }
 
     })
   }
@@ -348,11 +351,12 @@ function App() {
                   }}>{item.name}{item.type === "player" ? "  " : ""}</Button>
               </div>
                 <div style={{display:"flex", justifyContent:"end", alignItems:'center'}}>
-                <div style={{marginRight:60, textAlign:'center', display:"flex"}}>
+                  {item.type !== "player" && 
+                  <div style={{marginRight:60, textAlign:'center', display:"flex"}}>
                   <Button onClick={() => {changeDifficulty("1", item)}} variant={item.difficulty === "1" ? "contained" : "outlined"} style={{marginLeft:10}}>Weak</Button>
                   <Button onClick={() => {changeDifficulty("2", item)}} variant={item.difficulty === "2" ? "contained" : "outlined"} style={{marginLeft:10}}>Normal</Button>
                   <Button onClick={() => {changeDifficulty("3", item)}} variant={item.difficulty === "3" ? "contained" : "outlined"} style={{marginLeft:10}}>Elite</Button>
-                </div>
+                </div>}
                   {
                     hp
                   }
