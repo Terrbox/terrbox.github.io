@@ -226,11 +226,15 @@ function App() {
 
   function nextTurn()
   {
-    var newList = [...list];
+    if(list.length > 0)
+    {
+      var newList = [...list];
 
-    newList.push(newList.shift());
+      newList.push(newList.shift());
 
-    setList(newList);
+      setList(newList);
+    }
+    
   }
 
   var exp = 0;
@@ -266,8 +270,10 @@ function App() {
           exp += item.count * 80;
         else if(partyLevelDifference === 3)
           exp += item.count * 120;
-        else if(partyLevelDifference >= 4)
+        else if(partyLevelDifference === 4)
           exp += item.count * 160;
+        else if(partyLevelDifference >= 5)
+          exp += item.count * 300;
 
       }
 
