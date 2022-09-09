@@ -82,3 +82,7 @@ span.action {
 .EWChange{
   color:red;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
