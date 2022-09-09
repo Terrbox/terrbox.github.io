@@ -27,6 +27,7 @@ function App() {
   const [playerName, setPlayerName] = useState("");
   const [playerCount, setPlayerCount] = useState(0);
   const [isInitializing, setIsInitializing] = useState(true);
+  const [showTable, setShowTable] = useState(true);
 
   React.useEffect(() => {
     const oldList = JSON.parse(localStorage.getItem('list'));
@@ -58,6 +59,11 @@ function App() {
       setPlayerCount(oldplayercount);
      }
 
+     const oldshowtable = JSON.parse(localStorage.getItem('showTable'));
+     if (oldshowtable !== null) {
+       setShowTable(oldshowtable);
+      }
+
      setIsInitializing(false);
     
   }, []);
@@ -69,6 +75,14 @@ function App() {
     }
     
   }, [list, isInitializing])
+
+  React.useEffect(() => {
+    if(isInitializing === false)
+    {
+      localStorage.setItem("showTable", JSON.stringify(showTable));
+    }
+    
+  }, [showTable, isInitializing])
 
   React.useEffect(() => {
     if(isInitializing === false)
@@ -303,7 +317,7 @@ function App() {
           <div className="App App-header">
           <Bar playerCount={playerCount} setPlayerCount={setPlayerCount} setList={setList} list={list} playerName={playerName} setPlayerName={setPlayerName} playersLevel={playersLevel} setPlayersLevels={setPlayersLevels} search={search} setSearch={setSearch} minLevel={minLevel} setMinLevel={setMinLevel} maxLevel={maxLevel} setMaxLevel={setMaxLevel}/>
           <div style={{margin:20}}>
-            <Table rows={data} list={list} setList={setList} />
+            <Table showTable={showTable} setShowTable={setShowTable} rows={data} list={list} setList={setList} />
 
             <Paper className="toolbar" style={{marginTop:10}}><Button onClick={() => {nextTurn()}}>Next turn</Button> {playerCount > 0 && <><span>XP: {exp}</span> <span>-</span> <span style={{color:"lightgreen", fontWeight: (exp >= trivial && exp < low) ? "bold" : "normal", textDecoration: (exp >= trivial && exp < low) ? "underline" : "none"}}>Trivial {trivial}XP</span> <span style={{color:"green", fontWeight: exp >= low && exp < moderate ? "bold" : "normal", textDecoration: exp >= low && exp < moderate ? "underline" : "none"}}>Low {low}XP</span> <span style={{color:"yellow", fontWeight: exp >= moderate && exp < severe ? "bold" : "normal", textDecoration: exp >= moderate && exp < severe ? "underline" : "none"}}>Moderate {moderate}XP</span> <span style={{color:"orange", fontWeight: exp >= severe && exp < extreme ? "bold" : "normal", textDecoration: exp >= severe && exp < extreme ? "underline" : "none"}}>Severe {severe}XP</span> <span style={{color:"red", fontWeight: exp >= extreme ? "bold" : "normal", textDecoration: exp >= extreme ? "underline" : "none"}}>Extreme {extreme}XP</span></>} <Button onClick={() => {setList([]); setPlayerCount(0);}} style={{float:"right"}}>Clear</Button> <Button onClick={() => {clearEnemies()}} style={{float:"right"}}>Clear enemies</Button> <Button onClick={() => {orderByInitiative()}} style={{float:"right"}}>Order by Initiative</Button> </Paper>
 
