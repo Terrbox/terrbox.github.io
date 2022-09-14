@@ -99,7 +99,7 @@ export default function StickyHeadTable({rows, list, setList, showTable, setShow
                       row.difficulty = "2";
                       row.idHolder = row.id;
 
-                      row.html = template.replace(/<h1.*?<h1/g, "<h1");
+                      row.html = template.replace(/<h1.*?<h1/g, "<h1").replace('img class="thumbnail" src="', 'img class="thumbnail" src="https://2e.aonprd.com/');
                       setList([...list, {...row, id: row.id + count}]);
                     }
                       

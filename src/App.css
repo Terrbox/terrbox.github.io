@@ -12,7 +12,8 @@
   pointer-events: none;
 }
 .htmlmonster img{
-  display:none;
+  max-height:250px;
+  float:right;
 }
 .htmlmonster {
   max-height: 400px;
@@ -85,4 +86,22 @@ span.action {
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+@media(max-width:900px)
+{
+  .appbar>div {
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+
+  }
+
+  .searchbar, .title{
+    width:100%;
+  }
+
+  .toolbar  {
+   text-align: center;
+  }
 }

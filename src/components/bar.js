@@ -50,18 +50,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function SearchAppBar({search, setSearch, playerCount, setPlayerCount, minLevel, maxLevel, setMinLevel, setMaxLevel, playersLevel, setPlayersLevels, playerName, setPlayerName, setList, list}) {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" className="appbar">
         <Toolbar>
           <Typography
+            className="title"
             variant="h61"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            sx={{ flexGrow: 1, display: { sm: 'block' } }}
           >
             PF2e Beast
           </Typography>
 
-          <TextField value={playerName} onChange={(event) => {setPlayerName(event.target.value)}} style={{marginLeft:12, textAlign:'center'}} id="input-with-sx" label="Player name" variant="standard" />
+          <TextField className="playerinput" value={playerName} onChange={(event) => {setPlayerName(event.target.value)}} style={{marginLeft:12, textAlign:'center'}} id="input-with-sx" label="Player name" variant="standard" />
           <IconButton onClick={() => {
             if(playerName)
             {
@@ -208,6 +209,7 @@ export default function SearchAppBar({search, setSearch, playerCount, setPlayerC
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
+            className="searchbar"
               placeholder="Search by name or traits..."
               inputProps={{ 'aria-label': 'search' }}
               value={search}

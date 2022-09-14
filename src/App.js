@@ -306,7 +306,7 @@ function App() {
 
         const response = await fetch('/creatures/'+creature.idHolder+difficultyString[difficulty]+".html");
         const template = await response.text();
-        creature.html = template.replace(/<h1.*?<h1/g, "<h1");
+        creature.html = template.replace(/<h1.*?<h1/g, "<h1").replace('img class="thumbnail" src="', 'img class="thumbnail" src="https://2e.aonprd.com/');
           
       }
 
