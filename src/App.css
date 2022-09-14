@@ -12,6 +12,10 @@
   pointer-events: none;
 }
 .htmlmonster img{
+  display:none;
+}
+.htmlmonster img.thumbnail{
+  display:block;
   max-height:250px;
   float:right;
 }
