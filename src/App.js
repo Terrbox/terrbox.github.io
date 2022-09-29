@@ -127,7 +127,7 @@ function App() {
             var push = true;
             if(search !== "")
             {
-              if(creature.name.toLowerCase().indexOf(search.toLowerCase()) < 0 && creature.trait_raw.toLowerCase().indexOf(search.toLowerCase()) < 0)
+              if(creature.name.toLowerCase().indexOf(search.toLowerCase()) < 0 && creature.trait_raw.toLowerCase().indexOf(search.toLowerCase()) < 0 && creature.creature_family.toLowerCase().indexOf(search.toLowerCase()) < 0)
                 push = false;
             }
 

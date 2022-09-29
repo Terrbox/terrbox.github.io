@@ -210,7 +210,7 @@ export default function SearchAppBar({search, setSearch, playerCount, setPlayerC
             </SearchIconWrapper>
             <StyledInputBase
             className="searchbar"
-              placeholder="Search by name or traits..."
+              placeholder="Search by name, traits or family..."
               inputProps={{ 'aria-label': 'search' }}
               value={search}
               onChange={(event) => {setSearch(event.target.value)}}
