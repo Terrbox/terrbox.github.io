@@ -527,6 +527,35 @@ function App() {
               creature.html
             );
 
+            const dcs = creature.html.match(
+              /DC <span class="EWChange changed"><b>\d*<\/b><\/span>/g
+            );
+
+            if (dcs) {
+              dcs.forEach((dc) => {
+                let originalDc = dc
+                  .replace('DC <span class="EWChange changed"><b>', "")
+                  .replace("</b></span>", "");
+
+                if (levelDiff > 0) {
+                  originalDc = parseInt(originalDc) - 2 * Math.abs(levelDiff);
+                } else {
+                  originalDc = parseInt(originalDc) + 2 * Math.abs(levelDiff);
+                }
+
+                console.log("original dc: ", originalDc);
+
+                const newDc = getEquivalentValueWithLevel(
+                  spells,
+                  creature.level,
+                  originalDc,
+                  creature.adjustedLevel
+                );
+
+                creature.html = creature.html.replace(dc, "DC " + newDc);
+              });
+            }
+
             const $ = cheerio.load(creature.html);
 
             $(".hanging-indent").each(function (i, elem) {
@@ -602,6 +631,7 @@ function App() {
                 }
               } else {
                 $(elem).find(".EWChange").remove();
+
                 const matches = $(elem)
                   .html()
                   .match(/\dd\d+\+*\d*/g);
@@ -627,32 +657,6 @@ function App() {
             });
 
             creature.html = $.html();
-
-            const dcs = creature.html.match(
-              /DC <span class="EWChange changed"><b>\d*<\/b><\/span>/g
-            );
-            if (dcs) {
-              dcs.forEach((dc) => {
-                let originalDc = dc
-                  .replace('DC <span class="EWChange changed"><b>', "")
-                  .replace("</b></span>", "");
-
-                if (levelDiff > 0) {
-                  originalDc = parseInt(originalDc) - 2 * Math.abs(levelDiff);
-                } else {
-                  originalDc = parseInt(originalDc) + 2 * Math.abs(levelDiff);
-                }
-
-                const newDc = getEquivalentValueWithLevel(
-                  spells,
-                  creature.level,
-                  originalDc,
-                  creature.adjustedLevel
-                );
-
-                creature.html = creature.html.replace(dc, "DC " + newDc);
-              });
-            }
           }
         }
       }
