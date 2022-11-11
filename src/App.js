@@ -293,8 +293,6 @@ function App() {
           }
         }
 
-        if (creature.adjustedLevel === -2) creature.adjustedLevel = -1;
-
         const response = await fetch(
           "/creatures/" +
             creature.idHolder +
@@ -307,6 +305,11 @@ function App() {
           .replace("https://2e.aonprd.com/Images", "Images")
           .replace("Images\\NPCs", "Images\\Monsters")
           .replace("Images\\NPCs", "Images\\Monsters");
+
+        if (creature.adjustedLevel === -2) {
+          creature.adjustedLevel = -1;
+          return;
+        }
 
         if (difficulty === "1" || difficulty === "3") {
           const levelDiff = creature.adjustedLevel - creature.level;
