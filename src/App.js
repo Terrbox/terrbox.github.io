@@ -256,14 +256,6 @@ function App() {
     });
   }
 
-  function replaceAt(index, replacement, string) {
-    return (
-      string.substring(0, index) +
-      replacement +
-      string.substring(index + replacement.length)
-    );
-  }
-
   async function changeDifficulty(difficulty, creature) {
     var newList = [...list];
 
@@ -378,10 +370,9 @@ function App() {
                     "</b></span>"
                 );
               } else {
-                creature.html = replaceAt(
-                  creature.html.indexOf("Perception</b>") + 15,
-                  num + " ",
-                  creature.html
+                creature.html = creature.html.replace(
+                  "Perception</b> +" + creature.perception,
+                  "Perception</b> " + num
                 );
               }
             }
@@ -464,10 +455,9 @@ function App() {
               creature.strength,
               creature.adjustedLevel
             );
-            creature.html = replaceAt(
-              creature.html.indexOf("Str</b> ") + 8,
-              newNum,
-              creature.html
+            creature.html = creature.html.replace(
+              "Str</b> +" + creature.strength,
+              "Str</b> " + newNum
             );
 
             newNum = getEquivalentValueWithLevel(
@@ -476,10 +466,9 @@ function App() {
               creature.dexterity,
               creature.adjustedLevel
             );
-            creature.html = replaceAt(
-              creature.html.indexOf("Dex</b> ") + 8,
-              newNum,
-              creature.html
+            creature.html = creature.html.replace(
+              "Dex</b> +" + creature.dexterity,
+              "Dex</b> " + newNum
             );
 
             newNum = getEquivalentValueWithLevel(
@@ -488,10 +477,9 @@ function App() {
               creature.constitution,
               creature.adjustedLevel
             );
-            creature.html = replaceAt(
-              creature.html.indexOf("Con</b> ") + 8,
-              newNum,
-              creature.html
+            creature.html = creature.html.replace(
+              "Con</b> +" + creature.constitution,
+              "Con</b> " + newNum
             );
 
             newNum = getEquivalentValueWithLevel(
@@ -500,10 +488,9 @@ function App() {
               creature.intelligence,
               creature.adjustedLevel
             );
-            creature.html = replaceAt(
-              creature.html.indexOf("Int</b> ") + 8,
-              newNum,
-              creature.html
+            creature.html = creature.html.replace(
+              "Int</b> +" + creature.intelligence,
+              "Int</b> " + newNum
             );
 
             newNum = getEquivalentValueWithLevel(
@@ -512,10 +499,9 @@ function App() {
               creature.wisdom,
               creature.adjustedLevel
             );
-            creature.html = replaceAt(
-              creature.html.indexOf("Wis</b> ") + 8,
-              newNum,
-              creature.html
+            creature.html = creature.html.replace(
+              "Wis</b> +" + creature.wisdom,
+              "Wis</b> " + newNum
             );
 
             newNum = getEquivalentValueWithLevel(
@@ -524,10 +510,9 @@ function App() {
               creature.charisma,
               creature.adjustedLevel
             );
-            creature.html = replaceAt(
-              creature.html.indexOf("Cha</b> ") + 8,
-              newNum,
-              creature.html
+            creature.html = creature.html.replace(
+              "Cha</b> +" + creature.charisma,
+              "Cha</b> " + newNum
             );
 
             const dcs = creature.html.match(

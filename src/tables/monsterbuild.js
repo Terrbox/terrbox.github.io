@@ -879,6 +879,7 @@ function getEquivalentValueWithLevel(
   newLevel
 ) {
   console.log(originalValue);
+  console.log(originalLevel);
   const originalImmutedValue = originalValue;
   var originalTable = table[originalLevel];
   var difference = 0;
