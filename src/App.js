@@ -593,6 +593,7 @@ function App() {
                     }
                   });
                 $(elem).html($(elem).html().replace("++", "+"));
+                $(elem).html($(elem).html().replace("+ +", "+"));
                 $(elem).find(".EWChange").remove();
                 const matches = $(elem)
                   .html()
