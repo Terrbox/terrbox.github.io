@@ -301,6 +301,9 @@ function App() {
         if (creature.adjustedLevel === -2) {
           creature.adjustedLevel = -1;
           return;
+        } else if (creature.adjustedLevel === 25) {
+          creature.adjustedLevel = 24;
+          return;
         }
 
         if (difficulty === "1" || difficulty === "3") {
@@ -531,8 +534,6 @@ function App() {
                   originalDc = parseInt(originalDc) + 2 * Math.abs(levelDiff);
                 }
 
-                console.log("original dc: ", originalDc);
-
                 const newDc = getEquivalentValueWithLevel(
                   spells,
                   creature.level,
@@ -561,11 +562,12 @@ function App() {
                   .each(function (i, elem) {
                     if (first) {
                       const strike = parseInt($(elem).text());
+
                       let newStrike = getEquivalentValueWithLevel(
                         strikeAttackBonus,
                         creature.level,
                         strike +
-                          (levelDiff > 0 ? -2 * levelDiff : +2 * levelDiff),
+                          (levelDiff > 0 ? -2 * levelDiff : +2 * -levelDiff),
                         creature.adjustedLevel
                       );
                       let sstrike = 5;
@@ -607,8 +609,6 @@ function App() {
                       match,
                       creature.adjustedLevel
                     );
-
-                    console.log(match);
 
                     if (newNum !== match)
                       $(elem).html(

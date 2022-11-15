@@ -467,160 +467,160 @@ const strikeAttackBonus = {
 
 const strikeDamage = {
   "-1": {
-    extreme: "1d6+1 (4)",
-    high: "1d4+1 (3)",
-    moderate: "1d4 (3)",
-    low: "1d4 (2)",
+    extreme: "1d6+1",
+    high: "1d4+1",
+    moderate: "1d4",
+    low: "1d4",
   },
   0: {
-    extreme: "1d6+3 (6)",
-    high: "1d6+2 (5)",
-    moderate: "1d4+2 (4)",
-    low: "1d4+1 (3)",
+    extreme: "1d6+3",
+    high: "1d6+2",
+    moderate: "1d4+2",
+    low: "1d4+1",
   },
   1: {
-    extreme: "1d8+4 (8)",
-    high: "1d6+3 (6)",
-    moderate: "1d6+2 (5)",
-    low: "1d4+2 (4)",
+    extreme: "1d8+4",
+    high: "1d6+3",
+    moderate: "1d6+2",
+    low: "1d4+2",
   },
   2: {
-    extreme: "1d12+4 (11)",
-    high: "1d10+4 (9)",
-    moderate: "1d8+4 (8)",
-    low: "1d6+3 (6)",
+    extreme: "1d12+4",
+    high: "1d10+4",
+    moderate: "1d8+4",
+    low: "1d6+3",
   },
   3: {
-    extreme: "1d12+8 (15)",
-    high: "1d10+6 (12)",
-    moderate: "1d8+6 (10)",
-    low: "1d6+5 (8)",
+    extreme: "1d12+8",
+    high: "1d10+6",
+    moderate: "1d8+6",
+    low: "1d6+5",
   },
   4: {
-    extreme: "2d10+7 (18)",
-    high: "2d8+5 (14)",
-    moderate: "2d6+5 (12)",
-    low: "2d4+4 (9)",
+    extreme: "2d10+7",
+    high: "2d8+5",
+    moderate: "2d6+5",
+    low: "2d4+4",
   },
   5: {
-    extreme: "2d12+7 (20)",
-    high: "2d8+7 (16)",
-    moderate: "2d6+6 (13)",
-    low: "2d4+6 (11)",
+    extreme: "2d12+7",
+    high: "2d8+7",
+    moderate: "2d6+6",
+    low: "2d4+6",
   },
   6: {
-    extreme: "2d12+10 (23)",
-    high: "2d8+9 (18)",
-    moderate: "2d6+8 (15)",
-    low: "2d4+7 (12)",
+    extreme: "2d12+10",
+    high: "2d8+9",
+    moderate: "2d6+8",
+    low: "2d4+7",
   },
   7: {
-    extreme: "2d12+12 (25)",
-    high: "2d10+9 (20)",
-    moderate: "2d8+8 (17)",
-    low: "2d6+6 (13)",
+    extreme: "2d12+12",
+    high: "2d10+9",
+    moderate: "2d8+8",
+    low: "2d6+6",
   },
   8: {
-    extreme: "2d12+15 (28)",
-    high: "2d10+11 (22)",
-    moderate: "2d8+9 (18)",
-    low: "2d6+8 (15)",
+    extreme: "2d12+15",
+    high: "2d10+11",
+    moderate: "2d8+9",
+    low: "2d6+8",
   },
   9: {
-    extreme: "2d12+17 (30)",
-    high: "2d10+13 (24)",
-    moderate: "2d8+11 (20)",
-    low: "2d6+9 (16)",
+    extreme: "2d12+17",
+    high: "2d10+13",
+    moderate: "2d8+11",
+    low: "2d6+9",
   },
   10: {
-    extreme: "2d12+20 (33)",
-    high: "2d12+13 (26)",
-    moderate: "2d10+11 (22)",
-    low: "2d6+10 (17)",
+    extreme: "2d12+20",
+    high: "2d12+13",
+    moderate: "2d10+11",
+    low: "2d6+10",
   },
   11: {
-    extreme: "2d12+22 (35)",
-    high: "2d12+15 (28)",
-    moderate: "2d10+12 (23)",
-    low: "2d8+10 (19)",
+    extreme: "2d12+22",
+    high: "2d12+15",
+    moderate: "2d10+12",
+    low: "2d8+10",
   },
   12: {
-    extreme: "3d12+19 (38)",
-    high: "3d10+14 (30)",
-    moderate: "3d8+12 (25)",
-    low: "3d6+10 (20)",
+    extreme: "3d12+19",
+    high: "3d10+14",
+    moderate: "3d8+12",
+    low: "3d6+10",
   },
   13: {
-    extreme: "3d12+21 (40)",
-    high: "3d10+16 (32)",
-    moderate: "3d8+14 (27)",
-    low: "3d6+11 (21)",
+    extreme: "3d12+21",
+    high: "3d10+16",
+    moderate: "3d8+14",
+    low: "3d6+11",
   },
   14: {
-    extreme: "3d12+24 (43)",
-    high: "3d10+18 (34)",
-    moderate: "3d8+15 (28)",
-    low: "3d6+13 (23)",
+    extreme: "3d12+24",
+    high: "3d10+18",
+    moderate: "3d8+15",
+    low: "3d6+13",
   },
   15: {
-    extreme: "3d12+26 (45)",
-    high: "3d12+17 (36)",
-    moderate: "3d10+14 (30)",
-    low: "3d6+14 (24)",
+    extreme: "3d12+26",
+    high: "3d12+17",
+    moderate: "3d10+14",
+    low: "3d6+14",
   },
   16: {
-    extreme: "3d12+29 (48)",
-    high: "3d12+18 (37)",
-    moderate: "3d10+15 (31)",
-    low: "3d6+15 (25)",
+    extreme: "3d12+29",
+    high: "3d12+18",
+    moderate: "3d10+15",
+    low: "3d6+15",
   },
   17: {
-    extreme: "3d12+31 (50)",
-    high: "3d12+19 (38)",
-    moderate: "3d10+16 (32)",
-    low: "3d6+16 (26)",
+    extreme: "3d12+31",
+    high: "3d12+19",
+    moderate: "3d10+16",
+    low: "3d6+16",
   },
   18: {
-    extreme: "3d12+34 (53)",
-    high: "3d12+20 (40)",
-    moderate: "3d10+17 (33)",
-    low: "3d6+17 (27)",
+    extreme: "3d12+34",
+    high: "3d12+20",
+    moderate: "3d10+17",
+    low: "3d6+17",
   },
   19: {
-    extreme: "4d12+29 (55)",
-    high: "4d10+20 (42)",
-    moderate: "4d8+17 (35)",
-    low: "4d6+14 (28)",
+    extreme: "4d12+29",
+    high: "4d10+20",
+    moderate: "4d8+17",
+    low: "4d6+14",
   },
   20: {
-    extreme: "4d12+32 (58)",
-    high: "4d10+22 (44)",
-    moderate: "4d8+19 (37)",
-    low: "4d6+15 (29)",
+    extreme: "4d12+32",
+    high: "4d10+22",
+    moderate: "4d8+19",
+    low: "4d6+15",
   },
   21: {
-    extreme: "4d12+34 (60)",
-    high: "4d10+24 (46)",
-    moderate: "4d8+20 (38)",
-    low: "4d6+17 (31)",
+    extreme: "4d12+34",
+    high: "4d10+24",
+    moderate: "4d8+20",
+    low: "4d6+17",
   },
   22: {
-    extreme: "4d12+37 (63)",
-    high: "4d10+26 (48)",
-    moderate: "4d8+22 (40)",
-    low: "4d6+18 (32)",
+    extreme: "4d12+37",
+    high: "4d10+26",
+    moderate: "4d8+22",
+    low: "4d6+18",
   },
   23: {
-    extreme: "4d12+39 (65)",
-    high: "4d12+24 (50)",
-    moderate: "4d10+20 (42)",
-    low: "4d6+19 (33)",
+    extreme: "4d12+39",
+    high: "4d12+24",
+    moderate: "4d10+20",
+    low: "4d6+19",
   },
   24: {
-    extreme: "4d12+42 (68)",
-    high: "4d12+26 (52)",
-    moderate: "4d10+22 (44)",
-    low: "4d6+21 (35)",
+    extreme: "4d12+42",
+    high: "4d12+26",
+    moderate: "4d10+22",
+    low: "4d6+21",
   },
 };
 
@@ -836,32 +836,32 @@ const spells = {
 };
 
 const areaDamage = {
-  "-1": { unlimited: "1d4 (2)", limited: "1d6 (4)" },
-  0: { unlimited: "1d6 (4)", limited: "1d10 (6)" },
-  1: { unlimited: "2d4 (5)", limited: "2d6 (7)" },
-  2: { unlimited: "2d6 (7)", limited: "3d6 (11)" },
-  3: { unlimited: "2d8 (9)", limited: "4d6 (14)" },
-  4: { unlimited: "3d6 (11)", limited: "5d6 (18)" },
-  5: { unlimited: "2d10 (12)", limited: "6d6 (21)" },
-  6: { unlimited: "4d6 (14)", limited: "7d6 (25)" },
-  7: { unlimited: "4d6 (15)", limited: "8d6 (28)" },
-  8: { unlimited: "5d6 (17)", limited: "9d6 (32)" },
-  9: { unlimited: "5d6 (18)", limited: "10d6 (35)" },
-  10: { unlimited: "6d6 (20)", limited: "11d6 (39)" },
-  11: { unlimited: "6d6 (21)", limited: "12d6 (42)" },
-  12: { unlimited: "5d8 (23)", limited: "13d6 (46)" },
-  13: { unlimited: "7d6 (24)", limited: "14d6 (49)" },
-  14: { unlimited: "4d12 (26)", limited: "15d6 (53)" },
-  15: { unlimited: "6d8 (27)", limited: "16d6 (56)" },
-  16: { unlimited: "8d6 (28)", limited: "17d6 (60)" },
-  17: { unlimited: "8d6 (29)", limited: "18d6 (63)" },
-  18: { unlimited: "9d6 (30)", limited: "19d6 (67)" },
-  19: { unlimited: "7d8 (32)", limited: "20d6 (70)" },
-  20: { unlimited: "6d10 (33)", limited: "21d6 (74)" },
-  21: { unlimited: "10d6 (35)", limited: "22d6 (77)" },
-  22: { unlimited: "8d8 (36)", limited: "23d6 (81)" },
-  23: { unlimited: "11d6 (38)", limited: "24d6 (84)" },
-  24: { unlimited: "11d6 (39)", limited: "25d6 (88)" },
+  "-1": { unlimited: "1d4", limited: "1d6" },
+  0: { unlimited: "1d6", limited: "1d10" },
+  1: { unlimited: "2d4", limited: "2d6" },
+  2: { unlimited: "2d6", limited: "3d6" },
+  3: { unlimited: "2d8", limited: "4d6" },
+  4: { unlimited: "3d6", limited: "5d6" },
+  5: { unlimited: "2d10", limited: "6d6" },
+  6: { unlimited: "4d6", limited: "7d6" },
+  7: { unlimited: "4d6", limited: "8d6" },
+  8: { unlimited: "5d6", limited: "9d6" },
+  9: { unlimited: "5d6", limited: "10d6" },
+  10: { unlimited: "6d6", limited: "11d6" },
+  11: { unlimited: "6d6", limited: "12d6" },
+  12: { unlimited: "5d8", limited: "13d6" },
+  13: { unlimited: "7d6", limited: "14d6" },
+  14: { unlimited: "4d12", limited: "15d6" },
+  15: { unlimited: "6d8", limited: "16d6" },
+  16: { unlimited: "8d6", limited: "17d6" },
+  17: { unlimited: "8d6", limited: "18d6" },
+  18: { unlimited: "9d6", limited: "19d6" },
+  19: { unlimited: "7d8", limited: "20d6" },
+  20: { unlimited: "6d10", limited: "21d6" },
+  21: { unlimited: "10d6", limited: "22d6" },
+  22: { unlimited: "8d8", limited: "23d6" },
+  23: { unlimited: "11d6", limited: "24d6" },
+  24: { unlimited: "11d6", limited: "25d6" },
 };
 
 const diceValues = {
@@ -872,14 +872,41 @@ const diceValues = {
   12: 6.5,
 };
 
+function getDiceValue(originalValue) {
+  let value = 0;
+  var originalDice = originalValue.split("d");
+  var originalDiceTwo = originalDice[1];
+  var originalDiceThree = false;
+
+  if (originalDiceTwo.includes("+") || originalDiceTwo.includes("-")) {
+    if (originalDiceTwo.includes("+"))
+      originalDiceTwo = originalDiceTwo.split("+");
+    else {
+      originalDiceTwo = originalDiceTwo.split("-");
+      originalDiceTwo[1] = "-" + originalDiceTwo[1];
+    }
+
+    originalDiceThree = originalDiceTwo[1];
+    originalDiceTwo = originalDiceTwo[0];
+  }
+
+  value =
+    parseFloat(originalDice[0]) *
+    parseFloat(diceValues[parseInt(originalDice[1])]);
+
+  if (originalDiceThree) {
+    value += parseInt(originalDiceThree);
+  }
+
+  return value;
+}
+
 function getEquivalentValueWithLevel(
   table,
   originalLevel,
   originalValue,
   newLevel
 ) {
-  console.log(originalValue);
-  console.log(originalLevel);
   const originalImmutedValue = originalValue;
   var originalTable = table[originalLevel];
   var difference = 0;
@@ -887,30 +914,8 @@ function getEquivalentValueWithLevel(
   var dice = false;
 
   if (typeof originalValue === "string" && originalValue.includes("d")) {
-    let value = 0;
+    originalValue = getDiceValue(originalValue);
     dice = true;
-    var originalDice = originalValue.split("d");
-    var originalDiceTwo = originalDice[1];
-    var originalDiceThree = false;
-
-    if (originalDiceTwo.includes("+") || originalDiceTwo.includes("-")) {
-      if (originalDiceTwo.includes("+"))
-        originalDiceTwo = originalDiceTwo.split("+");
-      else originalDiceTwo = originalDiceTwo.split("-");
-
-      originalDiceThree = originalDiceTwo[1];
-      originalDiceTwo = originalDiceTwo[0];
-    }
-
-    value =
-      parseFloat(originalDice[0]) *
-      parseFloat(diceValues[parseInt(originalDice[1])]);
-
-    if (originalDiceThree) {
-      value += parseInt(originalDiceThree);
-    }
-
-    originalValue = value;
   }
 
   Object.keys(originalTable).forEach((k) => {
@@ -920,12 +925,11 @@ function getEquivalentValueWithLevel(
     if (typeof row === "string") {
       if (row.indexOf("-") > -1) {
         numericValue = numericValue.split("-");
-        numericValue = parseInt(
+        numericValue = parseFloat(
           (parseInt(numericValue[0]) + parseInt(numericValue[1])) / 2
         );
-      } else if (row.indexOf("(") > -1) {
-        numericValue = numericValue.split("(");
-        numericValue = parseInt(numericValue[1].replace(")", ""));
+      } else if (row.indexOf("d") > -1) {
+        numericValue = getDiceValue(numericValue);
       } else {
         numericValue = parseInt(numericValue);
       }
@@ -950,8 +954,7 @@ function getEquivalentValueWithLevel(
       selectedKey = k;
     }
   });
-  console.log("mutted: " + originalValue);
-  console.log("result: " + table[newLevel][selectedKey]);
+
   if (
     selectedKey &&
     (difference < 5 || difference === "encountered" || dice === false)
