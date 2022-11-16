@@ -773,8 +773,11 @@ function App() {
                 }}
                 style={{ float: "right" }}
               >
-                Order by Initiative
-              </Button>{" "}
+                Order{" "}
+                <span className="hideresponsive" style={{ marginLeft: 5 }}>
+                  by Initiative
+                </span>
+              </Button>
             </Paper>
 
             {list.map((item) => {
@@ -877,6 +880,7 @@ function App() {
                           textAlign: "center",
                           display: "flex",
                         }}
+                        className="hideresponsive"
                       >
                         <Button
                           onClick={() => {
@@ -939,8 +943,12 @@ function App() {
                       label="Init"
                       variant="standard"
                     />
-                    Lv.{" "}
-                    {item.type === "player" ? playersLevel : item.adjustedLevel}
+                    <span className="hideresponsive">
+                      Lv.{" "}
+                      {item.type === "player"
+                        ? playersLevel
+                        : item.adjustedLevel}
+                    </span>
                   </div>
                   {opened.indexOf(item.id) >= 0 && (
                     <div
