@@ -135,4 +135,16 @@ span.action {
   .hideresponsive {
     display: none !important;
   }
+
+  .notesButton {
+    display: none !important;
+  }
+}
+
+.notesButton {
+  opacity: 0;
+}
+
+.notesButton:hover {
+  opacity: 0.5;
 }

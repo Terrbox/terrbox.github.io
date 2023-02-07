@@ -6,7 +6,7 @@ import Bar from "./components/bar";
 import Table from "./components/table";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Button, Paper } from "@mui/material";
+import { Button, Dialog, Paper } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import {
@@ -44,6 +44,8 @@ function App() {
   const [playerCount, setPlayerCount] = useState(0);
   const [isInitializing, setIsInitializing] = useState(true);
   const [showTable, setShowTable] = useState(true);
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const [notes, setNotes] = useState("");
 
   React.useEffect(() => {
     const oldList = JSON.parse(localStorage.getItem("list"));
@@ -188,7 +190,8 @@ function App() {
 
     newList.forEach((item) => {
       if (creature.id === item.id) {
-        item[field] = parseInt(event.target.value);
+        if (field === "notes") item[field] = event.target.value;
+        else item[field] = parseInt(event.target.value);
       }
     });
 
@@ -676,6 +679,26 @@ function App() {
             setMaxLevel={setMaxLevel}
           />
           <div style={{ margin: 20 }}>
+            <Dialog
+              open={openPopUp !== false}
+              onClose={() => {
+                changeField({ target: { value: notes } }, "notes", openPopUp);
+                setOpenPopUp(false);
+              }}
+            >
+              <TextField
+                style={{ minWidth: 500, margin: 20 }}
+                id="outlined-basic"
+                label="Notes"
+                variant="outlined"
+                rows={12}
+                multiline
+                value={notes}
+                onChange={(e) => {
+                  setNotes(e.target.value);
+                }}
+              />
+            </Dialog>
             <Table
               showTable={showTable}
               setShowTable={setShowTable}
@@ -835,7 +858,6 @@ function App() {
                         </IconButton>
                       </>
                     )}
-
                     <IconButton
                       onClick={() => {
                         addOrRemoveOne(-100000, item);
@@ -845,7 +867,6 @@ function App() {
                     >
                       <DisabledByDefault />
                     </IconButton>
-
                     <Button
                       onClick={() => {
                         var newOpened = [...opened];
@@ -864,6 +885,21 @@ function App() {
                     >
                       {item.name}
                       {item.type === "player" ? "  " : ""}
+                    </Button>
+                    <Button
+                      variant={"outlined"}
+                      style={{
+                        marginLeft: 10,
+                        fontSize: 10,
+                      }}
+                      className={item.notes ? "notesButtonTrue" : "notesButton"}
+                      color={"secondary"}
+                      onClick={() => {
+                        setNotes(item.notes);
+                        setOpenPopUp(item);
+                      }}
+                    >
+                      Notes
                     </Button>
                   </div>
                   <div
