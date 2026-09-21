@@ -14,15 +14,16 @@ autocontenido (todo el JS/CSS incrustado). Ese `docs/` ya está commiteado en el
 
 ### GitHub Pages (el método de este repo)
 
-Como el build va a `docs/` y está versionado, en el repo:
-**Settings → Pages → Build and deployment → Source: "Deploy from a branch" →
-Branch: `main` / carpeta `/docs`**. GitHub sirve `docs/index.html` tal cual (ya
-compilado), sin workflow ni problemas de MIME. Tras cambiar código: `npm run build`
-y commitea `docs/`.
+El build va a `docs/` y está versionado. Se publica con un workflow de Actions que
+**sube `docs/` tal cual** (sin build ni Jekyll): `.github/workflows/deploy.yml`.
 
-> No uses "GitHub Actions" como Source ni "Deploy from branch → / (root)": eso
-> serviría el `index.html` de desarrollo (que apunta a `/src/main.jsx`) y da el error
-> "MIME type text/jsx". Hay que servir el build (`/docs`).
+En el repo: **Settings → Pages → Build and deployment → Source: "GitHub Actions"**.
+Con eso, cada push a `main` publica `docs/index.html` (ya compilado y autocontenido).
+Tras cambiar código: `npm run build` y commitea `docs/`.
+
+> No uses "Deploy from a branch": en este repo dispara Jekyll (que intenta renderizar
+> un tema y falla) o sirve el `index.html` de desarrollo (apunta a `/src/main.jsx` →
+> error "MIME type text/jsx"). El workflow de Actions evita ambos problemas.
 
 ### Otras formas
 
