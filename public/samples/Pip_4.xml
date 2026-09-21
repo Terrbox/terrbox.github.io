@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<character><version>37</version><uid>4</uid><name>Pip Deltón</name>
+	<race><name>Mediano Piesligeros</name>
+		<feat><name>Suerte</name><text>Cuando sacas un 1 en un d20 de ataque, prueba o salvación, puedes repetir la tirada.</text></feat>
+		<feat><name>Valiente</name><text>Ventaja en salvaciones contra ser asustado.</text></feat>
+		<feat><name>Sigiloso natural</name><text>Puedes intentar esconderte incluso tras una criatura de tamaño mayor.</text></feat>
+	</race>
+	<background><name>Criminal</name>
+		<feat><name>Contacto criminal</name><text>Tienes un contacto de confianza que hace de intermediario con el bajo mundo.</text></feat>
+	</background>
+	<class><name>Pícaro</name><level>3</level>
+		<feat><name>Ataque furtivo (2d6)</name><text>Una vez por turno infliges 2d6 de daño extra si tienes ventaja o un aliado adyacente al objetivo.</text></feat>
+		<feat><name>Pericia</name><text>Doblas tu bonificador de competencia en Sigilo y Juego de Manos.</text></feat>
+		<feat><name>Acción astuta</name><text>Puedes Correr, Retirarte o Esconderte como acción adicional.</text></feat>
+		<feat><name>Nivel 3: Arquetipo (Ladrón)</name><text>Manos rápidas: usas Juego de Manos o utilizar objeto como acción adicional.</text></feat>
+	</class>
+	<item><name>Armadura de cuero</name><quantity>1</quantity></item>
+	<item><name>Estoque</name><quantity>1</quantity></item>
+	<item><name>Daga</name><quantity>2</quantity></item>
+	<item><name>Herramientas de ladrón</name><quantity>1</quantity></item>
+	<item><name>Kit de aventurero</name><quantity>1</quantity></item>
+	<item><name>Pieza de oro</name><quantity>40</quantity></item>
+</character>
+</data>

@@ -88,9 +88,40 @@ function parseCharacter(el) {
   return c
 }
 
-// Extracts spells (name, level, prepared) from a player/internal file
-// (roots <pc version="5"> or <data>). s.j() writes <prepared>1</prepared> and
-// <level> only for prepared/leveled spells; presence of <prepared> == prepared.
+function childText(el, tag) {
+  for (const c of Array.from(el.children)) {
+    if (c.tagName.toLowerCase() === tag) return (c.textContent || '').trim()
+  }
+  return ''
+}
+
+function directChildren(el, tag) {
+  return Array.from(el.children).filter((c) => c.tagName.toLowerCase() === tag)
+}
+
+function hasAncestor(el, tag) {
+  let p = el.parentElement
+  while (p) {
+    if (p.tagName && p.tagName.toLowerCase() === tag) return true
+    p = p.parentElement
+  }
+  return false
+}
+
+// A race/background/class feature is a <feat> with a <name> and one or more <text>.
+function featObj(el) {
+  const name = childText(el, 'name')
+  const text = directChildren(el, 'text').map((t) => (t.textContent || '').trim()).join('\n\n')
+  return { name, text }
+}
+
+function directFeats(el) {
+  if (!el) return []
+  return directChildren(el, 'feat').map(featObj).filter((f) => f.name)
+}
+
+// Extracts spells (name, level, prepared) from a player/internal file.
+// s.j() writes <prepared>1</prepared> and <level> only for prepared/leveled spells.
 function extractSpells(doc) {
   const out = []
   for (const sp of Array.from(doc.getElementsByTagName('spell'))) {
@@ -108,6 +139,50 @@ function extractSpells(doc) {
   return out
 }
 
+// Full detail from a player/internal file (roots <pc version="5"> or <data>).
+function parsePlayer(doc) {
+  const character = doc.getElementsByTagName('character')[0] || doc.documentElement
+  const raceEl = doc.getElementsByTagName('race')[0]
+  const bgEl = doc.getElementsByTagName('background')[0]
+  const classEl = doc.getElementsByTagName('class')[0]
+
+  // Items: <item><name/><quantity?/> (nested containers included). Dedup by name+qty.
+  const items = []
+  for (const it of Array.from(doc.getElementsByTagName('item'))) {
+    const name = childText(it, 'name')
+    if (!name) continue
+    const q = childText(it, 'quantity')
+    items.push({ name, quantity: q ? parseInt(q, 10) || 1 : 1 })
+  }
+
+  // Trackers the character actually has (skip the per-level reference ones inside
+  // <autolevel>). Dedup by label, keeping the one with a current <value> if any.
+  const trackers = []
+  const seen = new Map()
+  for (const tk of Array.from(doc.getElementsByTagName('tracker'))) {
+    if (hasAncestor(tk, 'autolevel')) continue
+    const label = childText(tk, 'label')
+    if (!label) continue
+    const t = { label, value: childText(tk, 'value'), formula: childText(tk, 'formula') }
+    if (seen.has(label)) {
+      const prev = seen.get(label)
+      if (!prev.value && t.value) trackers[trackers.indexOf(prev)] = t, seen.set(label, t)
+    } else {
+      seen.set(label, t); trackers.push(t)
+    }
+  }
+
+  return {
+    spells: extractSpells(doc),
+    items,
+    trackers,
+    raceTraits: directFeats(raceEl),
+    bgTraits: directFeats(bgEl),
+    classTraits: directFeats(classEl),
+    feats: directFeats(character), // character-level feats (not race/bg/class/autolevel)
+  }
+}
+
 // Classifies a file and returns its contents.
 //  - GM export  (root <characters>): { type:'gm', characters:[...] }
 //  - Player/internal (root <pc>/<data>): { type:'player', spells:[...] }
@@ -123,7 +198,7 @@ export function parseFile(xmlString) {
     return { type: 'gm', characters: out }
   }
   if (root === 'pc' || root === 'npc' || root === 'data') {
-    return { type: 'player', spells: extractSpells(doc) }
+    return { type: 'player', player: parsePlayer(doc) }
   }
   return { type: 'unknown' }
 }

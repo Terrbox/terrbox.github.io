@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<characters version="5">
+	<pc>
+		<label>Korgan Piedrahierro</label>
+		<name>Enano de las Colinas Guerrero 3</name>
+		<level>3</level>
+		<size>M</size>
+		<ac>18 (cota de malla, escudo)</ac>
+		<hp>31/31 (3d10+9)</hp>
+		<speed>25 ft.</speed>
+		<init>+1</init>
+		<str>16</str><dex>12</dex><con>16</con><int>10</int><wis>12</wis><cha>8</cha>
+		<save>Strength +5</save>
+		<save>Constitution +5</save>
+		<skill>Athletics +5</skill>
+		<skill>Perception +3</skill>
+		<passive>13</passive>
+		<languages>Común, Enano</languages>
+		<action><name>Espada larga</name>
+			<text>Ataque con arma cuerpo a cuerpo: +5 al golpe, alcance 5 ft. Impacto: 1d8+3 cortante.</text>
+			<attack>|+5|1d8+3</attack>
+		</action>
+	</pc>
+</characters>

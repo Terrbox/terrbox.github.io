@@ -23,7 +23,7 @@ function baseFromName(name) {
 // player file (same Name+ID base) provides the real prepared-spell list.
 function assemble(files) {
   const gm = []
-  const spellsByBase = new Map()
+  const playerByBase = new Map()
   for (const f of files) {
     const r = parseFile(f.text)
     if (r.type === 'gm') {
@@ -31,11 +31,11 @@ function assemble(files) {
         gm.push({ ...c, folder: f.folder, fileName: f.fileName, base: baseFromName(f.fileName) })
       }
     } else if (r.type === 'player') {
-      spellsByBase.set(baseFromName(f.fileName), r.spells)
+      playerByBase.set(baseFromName(f.fileName), r.player)
     }
   }
   for (const c of gm) {
-    if (c.base && spellsByBase.has(c.base)) c.preparedSpells = spellsByBase.get(c.base)
+    if (c.base && playerByBase.has(c.base)) c.player = playerByBase.get(c.base)
   }
   gm.sort((a, b) => (a.label || a.name || '').localeCompare(b.label || b.name || ''))
   return gm
@@ -110,13 +110,15 @@ export default function App() {
     try {
       const base = import.meta.env.BASE_URL
       const names = [
-        ['samples/Thalindra_1.xml', 'Thalindra Miraluz_1.xml'],
-        ['samples/(GM) Thalindra_1.xml', '(GM) Thalindra Miraluz_1.xml'],
-        ['samples/(GM) Korgan_2.xml', '(GM) Korgan Piedrahierro_2.xml'],
+        '(GM) Korgan_1.xml', 'Korgan_1.xml',
+        '(GM) Lyra_2.xml', 'Lyra_2.xml',
+        '(GM) Thera_3.xml', 'Thera_3.xml',
+        '(GM) Pip_4.xml', 'Pip_4.xml',
+        '(GM) Groll_5.xml', 'Groll_5.xml',
       ]
       const files = []
-      for (const [path, fileName] of names) {
-        const res = await fetch(base + path)
+      for (const fileName of names) {
+        const res = await fetch(base + 'samples/' + encodeURIComponent(fileName))
         if (res.ok) files.push({ fileName, folder: 'Campaña de ejemplo', text: await res.text() })
       }
       setChars(assemble(files))

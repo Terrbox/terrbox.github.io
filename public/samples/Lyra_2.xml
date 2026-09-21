@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<character><version>37</version><uid>2</uid><name>Lyra Sombraluna</name>
+	<race><name>Alta Elfa</name>
+		<feat><name>Visión en la oscuridad</name><text>Ves en luz tenue a 60 pies como luz brillante.</text></feat>
+		<feat><name>Ascendencia feérica</name><text>Ventaja contra ser hechizado; la magia no te duerme.</text></feat>
+		<feat><name>Truco</name><text>Conoces un truco de la lista de mago (Rayo de escarcha).</text></feat>
+	</race>
+	<background><name>Sabio</name>
+		<feat><name>Investigador</name><text>Sabes dónde encontrar información y a quién preguntar sobre temas de saber.</text></feat>
+	</background>
+	<class><name>Mago</name><level>3</level>
+		<feat><name>Lanzamiento de conjuros</name><text>Lanzas conjuros de mago usando Inteligencia. CD de salvación 13, +5 al ataque.</text></feat>
+		<feat><name>Recuperación arcana</name><text>En un descanso corto recuperas espacios de conjuro (nivel total ≤ 2).</text></feat>
+		<feat><name>Nivel 2: Tradición arcana (Evocación)</name><text>Escultor de conjuros: proteges aliados de tus conjuros de área.</text></feat>
+	</class>
+	<item><name>Bastón</name><quantity>1</quantity></item>
+	<item><name>Libro de conjuros</name><quantity>1</quantity></item>
+	<item><name>Componentes de conjuro</name><quantity>1</quantity></item>
+	<item><name>Poción de curación</name><quantity>2</quantity></item>
+	<spell><name>Rayo de escarcha</name><level>0</level></spell>
+	<spell><name>Prestidigitación</name><level>0</level></spell>
+	<spell><name>Luz</name><level>0</level></spell>
+	<spell><name>Proyectil mágico</name><level>1</level><prepared>1</prepared></spell>
+	<spell><name>Escudo</name><level>1</level><prepared>1</prepared></spell>
+	<spell><name>Detectar magia</name><level>1</level></spell>
+	<spell><name>Imagen silenciosa</name><level>1</level><prepared>1</prepared></spell>
+	<spell><name>Rayo abrasador</name><level>2</level><prepared>1</prepared></spell>
+	<spell><name>Telaraña</name><level>2</level><prepared>1</prepared></spell>
+	<tracker><label>Recuperación arcana</label><value>1</value><formula>1</formula></tracker>
+</character>
+</data>

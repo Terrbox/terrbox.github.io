@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<characters version="5">
+	<pc>
+		<label>Pip Deltón</label>
+		<name>Mediano Pícaro 3</name>
+		<level>3</level>
+		<size>P</size>
+		<ac>14 (armadura de cuero)</ac>
+		<hp>21/21 (3d8)</hp>
+		<speed>25 ft.</speed>
+		<init>+3</init>
+		<str>8</str><dex>16</dex><con>12</con><int>12</int><wis>13</wis><cha>14</cha>
+		<save>Dexterity +5</save>
+		<save>Intelligence +3</save>
+		<skill>Stealth +7</skill>
+		<skill>Sleight of Hand +5</skill>
+		<skill>Acrobatics +5</skill>
+		<skill>Perception +3</skill>
+		<skill>Deception +4</skill>
+		<passive>13</passive>
+		<languages>Común, Mediano, Ladrón (jerga)</languages>
+		<action><name>Estoque</name>
+			<text>Ataque con arma cuerpo a cuerpo: +5 al golpe, alcance 5 ft. Impacto: 1d8+3 perforante (+2d6 ataque furtivo).</text>
+			<attack>|+5|1d8+3</attack>
+		</action>
+	</pc>
+</characters>

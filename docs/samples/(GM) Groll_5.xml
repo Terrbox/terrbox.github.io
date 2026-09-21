@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<characters version="5">
+	<pc>
+		<label>Groll Rompecráneos</label>
+		<name>Semiorco Bárbaro 3</name>
+		<level>3</level>
+		<size>M</size>
+		<ac>14 (defensa sin armadura)</ac>
+		<hp>32/32 (3d12+6)</hp>
+		<speed>40 ft.</speed>
+		<init>+2</init>
+		<str>17</str><dex>14</dex><con>15</con><int>8</int><wis>10</wis><cha>12</cha>
+		<save>Strength +5</save>
+		<save>Constitution +4</save>
+		<skill>Athletics +5</skill>
+		<skill>Intimidation +3</skill>
+		<skill>Survival +2</skill>
+		<passive>10</passive>
+		<languages>Común, Orco</languages>
+		<action><name>Hacha de guerra</name>
+			<text>Ataque con arma cuerpo a cuerpo: +5 al golpe, alcance 5 ft. Impacto: 1d8+3 cortante (1d10+3 a dos manos).</text>
+			<attack>|+5|1d8+3</attack>
+		</action>
+	</pc>
+</characters>

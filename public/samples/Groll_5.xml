@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<character><version>37</version><uid>5</uid><name>Groll Rompecráneos</name>
+	<race><name>Semiorco</name>
+		<feat><name>Visión en la oscuridad</name><text>Ves en luz tenue a 60 pies como luz brillante.</text></feat>
+		<feat><name>Aguante implacable</name><text>Cuando caerías a 0 PV (sin morir), quedas a 1 PV. Una vez por descanso largo.</text></feat>
+		<feat><name>Ataques salvajes</name><text>Al obtener un crítico cuerpo a cuerpo, tiras un dado de daño del arma adicional.</text></feat>
+	</race>
+	<background><name>Forastero</name>
+		<feat><name>Errante</name><text>Memoria excelente para mapas y geografía; encuentras comida y agua para el grupo.</text></feat>
+	</background>
+	<class><name>Bárbaro</name><level>3</level>
+		<feat><name>Furia</name><text>Como acción adicional entras en furia: ventaja en pruebas y salvaciones de Fuerza, +2 al daño cuerpo a cuerpo y resistencia a daño contundente/perforante/cortante.</text></feat>
+		<feat><name>Defensa sin armadura</name><text>Sin armadura, tu CA es 10 + mod. Destreza + mod. Constitución.</text></feat>
+		<feat><name>Ataque temerario</name><text>Ganas ventaja en ataques de Fuerza este turno, pero los ataques contra ti tienen ventaja.</text></feat>
+		<feat><name>Nivel 3: Senda primaria (Berserker)</name><text>Frenesí: al usar Ataque temerario en furia infliges daño extra.</text></feat>
+	</class>
+	<item><name>Hacha de guerra</name><quantity>1</quantity></item>
+	<item><name>Hachas de mano</name><quantity>4</quantity></item>
+	<item><name>Kit de explorador</name><quantity>1</quantity></item>
+	<item><name>Pieza de oro</name><quantity>15</quantity></item>
+	<tracker><label>Furia</label><value>3</value><formula>3</formula></tracker>
+</character>
+</data>

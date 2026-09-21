@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<character><version>37</version><uid>3</uid><name>Thera Amanecer</name>
+	<race><name>Humana</name>
+		<feat><name>Versátil</name><text>Aumentas dos puntuaciones de característica distintas en 1.</text></feat>
+	</race>
+	<background><name>Acólita</name>
+		<feat><name>Refugio de los fieles</name><text>Tú y tus compañeros recibís cuidado y sanación gratuitos en templos de tu fe.</text></feat>
+	</background>
+	<class><name>Clérigo</name><level>3</level>
+		<feat><name>Lanzamiento de conjuros</name><text>Lanzas conjuros de clérigo usando Sabiduría. CD 13, +5 al ataque.</text></feat>
+		<feat><name>Dominio divino: Vida</name><text>Discípulo de la vida: tus conjuros de curación sanan PV adicionales.</text></feat>
+		<feat><name>Canalizar divinidad: Expulsar muertos vivientes</name><text>Obligas a los muertos vivientes cercanos a huir. 1 uso por descanso.</text></feat>
+		<feat><name>Nivel 2: Canalizar divinidad (Preservar la vida)</name><text>Recuperas PV totales iguales a 5× tu nivel repartidos entre criaturas.</text></feat>
+	</class>
+	<item><name>Cota de escamas</name><quantity>1</quantity></item>
+	<item><name>Escudo</name><quantity>1</quantity></item>
+	<item><name>Maza</name><quantity>1</quantity></item>
+	<item><name>Símbolo sagrado</name><quantity>1</quantity></item>
+	<item><name>Kit de sanador</name><quantity>1</quantity></item>
+	<spell><name>Llama sagrada</name><level>0</level></spell>
+	<spell><name>Taumaturgia</name><level>0</level></spell>
+	<spell><name>Orientación</name><level>0</level></spell>
+	<spell><name>Curar heridas</name><level>1</level><prepared>1</prepared></spell>
+	<spell><name>Bendecir</name><level>1</level><prepared>1</prepared></spell>
+	<spell><name>Escudo de fe</name><level>1</level></spell>
+	<spell><name>Palabra de curación</name><level>1</level><prepared>1</prepared></spell>
+	<spell><name>Arma espiritual</name><level>2</level><prepared>1</prepared></spell>
+	<spell><name>Quedar inmóvil</name><level>2</level></spell>
+	<spell><name>Restablecimiento menor</name><level>2</level><prepared>1</prepared></spell>
+	<tracker><label>Canalizar divinidad</label><value>2</value><formula>2</formula></tracker>
+</character>
+</data>

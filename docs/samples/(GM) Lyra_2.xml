@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<characters version="5">
+	<pc>
+		<label>Lyra Sombraluna</label>
+		<name>Alta Elfa Maga 3</name>
+		<level>3</level>
+		<size>M</size>
+		<ac>12 (armadura de mago)</ac>
+		<hp>17/17 (3d6)</hp>
+		<speed>30 ft.</speed>
+		<init>+2</init>
+		<str>8</str><dex>14</dex><con>12</con><int>16</int><wis>11</wis><cha>10</cha>
+		<save>Intelligence +5</save>
+		<save>Wisdom +2</save>
+		<skill>Arcana +5</skill>
+		<skill>History +5</skill>
+		<skill>Investigation +5</skill>
+		<passive>10</passive>
+		<languages>Común, Élfico, Dráconico</languages>
+		<action><name>Daga</name>
+			<text>Ataque con arma cuerpo a cuerpo: +4 al golpe, alcance 5 ft. Impacto: 1d4+2 perforante.</text>
+			<attack>|+4|1d4+2</attack>
+		</action>
+		<slots>4,2</slots>
+		<spells>Rayo de escarcha,Prestidigitación,Luz,Proyectil mágico,Escudo,Detectar magia,Imagen silenciosa,Rayo abrasador,Telaraña</spells>
+	</pc>
+</characters>

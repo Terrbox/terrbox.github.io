@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<character><version>37</version><uid>1</uid><name>Korgan Piedrahierro</name>
+	<race><name>Enano de las Colinas</name>
+		<feat><name>Visión en la oscuridad</name><text>Ves en luz tenue a 60 pies como si fuera luz brillante, y en oscuridad como luz tenue (en gris).</text></feat>
+		<feat><name>Resistencia enana</name><text>Ventaja en salvaciones contra veneno y resistencia al daño de veneno.</text></feat>
+		<feat><name>Dureza enana</name><text>Tu máximo de PV aumenta en 1 y en 1 más por cada nivel.</text></feat>
+	</race>
+	<background><name>Soldado</name>
+		<feat><name>Especialidad: Atacante Salvaje</name><text>Una vez por turno, al impactar con un arma, tiras el daño dos veces y usas la tirada que quieras.</text></feat>
+	</background>
+	<class><name>Guerrero</name><level>3</level>
+		<feat><name>Estilo de combate: Defensa</name><text>Mientras lleves armadura, obtienes +1 a la CA.</text></feat>
+		<feat><name>Nivel 1: Aliento de combate</name><text>Como acción adicional recuperas 1d10+3 PV. Una vez por descanso corto o largo.</text></feat>
+		<feat><name>Nivel 2: Oleada de acción</name><text>En tu turno puedes hacer una acción adicional. Una vez por descanso.</text></feat>
+		<feat><name>Nivel 3: Arquetipo marcial (Campeón)</name><text>Tus impactos críticos ocurren con 19-20.</text></feat>
+		<autolevel><level>3</level><feat><name>REF: otras subclases</name><text>Esto no debería salir (está en autolevel).</text></feat></autolevel>
+	</class>
+	<item><name>Cota de malla</name><quantity>1</quantity></item>
+	<item><name>Escudo</name><quantity>1</quantity></item>
+	<item><name>Espada larga</name><quantity>1</quantity></item>
+	<item><name>Kit de aventurero</name><quantity>1</quantity></item>
+	<item><name>Pieza de oro</name><quantity>25</quantity></item>
+	<tracker><label>Aliento de combate</label><value>1</value><formula>1</formula></tracker>
+	<tracker><label>Oleada de acción</label><value>1</value><formula>1</formula></tracker>
+</character>
+</data>

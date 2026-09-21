@@ -1,18 +1,16 @@
+import { useState } from 'react'
 import {
-  Card, CardContent, Box, Typography, Chip, Divider, Stack,
-  Accordion, AccordionSummary, AccordionDetails,
+  Card, CardContent, Box, Typography, Chip, Divider, Stack, Tabs, Tab,
 } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun'
 import BoltIcon from '@mui/icons-material/Bolt'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import TranslateIcon from '@mui/icons-material/Translate'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Shield from './Shield.jsx'
 import AbilityBox from './AbilityBox.jsx'
 
 const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha']
-const BLOCK_LABEL = { action: 'Acciones', trait: 'Rasgos', reaction: 'Reacciones', legendary: 'Legendarias' }
 const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX']
 
 function Stat({ icon, label, value }) {
@@ -28,24 +26,109 @@ function Stat({ icon, label, value }) {
   )
 }
 
-export default function CharacterCard({ c }) {
-  const blocks = {}
-  for (const b of c.blocks) (blocks[b.type] ||= []).push(b)
+// A list of features (name + text), e.g. race/background/class traits or feats.
+function FeatureList({ features }) {
+  return (
+    <Stack spacing={1.25}>
+      {features.map((f, i) => (
+        <Box key={i}>
+          <Typography sx={{ fontWeight: 700, fontSize: 14 }}>{f.name}</Typography>
+          {f.text ? (
+            <Typography sx={{ fontSize: 12.5, color: 'text.secondary', whiteSpace: 'pre-wrap' }}>
+              {f.text}
+            </Typography>
+          ) : null}
+        </Box>
+      ))}
+    </Stack>
+  )
+}
 
-  // Prepared spells (from the matching player file): cantrips always shown,
-  // leveled spells only if prepared. Grouped by level.
-  const prepared = Array.isArray(c.preparedSpells)
-    ? c.preparedSpells.filter((s) => s.level === 0 || s.prepared)
+function SpellsTab({ c }) {
+  const p = c.player
+  const prepared = p && Array.isArray(p.spells)
+    ? p.spells.filter((s) => s.level === 0 || s.prepared)
     : null
   const byLevel = new Map()
-  if (prepared) {
-    for (const s of prepared) {
-      if (!byLevel.has(s.level)) byLevel.set(s.level, [])
-      byLevel.get(s.level).push(s)
-    }
+  if (prepared) for (const s of prepared) {
+    if (!byLevel.has(s.level)) byLevel.set(s.level, [])
+    byLevel.get(s.level).push(s)
   }
   const levels = [...byLevel.keys()].sort((a, b) => a - b)
-  const hasSpells = Boolean((prepared && prepared.length) || c.slots.length || (c.spells && c.spells.length))
+  return (
+    <Box>
+      {c.slots.length > 0 && (
+        <Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap sx={{ mb: 1.5 }}>
+          {c.slots.map((s) => (
+            <Chip key={s.level} size="small" color="secondary" variant="outlined"
+                  label={`Nivel ${ROMAN[s.level] || s.level}: ${s.count}`} />
+          ))}
+        </Stack>
+      )}
+      {prepared ? (
+        prepared.length ? (
+          <Stack spacing={1}>
+            {levels.map((lvl) => (
+              <Box key={lvl}>
+                <Typography sx={{ fontSize: 11, color: 'secondary.main', mb: 0.25 }}>
+                  {lvl === 0 ? 'Trucos' : `Nivel ${ROMAN[lvl] || lvl}`}
+                </Typography>
+                <Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
+                  {byLevel.get(lvl).map((s, i) => <Chip key={i} size="small" variant="outlined" label={s.name} />)}
+                </Stack>
+              </Box>
+            ))}
+          </Stack>
+        ) : <Typography sx={{ fontSize: 12, color: 'text.secondary' }}>Sin conjuros preparados.</Typography>
+      ) : c.spells && c.spells.length ? (
+        <Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
+          {c.spells.map((s, i) => <Chip key={i} size="small" variant="outlined" label={s} />)}
+        </Stack>
+      ) : null}
+    </Box>
+  )
+}
+
+export default function CharacterCard({ c }) {
+  const [tab, setTab] = useState(0)
+  const p = c.player || {}
+  const actions = c.blocks.filter((b) => b.type === 'action')
+
+  const hasSpells = c.slots.length > 0 || (p.spells && p.spells.length) || (c.spells && c.spells.length)
+
+  const tabs = []
+  if (hasSpells) tabs.push({ label: 'Conjuros', render: () => <SpellsTab c={c} /> })
+  if (p.items && p.items.length) tabs.push({
+    label: `Objetos (${p.items.length})`,
+    render: () => (
+      <Stack spacing={0.5}>
+        {p.items.map((it, i) => (
+          <Stack key={i} direction="row" justifyContent="space-between" sx={{ borderBottom: '1px solid', borderColor: 'divider', py: 0.25 }}>
+            <Typography sx={{ fontSize: 13 }}>{it.name}</Typography>
+            <Typography sx={{ fontSize: 13, color: 'text.secondary' }}>×{it.quantity}</Typography>
+          </Stack>
+        ))}
+      </Stack>
+    ),
+  })
+  if (p.raceTraits && p.raceTraits.length) tabs.push({ label: 'Raza', render: () => <FeatureList features={p.raceTraits} /> })
+  if (p.bgTraits && p.bgTraits.length) tabs.push({ label: 'Trasfondo', render: () => <FeatureList features={p.bgTraits} /> })
+  if (p.classTraits && p.classTraits.length) tabs.push({ label: 'Clase', render: () => <FeatureList features={p.classTraits} /> })
+  if (p.feats && p.feats.length) tabs.push({ label: 'Dotes', render: () => <FeatureList features={p.feats} /> })
+  if (p.trackers && p.trackers.length) tabs.push({
+    label: 'Trackers',
+    render: () => (
+      <Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
+        {p.trackers.map((t, i) => (
+          <Chip key={i} color="secondary" variant="outlined"
+                label={t.value !== '' ? `${t.label}: ${t.value}/${t.formula || t.value}` : `${t.label}: ${t.formula || '—'}`} />
+        ))}
+      </Stack>
+    ),
+  })
+  if (actions.length) tabs.push({ label: 'Acciones', render: () => <FeatureList features={actions} /> })
+
+  const active = Math.min(tab, Math.max(0, tabs.length - 1))
 
   return (
     <Card elevation={6} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -57,8 +140,7 @@ export default function CharacterCard({ c }) {
                 color={c.kind === 'npc' ? 'default' : 'primary'} sx={{ fontWeight: 700 }} />
         </Stack>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {[c.name, c.size, c.level ? `Nivel ${c.level}` : null]
-            .filter(Boolean).join(' · ')}
+          {[c.name, c.size, c.level ? `Nivel ${c.level}` : null].filter(Boolean).join(' · ')}
         </Typography>
       </Box>
 
@@ -76,23 +158,15 @@ export default function CharacterCard({ c }) {
         ) : null}
 
         <Stack direction="row" spacing={1} sx={{ mt: 2 }} flexWrap="wrap" useFlexGap>
-          {ABILITIES.map((a) => (
-            <AbilityBox key={a} ability={a} score={c.abilities[a]} />
-          ))}
+          {ABILITIES.map((a) => <AbilityBox key={a} ability={a} score={c.abilities[a]} />)}
         </Stack>
 
         {c.saves.length ? (
-          <Section title="Salvaciones">
-            {c.saves.map((s, i) => <Chip key={i} size="small" variant="outlined" label={s} />)}
-          </Section>
+          <Section title="Salvaciones">{c.saves.map((s, i) => <Chip key={i} size="small" variant="outlined" label={s} />)}</Section>
         ) : null}
-
         {c.skills.length ? (
-          <Section title="Habilidades">
-            {c.skills.map((s, i) => <Chip key={i} size="small" variant="outlined" label={s} />)}
-          </Section>
+          <Section title="Habilidades">{c.skills.map((s, i) => <Chip key={i} size="small" variant="outlined" label={s} />)}</Section>
         ) : null}
-
         {c.languages ? (
           <Stack direction="row" spacing={0.75} alignItems="center" sx={{ mt: 1.5 }}>
             <TranslateIcon fontSize="small" sx={{ color: 'secondary.main' }} />
@@ -100,70 +174,15 @@ export default function CharacterCard({ c }) {
           </Stack>
         ) : null}
 
-        {hasSpells && (
-          <Box sx={{ mt: 1.5 }}>
-            <Typography variant="overline">Conjuros</Typography>
-            <Divider sx={{ mb: 0.75 }} />
-            {c.slots.length > 0 && (
-              <Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap sx={{ mb: 1 }}>
-                {c.slots.map((s) => (
-                  <Chip key={s.level} size="small" color="secondary" variant="outlined"
-                        label={`Nivel ${ROMAN[s.level] || s.level}: ${s.count}`} />
-                ))}
-              </Stack>
-            )}
-
-            {prepared ? (
-              prepared.length ? (
-                <Stack spacing={0.75}>
-                  {levels.map((lvl) => (
-                    <Box key={lvl}>
-                      <Typography sx={{ fontSize: 11, color: 'secondary.main', mb: 0.25 }}>
-                        {lvl === 0 ? 'Trucos' : `Nivel ${ROMAN[lvl] || lvl}`}
-                      </Typography>
-                      <Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
-                        {byLevel.get(lvl).map((s, i) => (
-                          <Chip key={i} size="small" variant="outlined" label={s.name} />
-                        ))}
-                      </Stack>
-                    </Box>
-                  ))}
-                </Stack>
-              ) : (
-                <Typography sx={{ fontSize: 12, color: 'text.secondary' }}>Sin conjuros preparados.</Typography>
-              )
-            ) : c.spells && c.spells.length ? (
-              <Box>
-                <Typography sx={{ fontSize: 11, color: 'text.secondary', mb: 0.5 }}>
-                  Conjuros ({c.spells.length})
-                </Typography>
-                <Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
-                  {c.spells.map((s, i) => <Chip key={i} size="small" variant="outlined" label={s} />)}
-                </Stack>
-              </Box>
-            ) : null}
+        {tabs.length > 0 && (
+          <Box sx={{ mt: 2 }}>
+            <Tabs value={active} onChange={(e, v) => setTab(v)} variant="scrollable" scrollButtons="auto"
+                  sx={{ minHeight: 36, mb: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
+              {tabs.map((t, i) => <Tab key={i} label={t.label} sx={{ minHeight: 36, py: 0.5, fontSize: 12 }} />)}
+            </Tabs>
+            <Box>{tabs[active].render()}</Box>
           </Box>
         )}
-
-        {Object.keys(blocks).map((type) => (
-          <Accordion key={type} disableGutters sx={{ mt: 1.5, background: 'rgba(0,0,0,0.2)' }}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography sx={{ fontWeight: 700 }}>
-                {BLOCK_LABEL[type] || type} ({blocks[type].length})
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack spacing={1}>
-                {blocks[type].map((b, i) => (
-                  <Box key={i}>
-                    {b.name ? <Typography sx={{ fontWeight: 700, fontSize: 14 }}>{b.name}</Typography> : null}
-                    {b.text ? <Typography sx={{ fontSize: 13, color: 'text.secondary', whiteSpace: 'pre-wrap' }}>{b.text}</Typography> : null}
-                  </Box>
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-        ))}
       </CardContent>
     </Card>
   )
