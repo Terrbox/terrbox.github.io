@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<character>
+		<name>Thalindra Miraluz</name>
+		<spell><name>Luz</name><level>0</level></spell>
+		<spell><name>Llama sagrada</name><level>0</level></spell>
+		<spell><name>Taumaturgia</name><level>0</level></spell>
+		<spell><name>Curar heridas</name><level>1</level><prepared>1</prepared></spell>
+		<spell><name>Palabra de curacion</name><level>1</level><prepared>1</prepared></spell>
+		<spell><name>Bendecir</name><level>1</level><prepared>1</prepared></spell>
+		<spell><name>Escudo de fe</name><level>1</level></spell>
+		<spell><name>Detectar el mal y el bien</name><level>1</level></spell>
+		<spell><name>Guardia espiritual</name><level>2</level><prepared>1</prepared></spell>
+		<spell><name>Silencio</name><level>2</level></spell>
+		<spell><name>Restablecimiento menor</name><level>2</level><prepared>1</prepared></spell>
+	</character>
+</data>
