@@ -1,4 +1,4 @@
-# GM Viewer
+# GM Viewer 0.1
 
 Panel web (React + MUI) que muestra las fichas de los personajes de D&D 5e a
 partir de los ficheros **GM** que genera el sync de Fight Club (`(GM) *.xml`,
