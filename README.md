@@ -8,21 +8,33 @@ Agrupa por campaña (una subcarpeta = una campaña).
 
 ## Es una app estática
 
-No necesita servidor propio. `npm run dev` es SOLO para desarrollo. Tres formas de usarla:
+No necesita servidor propio. `npm run dev` es SOLO para desarrollo. El build
+(`npm run build`, con `vite-plugin-singlefile`) genera un único **`docs/index.html`**
+autocontenido (todo el JS/CSS incrustado). Ese `docs/` ya está commiteado en el repo.
 
-1. **Fichero único (sin nada instalado):** `npm install && npm run build` genera un
-   único **`dist/index.html`** autocontenido (todo el JS/CSS incrustado). Copia ese
-   archivo donde quieras y **ábrelo con doble clic** en Chrome o Edge — funciona desde
-   `file://`, sin servidor. (El botón "Ver demo" necesita servir la carpeta, porque
-   `fetch` está bloqueado en `file://`; "Abrir carpeta" y "Seleccionar archivos" sí van.)
-2. **Servido en local:** `npm run build` y luego `npx serve dist` (o cualquier servidor
-   estático). Aquí también va la demo.
-3. **Hosting estático:** sube `dist/` a Netlify / GitHub Pages / Vercel → una URL, sin backend.
+### GitHub Pages (el método de este repo)
+
+Como el build va a `docs/` y está versionado, en el repo:
+**Settings → Pages → Build and deployment → Source: "Deploy from a branch" →
+Branch: `main` / carpeta `/docs`**. GitHub sirve `docs/index.html` tal cual (ya
+compilado), sin workflow ni problemas de MIME. Tras cambiar código: `npm run build`
+y commitea `docs/`.
+
+> No uses "GitHub Actions" como Source ni "Deploy from branch → / (root)": eso
+> serviría el `index.html` de desarrollo (que apunta a `/src/main.jsx`) y da el error
+> "MIME type text/jsx". Hay que servir el build (`/docs`).
+
+### Otras formas
+
+- **Doble clic:** abre `docs/index.html` en Chrome/Edge (funciona desde `file://`).
+  (El botón "Ver demo" necesita servidor porque `fetch` está bloqueado en `file://`;
+  "Abrir carpeta" y "Seleccionar archivos" sí van.)
+- **Servido local / otro hosting:** sirve `docs/` con `npx serve docs`, Netlify, etc.
 
 Para desarrollo: `npm install && npm run dev` (http://localhost:5173).
 
-Requisito: la función "Abrir carpeta" (File System Access API) es de navegadores
-Chromium (Chrome/Edge). En otros, usa "Seleccionar archivos" / arrastrar.
+Requisito: "Abrir carpeta" (File System Access API) es de navegadores Chromium
+(Chrome/Edge, sobre HTTPS o file://). En otros, usa "Seleccionar archivos" / arrastrar.
 
 - **Abrir carpeta**: elige tu carpeta de **Google Drive para escritorio** ya
   sincronizada (la raíz que comparten los jugadores, o una campaña concreta).
