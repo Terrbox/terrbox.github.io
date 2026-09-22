@@ -9,11 +9,17 @@ import SearchIcon from '@mui/icons-material/Search'
 import UnfoldLessIcon from '@mui/icons-material/UnfoldLess'
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore'
 import InstallMobileIcon from '@mui/icons-material/InstallMobile'
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1'
 import CharacterCard from './components/CharacterCard.jsx'
+import ManualCharacterCard from './components/ManualCharacterCard.jsx'
+import AddCharacterDialog from './components/AddCharacterDialog.jsx'
 import { parseFile } from './parser.js'
 import {
   fsApiSupported, pickDirectory, getSavedDirectory, ensurePermission, readXmlFiles,
 } from './fs.js'
+import {
+  loadManualCharacters, saveManualCharacters, newManualCharacter, makeId,
+} from './manualStore.js'
 
 // Base key from the sync filename: the "(GM) " prefix removed, lowercased.
 // GM "(GM) Nombre_5.xml" and player "Nombre_5.xml" share the same base, so they
@@ -183,6 +189,46 @@ export default function App() {
       (c.folder || '').toLowerCase().includes(term))
   }, [chars, q])
 
+  // Characters created by hand in the viewer (not parsed from synced files),
+  // persisted in localStorage so they survive reloads.
+  const [manualChars, setManualChars] = useState(loadManualCharacters)
+  const [addOpen, setAddOpen] = useState(false)
+
+  const persistManual = (list) => { setManualChars(list); saveManualCharacters(list) }
+
+  const addManualCharacter = ({ kind, name, ac, hp }) => {
+    persistManual([...manualChars, newManualCharacter({ kind, name, ac, hp })])
+  }
+  const updateManualCharacter = (id, patch) => {
+    persistManual(manualChars.map((m) => (m.id === id ? { ...m, ...patch } : m)))
+  }
+  const updateManualInstance = (id, instanceId, patch) => {
+    persistManual(manualChars.map((m) => (m.id !== id ? m : {
+      ...m, instances: m.instances.map((inst) => (inst.id === instanceId ? { ...inst, ...patch } : inst)),
+    })))
+  }
+  const addManualInstance = (id) => {
+    persistManual(manualChars.map((m) => {
+      if (m.id !== id) return m
+      const last = m.instances[m.instances.length - 1]
+      return { ...m, instances: [...m.instances, { id: makeId(), ac: last?.ac || '', hp: '' }] }
+    }))
+  }
+  const removeManualInstance = (id, instanceId) => {
+    persistManual(manualChars.map((m) => (m.id !== id || m.instances.length <= 1 ? m : {
+      ...m, instances: m.instances.filter((inst) => inst.id !== instanceId),
+    })))
+  }
+  const deleteManualCharacter = (id) => {
+    persistManual(manualChars.filter((m) => m.id !== id))
+  }
+
+  const filteredManual = useMemo(() => {
+    const term = q.trim().toLowerCase()
+    if (!term) return manualChars
+    return manualChars.filter((m) => (m.name || '').toLowerCase().includes(term))
+  }, [manualChars, q])
+
   // Manual card order per campaign (drag & drop), persisted in localStorage.
   const [order, setOrder] = useState(loadOrder)
   // Currently dragged card ({ folder, key }) and the key it's hovering over.
@@ -286,6 +332,9 @@ export default function App() {
             InputProps={{ startAdornment: (<InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment>) }}
             sx={{ minWidth: 220 }}
           />
+          <Button variant="outlined" color="secondary" startIcon={<PersonAddAlt1Icon />} onClick={() => setAddOpen(true)}>
+            Añadir personaje
+          </Button>
           {installEvt && (
             <Button variant="outlined" color="secondary" startIcon={<InstallMobileIcon />} onClick={install}>
               Instalar
@@ -313,6 +362,32 @@ export default function App() {
           </Alert>
         )}
         {error && <Alert severity="warning" sx={{ mb: 2 }}>{error}</Alert>}
+
+        {filteredManual.length > 0 && (
+          <Box sx={{ mb: 4 }}>
+            <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 1.5 }}>
+              <Typography variant="h5" sx={{ color: 'secondary.main' }}>Personajes manuales</Typography>
+              <Chip size="small" label={`${filteredManual.length} personaje${filteredManual.length === 1 ? '' : 's'}`} />
+            </Stack>
+            <Box sx={{
+              display: 'grid', gap: 2, alignItems: 'stretch',
+              gridTemplateColumns: {
+                xs: '1fr',
+                sm: 'repeat(2, minmax(0, 1fr))',
+                md: 'repeat(3, minmax(0, 1fr))',
+              },
+            }}>
+              {filteredManual.map((m) => (
+                <ManualCharacterCard key={m.id} m={m}
+                                      onUpdate={(patch) => updateManualCharacter(m.id, patch)}
+                                      onUpdateInstance={(instanceId, patch) => updateManualInstance(m.id, instanceId, patch)}
+                                      onAddInstance={() => addManualInstance(m.id)}
+                                      onRemoveInstance={(instanceId) => removeManualInstance(m.id, instanceId)}
+                                      onDelete={() => deleteManualCharacter(m.id)} />
+              ))}
+            </Box>
+          </Box>
+        )}
 
         {loading && (
           <Stack alignItems="center" sx={{ py: 6 }}><CircularProgress color="secondary" /></Stack>
@@ -393,6 +468,8 @@ export default function App() {
           </Box>
         ))}
       </Container>
+
+      <AddCharacterDialog open={addOpen} onClose={() => setAddOpen(false)} onCreate={addManualCharacter} />
     </Box>
   )
 }
