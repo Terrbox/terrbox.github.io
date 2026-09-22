@@ -48,6 +48,28 @@ function parseSlots(raw) {
     .filter((x) => x.count > 0)
 }
 
+// "2,3,0," -> [2,3,0] (trailing/empty entries dropped to 0). null if no input.
+function parseCsvInts(raw) {
+  if (!raw) return null
+  return raw.split(',').map((s) => parseInt(s.trim(), 10) || 0)
+}
+
+// The player file's live slot arrays (<slots>/<slotsCurrent> under <character>)
+// are [cantrips, level1, level2, …] — index 0 is the cantrip count, so spell
+// level L lives at index L. Builds [{level, count, current}] for levels 1-9 with
+// at least one slot. `current` falls back to the max when there is no current
+// array. Used as a fallback when there is no GM file (the GM export's <slots>
+// is the authoritative total otherwise, but without a current count).
+function slotsFromArrays(totals, currents) {
+  if (!totals) return []
+  const out = []
+  for (let lvl = 1; lvl <= 9; lvl++) {
+    const t = totals[lvl] || 0
+    if (t > 0) out.push({ level: lvl, count: t, current: currents ? (currents[lvl] ?? t) : t })
+  }
+  return out
+}
+
 function parseCharacter(el) {
   const c = {
     kind: el.tagName.toLowerCase(),
@@ -89,14 +111,16 @@ function parseCharacter(el) {
 }
 
 function childText(el, tag) {
+  const t = tag.toLowerCase()
   for (const c of Array.from(el.children)) {
-    if (c.tagName.toLowerCase() === tag) return (c.textContent || '').trim()
+    if (c.tagName.toLowerCase() === t) return (c.textContent || '').trim()
   }
   return ''
 }
 
 function directChildren(el, tag) {
-  return Array.from(el.children).filter((c) => c.tagName.toLowerCase() === tag)
+  const t = tag.toLowerCase()
+  return Array.from(el.children).filter((c) => c.tagName.toLowerCase() === t)
 }
 
 function hasAncestor(el, tag) {
@@ -172,10 +196,25 @@ function parsePlayer(doc) {
     }
   }
 
+  // Spell slots live in the player file's <class> as direct-child <slots>
+  // (max) and <slotsCurrent> (remaining); the ones inside <autolevel> are the
+  // per-level reference table and must be ignored (childText = direct child).
+  // Live spell slots are direct children of <character> ([cantrips, L1, L2, …]);
+  // these track expenditure. The <class> element also has a <slots>/<slotsCurrent>
+  // but those are static (they don't decrease when a slot is spent), so we ignore
+  // them. The card prefers the GM export's totals and overlays `slotsCurrent`
+  // here (remaining per level, indexed by level: slotsCurrent[L]); `slots` is the
+  // fallback for when there is no GM file.
+  const slotsTotal = parseCsvInts(childText(character, 'slots'))
+  const slotsCurrent = parseCsvInts(childText(character, 'slotsCurrent'))
+  const slots = slotsFromArrays(slotsTotal, slotsCurrent)
+
   return {
     spells: extractSpells(doc),
     items,
     trackers,
+    slots,
+    slotsCurrent,
     raceTraits: directFeats(raceEl),
     bgTraits: directFeats(bgEl),
     classTraits: directFeats(classEl),

@@ -29,5 +29,6 @@
 	<spell><name>Quedar inmóvil</name><level>2</level></spell>
 	<spell><name>Restablecimiento menor</name><level>2</level><prepared>1</prepared></spell>
 	<tracker><label>Canalizar divinidad</label><value>2</value><formula>2</formula></tracker>
+	<slots>3,4,2,0,0,0,0,0,0,0,</slots><slotsCurrent>3,2,1,0,0,0,0,0,0,0,</slotsCurrent>
 </character>
 </data>

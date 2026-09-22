@@ -28,5 +28,6 @@
 	<spell><name>Rayo abrasador</name><level>2</level><prepared>1</prepared></spell>
 	<spell><name>Telaraña</name><level>2</level><prepared>1</prepared></spell>
 	<tracker><label>Recuperación arcana</label><value>1</value><formula>1</formula></tracker>
+	<slots>3,4,2,0,0,0,0,0,0,0,</slots><slotsCurrent>3,3,1,0,0,0,0,0,0,0,</slotsCurrent>
 </character>
 </data>

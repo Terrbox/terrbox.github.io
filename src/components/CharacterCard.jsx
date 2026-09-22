@@ -46,6 +46,13 @@ function FeatureList({ features }) {
 
 function SpellsTab({ c }) {
   const p = c.player
+  // Slots: the player file's slots are the source of truth (they reflect the
+  // character's real, possibly hand-edited, max AND the remaining count). The GM
+  // export recomputes slots from the class table and drops any manual override,
+  // so it is only a fallback for when there is no player file.
+  const slots = (p && p.slots && p.slots.length) ? p.slots : c.slots
+  // Only the prepared spells (plus cantrips, which are always available), grouped
+  // by level — not the whole known/class list.
   const prepared = p && Array.isArray(p.spells)
     ? p.spells.filter((s) => s.level === 0 || s.prepared)
     : null
@@ -57,12 +64,15 @@ function SpellsTab({ c }) {
   const levels = [...byLevel.keys()].sort((a, b) => a - b)
   return (
     <Box>
-      {c.slots.length > 0 && (
+      {slots.length > 0 && (
         <Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap sx={{ mb: 1.5 }}>
-          {c.slots.map((s) => (
-            <Chip key={s.level} size="small" color="secondary" variant="outlined"
-                  label={`Nivel ${ROMAN[s.level] || s.level}: ${s.count}`} />
-          ))}
+          {slots.map((s) => {
+            const cur = s.current == null ? s.count : s.current
+            return (
+              <Chip key={s.level} size="small" color="secondary" variant="outlined"
+                    label={`Nivel ${ROMAN[s.level] || s.level}: ${cur}/${s.count}`} />
+            )
+          })}
         </Stack>
       )}
       {prepared ? (
@@ -94,7 +104,8 @@ export default function CharacterCard({ c }) {
   const p = c.player || {}
   const actions = c.blocks.filter((b) => b.type === 'action')
 
-  const hasSpells = c.slots.length > 0 || (p.spells && p.spells.length) || (c.spells && c.spells.length)
+  const hasSpells = c.slots.length > 0 || (p.slots && p.slots.length) ||
+    (p.spells && p.spells.length) || (c.spells && c.spells.length)
 
   const tabs = []
   if (hasSpells) tabs.push({ label: 'Conjuros', render: () => <SpellsTab c={c} /> })
