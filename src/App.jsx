@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, useCallback } from 'react'
 import {
-  AppBar, Toolbar, Typography, Button, Box, Container, Grid, TextField,
+  AppBar, Toolbar, Typography, Button, Box, Container, TextField,
   Stack, Chip, Alert, InputAdornment, CircularProgress,
 } from '@mui/material'
 import FolderOpenIcon from '@mui/icons-material/FolderOpen'
@@ -223,7 +223,7 @@ export default function App() {
         </Toolbar>
       </AppBar>
 
-      <Container maxWidth="xl" sx={{ py: 3 }}>
+      <Container maxWidth={false} sx={{ py: 3 }}>
         {needsReconnect && (
           <Alert severity="info" sx={{ mb: 2 }} action={
             <Button color="inherit" size="small" onClick={reconnect}>Reconectar</Button>
@@ -283,14 +283,22 @@ export default function App() {
                 {collapsed[folder] ? 'Expandir' : 'Colapsar'}
               </Button>
             </Stack>
-            <Grid container spacing={2}>
+            <Box sx={{
+              display: 'grid', gap: 2, alignItems: 'stretch',
+              // Fixed column count: 1 on phones, 2 on small tablets, 3 from
+              // desktop up (staying 3 on big screens → wider cards, never a row
+              // of many narrow ones). The card content is sized to fit 3 columns.
+              gridTemplateColumns: {
+                xs: '1fr',
+                sm: 'repeat(2, minmax(0, 1fr))',
+                md: 'repeat(3, minmax(0, 1fr))',
+              },
+            }}>
               {items.map((c, i) => (
-                <Grid item xs={12} md={6} lg={4} xl={3}
-                      key={`${folder}|${c.base || c.fileName || ''}|${c.label || c.name || i}`}>
-                  <CharacterCard c={c} detailsOpen={!collapsed[folder]} />
-                </Grid>
+                <CharacterCard key={`${folder}|${c.base || c.fileName || ''}|${c.label || c.name || i}`}
+                               c={c} detailsOpen={!collapsed[folder]} />
               ))}
-            </Grid>
+            </Box>
           </Box>
         ))}
       </Container>
