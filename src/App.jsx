@@ -51,17 +51,20 @@ export default function App() {
   const [error, setError] = useState('')
   const [q, setQ] = useState('')
 
-  const loadFrom = useCallback(async (handle) => {
-    setLoading(true); setError('')
+  // silent: background refresh — no loader, no disruptive error messages, so the
+  // scroll position and each card's UI state (open tab, collapsed campaign,
+  // expanded traits) are preserved while the data updates in place.
+  const loadFrom = useCallback(async (handle, { silent = false } = {}) => {
+    if (!silent) { setLoading(true); setError('') }
     try {
       const files = await readXmlFiles(handle)
       const list = assemble(files)
       setChars(list)
-      if (!list.length) setError('No se encontraron personajes (.xml) en la carpeta.')
+      if (!silent && !list.length) setError('No se encontraron personajes (.xml) en la carpeta.')
     } catch (e) {
-      setError('Error leyendo la carpeta: ' + (e?.message || e))
+      if (!silent) setError('Error leyendo la carpeta: ' + (e?.message || e))
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
   }, [])
 
@@ -132,6 +135,17 @@ export default function App() {
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get('demo') === '1') loadDemo()
   }, [loadDemo])
+
+  // Auto-refresh every 30 s in the background (only with a connected folder,
+  // paused while the tab is hidden). Silent so it never shows the loader.
+  useEffect(() => {
+    if (!dirHandle || needsReconnect) return undefined
+    const id = setInterval(() => {
+      if (document.hidden) return
+      loadFrom(dirHandle, { silent: true })
+    }, 30000)
+    return () => clearInterval(id)
+  }, [dirHandle, needsReconnect, loadFrom])
 
   const filtered = useMemo(() => {
     const term = q.trim().toLowerCase()
@@ -246,7 +260,8 @@ export default function App() {
             </Stack>
             <Grid container spacing={2}>
               {items.map((c, i) => (
-                <Grid item xs={12} md={6} lg={4} xl={3} key={folder + i}>
+                <Grid item xs={12} md={6} lg={4} xl={3}
+                      key={`${folder}|${c.base || c.fileName || ''}|${c.label || c.name || i}`}>
                   <CharacterCard c={c} detailsOpen={!collapsed[folder]} />
                 </Grid>
               ))}
