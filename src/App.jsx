@@ -6,6 +6,8 @@ import {
 import FolderOpenIcon from '@mui/icons-material/FolderOpen'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import SearchIcon from '@mui/icons-material/Search'
+import UnfoldLessIcon from '@mui/icons-material/UnfoldLess'
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore'
 import CharacterCard from './components/CharacterCard.jsx'
 import { parseFile } from './parser.js'
 import {
@@ -151,6 +153,8 @@ export default function App() {
   }, [filtered])
 
   const [dragOver, setDragOver] = useState(false)
+  // Per-campaign collapse of the card details (languages + tabs). Default expanded.
+  const [collapsed, setCollapsed] = useState({})
 
   return (
     <Box sx={{ minHeight: '100vh' }}>
@@ -234,11 +238,16 @@ export default function App() {
             <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 1.5 }}>
               <Typography variant="h5" sx={{ color: 'secondary.main' }}>{folder}</Typography>
               <Chip size="small" label={`${items.length} personaje${items.length === 1 ? '' : 's'}`} />
+              <Button size="small" variant="outlined" color="secondary"
+                      startIcon={collapsed[folder] ? <UnfoldMoreIcon /> : <UnfoldLessIcon />}
+                      onClick={() => setCollapsed((prev) => ({ ...prev, [folder]: !prev[folder] }))}>
+                {collapsed[folder] ? 'Expandir' : 'Colapsar'}
+              </Button>
             </Stack>
             <Grid container spacing={2}>
               {items.map((c, i) => (
                 <Grid item xs={12} md={6} lg={4} xl={3} key={folder + i}>
-                  <CharacterCard c={c} />
+                  <CharacterCard c={c} detailsOpen={!collapsed[folder]} />
                 </Grid>
               ))}
             </Grid>

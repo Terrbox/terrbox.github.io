@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import {
-  Card, CardContent, Box, Typography, Chip, Divider, Stack, Tabs, Tab,
+  Card, CardContent, Box, Typography, Chip, Divider, Stack, Tabs, Tab, Collapse,
 } from '@mui/material'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun'
 import BoltIcon from '@mui/icons-material/Bolt'
@@ -26,8 +27,8 @@ function Stat({ icon, label, value }) {
   )
 }
 
-// A list of features (name + text), e.g. race/background/class traits or feats.
-function FeatureList({ features }) {
+// A plain, always-expanded list of features (name + text) — used for actions.
+function PlainFeatureList({ features }) {
   return (
     <Stack spacing={1.25}>
       {features.map((f, i) => (
@@ -40,6 +41,46 @@ function FeatureList({ features }) {
           ) : null}
         </Box>
       ))}
+    </Stack>
+  )
+}
+
+// A list of features (name + text), e.g. race/background/class traits or feats.
+// Each shows only its title; clicking one with a description expands it, and
+// clicking again collapses it.
+function FeatureList({ features }) {
+  const [open, setOpen] = useState(() => new Set())
+  const toggle = (i) => setOpen((prev) => {
+    const next = new Set(prev)
+    if (next.has(i)) next.delete(i); else next.add(i)
+    return next
+  })
+  return (
+    <Stack spacing={0.25}>
+      {features.map((f, i) => {
+        const hasText = !!f.text
+        const isOpen = open.has(i)
+        return (
+          <Box key={i} sx={{ borderBottom: '1px solid', borderColor: 'divider', py: 0.25 }}>
+            <Stack direction="row" alignItems="center" spacing={0.5}
+                   onClick={hasText ? () => toggle(i) : undefined}
+                   sx={{ cursor: hasText ? 'pointer' : 'default', userSelect: 'none' }}>
+              <ExpandMoreIcon fontSize="small"
+                sx={{ color: 'secondary.main', transition: 'transform .15s',
+                      transform: isOpen ? 'rotate(0deg)' : 'rotate(-90deg)',
+                      visibility: hasText ? 'visible' : 'hidden' }} />
+              <Typography sx={{ fontWeight: 700, fontSize: 14 }}>{f.name}</Typography>
+            </Stack>
+            {hasText ? (
+              <Collapse in={isOpen} unmountOnExit>
+                <Typography sx={{ fontSize: 12.5, color: 'text.secondary', whiteSpace: 'pre-wrap', pl: 3.5, pb: 0.5 }}>
+                  {f.text}
+                </Typography>
+              </Collapse>
+            ) : null}
+          </Box>
+        )
+      })}
     </Stack>
   )
 }
@@ -99,7 +140,7 @@ function SpellsTab({ c }) {
   )
 }
 
-export default function CharacterCard({ c }) {
+export default function CharacterCard({ c, detailsOpen = true }) {
   const [tab, setTab] = useState(0)
   const p = c.player || {}
   const actions = c.blocks.filter((b) => b.type === 'action')
@@ -137,7 +178,7 @@ export default function CharacterCard({ c }) {
       </Stack>
     ),
   })
-  if (actions.length) tabs.push({ label: 'Acciones', render: () => <FeatureList features={actions} /> })
+  if (actions.length) tabs.push({ label: 'Acciones', render: () => <PlainFeatureList features={actions} /> })
 
   const active = Math.min(tab, Math.max(0, tabs.length - 1))
 
@@ -178,21 +219,25 @@ export default function CharacterCard({ c }) {
         {c.skills.length ? (
           <Section title="Habilidades">{c.skills.map((s, i) => <Chip key={i} size="small" variant="outlined" label={s} />)}</Section>
         ) : null}
-        {c.languages ? (
-          <Stack direction="row" spacing={0.75} alignItems="center" sx={{ mt: 1.5 }}>
-            <TranslateIcon fontSize="small" sx={{ color: 'secondary.main' }} />
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>{c.languages}</Typography>
-          </Stack>
-        ) : null}
+        {(c.languages || tabs.length > 0) && (
+          <Collapse in={detailsOpen} unmountOnExit>
+            {c.languages ? (
+              <Stack direction="row" spacing={0.75} alignItems="center" sx={{ mt: 1.5 }}>
+                <TranslateIcon fontSize="small" sx={{ color: 'secondary.main' }} />
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>{c.languages}</Typography>
+              </Stack>
+            ) : null}
 
-        {tabs.length > 0 && (
-          <Box sx={{ mt: 2 }}>
-            <Tabs value={active} onChange={(e, v) => setTab(v)} variant="scrollable" scrollButtons="auto"
-                  sx={{ minHeight: 36, mb: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
-              {tabs.map((t, i) => <Tab key={i} label={t.label} sx={{ minHeight: 36, py: 0.5, fontSize: 12 }} />)}
-            </Tabs>
-            <Box>{tabs[active].render()}</Box>
-          </Box>
+            {tabs.length > 0 && (
+              <Box sx={{ mt: 2 }}>
+                <Tabs value={active} onChange={(e, v) => setTab(v)} variant="scrollable" scrollButtons="auto"
+                      sx={{ minHeight: 36, mb: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
+                  {tabs.map((t, i) => <Tab key={i} label={t.label} sx={{ minHeight: 36, py: 0.5, fontSize: 12 }} />)}
+                </Tabs>
+                <Box>{tabs[active].render()}</Box>
+              </Box>
+            )}
+          </Collapse>
         )}
       </CardContent>
     </Card>
