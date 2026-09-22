@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import {
   Card, CardContent, Box, Typography, Chip, Divider, Stack, Tabs, Tab, Collapse,
+  Dialog, IconButton,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import CloseIcon from '@mui/icons-material/Close'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun'
 import BoltIcon from '@mui/icons-material/Bolt'
@@ -10,19 +12,48 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import TranslateIcon from '@mui/icons-material/Translate'
 import Shield from './Shield.jsx'
 import AbilityBox from './AbilityBox.jsx'
+import { mod, signed } from '../parser.js'
 
 const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha']
+const ABILITY_LABELS = { str: 'FUE', dex: 'DES', con: 'CON', int: 'INT', wis: 'SAB', cha: 'CAR' }
 const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX']
 
-function Stat({ icon, label, value }) {
+// `compact` (collapsed card) shows just the icon + value, no text label.
+function Stat({ icon, label, value, compact = false }) {
   if (value === null || value === undefined || value === '') return null
   return (
-    <Box sx={{ textAlign: 'center', minWidth: 58 }}>
+    <Box sx={{ textAlign: 'center', minWidth: compact ? 0 : 58 }}>
       <Box sx={{ color: 'secondary.main', display: 'flex', justifyContent: 'center' }}>{icon}</Box>
-      <Typography sx={{ fontSize: 16, fontWeight: 700, lineHeight: 1.2 }}>{value}</Typography>
-      <Typography sx={{ fontSize: 9, letterSpacing: 1, color: 'text.secondary', textTransform: 'uppercase' }}>
-        {label}
-      </Typography>
+      <Typography sx={{ fontSize: compact ? 14 : 16, fontWeight: 700, lineHeight: 1.2 }}>{value}</Typography>
+      {compact ? null : (
+        <Typography sx={{ fontSize: 9, letterSpacing: 1, color: 'text.secondary', textTransform: 'uppercase' }}>
+          {label}
+        </Typography>
+      )}
+    </Box>
+  )
+}
+
+// Collapsed view of the six abilities: a simple table showing only the modifier.
+function AbilityMods({ abilities }) {
+  return (
+    <Box sx={{
+      mt: 1.5, display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)',
+      border: '1px solid', borderColor: 'divider', borderRadius: 1, overflow: 'hidden',
+    }}>
+      {ABILITIES.map((a, i) => (
+        <Box key={a} sx={{
+          textAlign: 'center', py: 0.5,
+          borderLeft: i === 0 ? 'none' : '1px solid', borderColor: 'divider',
+        }}>
+          <Typography sx={{ fontSize: 9, letterSpacing: 0.5, color: 'secondary.main' }}>
+            {ABILITY_LABELS[a]}
+          </Typography>
+          <Typography sx={{ fontSize: 14, fontWeight: 700, lineHeight: 1.2 }}>
+            {mod(abilities[a]) === null ? '—' : signed(mod(abilities[a]))}
+          </Typography>
+        </Box>
+      ))}
     </Box>
   )
 }
@@ -142,6 +173,7 @@ function SpellsTab({ c }) {
 
 export default function CharacterCard({ c, detailsOpen = true }) {
   const [tab, setTab] = useState(0)
+  const [open, setOpen] = useState(false) // collapsed card → full card in a popup
   const p = c.player || {}
   const actions = c.blocks.filter((b) => b.type === 'action')
 
@@ -183,7 +215,15 @@ export default function CharacterCard({ c, detailsOpen = true }) {
   const active = Math.min(tab, Math.max(0, tabs.length - 1))
 
   return (
-    <Card elevation={6} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <>
+    <Card elevation={6}
+          onClick={detailsOpen ? undefined : () => setOpen(true)}
+          sx={{
+            height: '100%', display: 'flex', flexDirection: 'column',
+            cursor: detailsOpen ? 'default' : 'pointer',
+            transition: 'border-color .15s',
+            ...(detailsOpen ? {} : { '&:hover': { borderColor: 'secondary.main' }, border: '1px solid transparent' }),
+          }}>
       <Box sx={{ px: 2, py: 1.5, borderBottom: '2px solid', borderColor: 'primary.main',
                  background: 'linear-gradient(180deg, rgba(193,39,45,0.18), rgba(0,0,0,0))' }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
@@ -191,32 +231,38 @@ export default function CharacterCard({ c, detailsOpen = true }) {
           <Chip size="small" label={c.kind === 'npc' ? 'NPC' : 'PJ'}
                 color={c.kind === 'npc' ? 'default' : 'primary'} sx={{ fontWeight: 700 }} />
         </Stack>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {[c.name, c.size, c.level ? `Nivel ${c.level}` : null].filter(Boolean).join(' · ')}
-        </Typography>
+        {detailsOpen ? (
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            {[c.name, c.size, c.level ? `Nivel ${c.level}` : null].filter(Boolean).join(' · ')}
+          </Typography>
+        ) : null}
       </Box>
 
       <CardContent sx={{ flexGrow: 1 }}>
-        <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap" useFlexGap>
-          <Shield value={c.ac.value} source={c.ac.source} />
-          <Stat icon={<FavoriteIcon fontSize="small" />} label="PV"
+        <Stack direction="row" spacing={detailsOpen ? 2 : 1.5} alignItems="center" flexWrap="wrap" useFlexGap>
+          <Shield value={c.ac.value} source={c.ac.source} compact={!detailsOpen} />
+          <Stat icon={<FavoriteIcon fontSize="small" />} label="PV" compact={!detailsOpen}
                 value={c.hp.max ? `${c.hp.current ?? c.hp.max}/${c.hp.max}` : c.hp.current} />
-          <Stat icon={<DirectionsRunIcon fontSize="small" />} label="Vel" value={c.speed} />
-          <Stat icon={<BoltIcon fontSize="small" />} label="Inic" value={c.init} />
-          <Stat icon={<VisibilityIcon fontSize="small" />} label="P.Percep" value={c.passive} />
+          <Stat icon={<DirectionsRunIcon fontSize="small" />} label="Vel" value={c.speed} compact={!detailsOpen} />
+          <Stat icon={<BoltIcon fontSize="small" />} label="Inic" value={signed(c.init)} compact={!detailsOpen} />
+          <Stat icon={<VisibilityIcon fontSize="small" />} label="P.Percep" value={c.passive} compact={!detailsOpen} />
         </Stack>
-        {c.hp.formula ? (
+        {detailsOpen && c.hp.formula ? (
           <Typography sx={{ fontSize: 11, color: 'text.secondary', mt: 0.5 }}>PV: {c.hp.formula}</Typography>
         ) : null}
 
-        <Stack direction="row" spacing={1} sx={{ mt: 2 }} flexWrap="wrap" useFlexGap>
-          {ABILITIES.map((a) => <AbilityBox key={a} ability={a} score={c.abilities[a]} />)}
-        </Stack>
+        {detailsOpen ? (
+          <Stack direction="row" spacing={1} sx={{ mt: 2 }} flexWrap="wrap" useFlexGap>
+            {ABILITIES.map((a) => <AbilityBox key={a} ability={a} score={c.abilities[a]} />)}
+          </Stack>
+        ) : (
+          <AbilityMods abilities={c.abilities} />
+        )}
 
         {c.saves.length ? (
           <Section title="Salvaciones">{c.saves.map((s, i) => <Chip key={i} size="small" variant="outlined" label={s} />)}</Section>
         ) : null}
-        {c.skills.length ? (
+        {detailsOpen && c.skills.length ? (
           <Section title="Habilidades">{c.skills.map((s, i) => <Chip key={i} size="small" variant="outlined" label={s} />)}</Section>
         ) : null}
         {(c.languages || tabs.length > 0) && (
@@ -241,6 +287,20 @@ export default function CharacterCard({ c, detailsOpen = true }) {
         )}
       </CardContent>
     </Card>
+    {!detailsOpen && (
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth
+              scroll="body">
+        <Box sx={{ position: 'relative' }}>
+          <IconButton size="small" onClick={() => setOpen(false)} aria-label="Cerrar"
+                      sx={{ position: 'absolute', top: 6, right: 6, zIndex: 1,
+                            bgcolor: 'rgba(0,0,0,0.4)', '&:hover': { bgcolor: 'rgba(0,0,0,0.6)' } }}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+          <CharacterCard c={c} detailsOpen />
+        </Box>
+      </Dialog>
+    )}
+    </>
   )
 }
 
