@@ -171,7 +171,11 @@ function SpellsTab({ c }) {
   )
 }
 
-export default function CharacterCard({ c, detailsOpen = true }) {
+export default function CharacterCard({
+  c, detailsOpen = true,
+  dragging = false, dragOverActive = false,
+  onNameDragStart, onNameDragEnd, onCardDragOver, onCardDrop,
+}) {
   const [tab, setTab] = useState(0)
   const [open, setOpen] = useState(false) // collapsed card → full card in a popup
   const p = c.player || {}
@@ -228,14 +232,24 @@ export default function CharacterCard({ c, detailsOpen = true }) {
     <>
     <Card elevation={6}
           onClick={detailsOpen ? undefined : () => setOpen(true)}
+          onDragOver={onCardDragOver}
+          onDrop={onCardDrop}
           sx={{
             height: '100%', display: 'flex', flexDirection: 'column',
             cursor: detailsOpen ? 'default' : 'pointer',
-            transition: 'border-color .15s',
+            transition: 'border-color .15s, opacity .15s',
+            opacity: dragging ? 0.4 : 1,
             ...(detailsOpen ? {} : { '&:hover': { borderColor: 'secondary.main' }, border: '1px solid transparent' }),
+            ...(dragOverActive
+              ? { outline: '2px dashed', outlineColor: 'secondary.main', outlineOffset: '-2px' }
+              : {}),
           }}>
-      <Box sx={{ px: 2, py: 1.5, borderBottom: '2px solid', borderColor: 'primary.main',
-                 background: 'linear-gradient(180deg, rgba(193,39,45,0.18), rgba(0,0,0,0))' }}>
+      <Box draggable={!!onNameDragStart}
+           onDragStart={onNameDragStart}
+           onDragEnd={onNameDragEnd}
+           sx={{ px: 2, py: 1.5, borderBottom: '2px solid', borderColor: 'primary.main',
+                 background: 'linear-gradient(180deg, rgba(193,39,45,0.18), rgba(0,0,0,0))',
+                 ...(onNameDragStart ? { cursor: 'grab', '&:active': { cursor: 'grabbing' } } : {}) }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
           <Typography variant="h6" sx={{ lineHeight: 1.15 }}>{c.label || c.name || '(sin nombre)'}</Typography>
           <Chip size="small" label={c.kind === 'npc' ? 'NPC' : 'PJ'}

@@ -22,6 +22,32 @@ function baseFromName(name) {
   return String(name || '').replace(/^\(gm\)\s*/i, '').trim().toLowerCase()
 }
 
+// Stable identity for a character used as its drag-reorder key.
+function keyOf(c) {
+  return c.base || c.fileName || c.label || c.name || ''
+}
+
+// Per-campaign card order, persisted so it survives reconnects/reloads.
+const ORDER_STORAGE_KEY = 'gmview.cardOrder'
+
+function loadOrder() {
+  try {
+    const raw = localStorage.getItem(ORDER_STORAGE_KEY)
+    return raw ? JSON.parse(raw) : {}
+  } catch { return {} }
+}
+
+function saveOrder(order) {
+  try { localStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify(order)) } catch { /* ignore */ }
+}
+
+function moveItem(arr, from, to) {
+  const copy = [...arr]
+  const [item] = copy.splice(from, 1)
+  copy.splice(to, 0, item)
+  return copy
+}
+
 // Builds the character list: GM files provide the stat block; the matching
 // player file (same Name+ID base) provides the real prepared-spell list.
 function assemble(files) {
@@ -157,6 +183,12 @@ export default function App() {
       (c.folder || '').toLowerCase().includes(term))
   }, [chars, q])
 
+  // Manual card order per campaign (drag & drop), persisted in localStorage.
+  const [order, setOrder] = useState(loadOrder)
+  // Currently dragged card ({ folder, key }) and the key it's hovering over.
+  const [dragState, setDragState] = useState(null)
+  const [overKey, setOverKey] = useState(null)
+
   const groups = useMemo(() => {
     const g = new Map()
     for (const c of filtered) {
@@ -164,8 +196,57 @@ export default function App() {
       if (!g.has(k)) g.set(k, [])
       g.get(k).push(c)
     }
-    return Array.from(g.entries())
-  }, [filtered])
+    const entries = Array.from(g.entries())
+    for (const [folder, items] of entries) {
+      const saved = order[folder]
+      if (!saved || !saved.length) continue
+      const idx = new Map(saved.map((k, i) => [k, i]))
+      items.sort((a, b) => {
+        const ia = idx.has(keyOf(a)) ? idx.get(keyOf(a)) : Infinity
+        const ib = idx.has(keyOf(b)) ? idx.get(keyOf(b)) : Infinity
+        return ia - ib
+      })
+    }
+    return entries
+  }, [filtered, order])
+
+  const handleDragStart = (folder, key) => (e) => {
+    setDragState({ folder, key })
+    e.dataTransfer.effectAllowed = 'move'
+    try { e.dataTransfer.setData('text/plain', key) } catch { /* ignore */ }
+  }
+
+  const handleDragEnd = () => {
+    setDragState(null)
+    setOverKey(null)
+  }
+
+  const handleDragOverCard = (folder, key) => (e) => {
+    if (!dragState || dragState.folder !== folder || dragState.key === key) return
+    e.preventDefault()
+    setOverKey(key)
+  }
+
+  const handleDropCard = (folder, key) => (e) => {
+    if (!dragState || dragState.folder !== folder || dragState.key === key) return
+    e.preventDefault()
+    const group = groups.find(([f]) => f === folder)
+    if (group) {
+      const keys = group[1].map(keyOf)
+      const from = keys.indexOf(dragState.key)
+      const to = keys.indexOf(key)
+      if (from !== -1 && to !== -1) {
+        const nextKeys = moveItem(keys, from, to)
+        setOrder((prev) => {
+          const next = { ...prev, [folder]: nextKeys }
+          saveOrder(next)
+          return next
+        })
+      }
+    }
+    setDragState(null)
+    setOverKey(null)
+  }
 
   const [dragOver, setDragOver] = useState(false)
   // Per-campaign collapse of the card details (languages + tabs). Default expanded.
@@ -294,10 +375,20 @@ export default function App() {
                 md: 'repeat(3, minmax(0, 1fr))',
               },
             }}>
-              {items.map((c, i) => (
-                <CharacterCard key={`${folder}|${c.base || c.fileName || ''}|${c.label || c.name || i}`}
-                               c={c} detailsOpen={!collapsed[folder]} />
-              ))}
+              {items.map((c, i) => {
+                const key = keyOf(c) || String(i)
+                return (
+                  <CharacterCard key={`${folder}|${key}`}
+                                 c={c} detailsOpen={!collapsed[folder]}
+                                 dragging={dragState?.folder === folder && dragState.key === key}
+                                 dragOverActive={!!dragState && dragState.folder === folder &&
+                                   dragState.key !== key && overKey === key}
+                                 onNameDragStart={handleDragStart(folder, key)}
+                                 onNameDragEnd={handleDragEnd}
+                                 onCardDragOver={handleDragOverCard(folder, key)}
+                                 onCardDrop={handleDropCard(folder, key)} />
+                )
+              })}
             </Box>
           </Box>
         ))}
