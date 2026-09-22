@@ -47,6 +47,27 @@ Requisito: "Abrir carpeta" (File System Access API) es de navegadores Chromium
 
 Solo lee ficheros; no escribe nada. Todo local en el navegador.
 
+Las fichas se **auto-refrescan cada 30 s** en segundo plano (sin loader, sin
+perder scroll ni el estado de la ficha) cuando hay una carpeta conectada; se
+pausa si la pestaña está oculta. El botón **Recargar** sigue disponible.
+
+## Instalar como app (PWA) — evita el "reconectar"
+
+La File System Access API **no conserva el permiso de la carpeta entre sesiones**:
+al volver tras un rato, el navegador pide reconectar (es una medida de seguridad,
+no un fallo). La excepción: en **Chromium (Chrome/Edge, Android/Chromebook)** una
+**PWA instalada** conserva ese permiso, así que deja de pedir reconectar.
+
+Cómo: abre el visor en Chrome → pulsa **Instalar** (o menú ⋮ → *Instalar app*) →
+abre la app **desde el icono instalado**, elige la carpeta una vez y concede
+permiso. A partir de ahí, al salir y volver ya no vuelve a pedirlo.
+
+Piezas: `public/manifest.webmanifest`, `public/sw.js` (service worker mínimo,
+solo habilita la instalación; sin caché offline), iconos `public/icon-*.png`, el
+`<link rel="manifest">` de `index.html` y el registro del SW en `src/main.jsx`.
+Requiere HTTPS (GitHub Pages ya lo es) y abrir la app instalada, no la pestaña
+suelta. En iPad/Safari no aplica (no existe la API).
+
 ## Conjuros preparados
 
 El fichero **GM** (`(GM) *.xml`) lista TODOS los conjuros del lanzador, sin marca

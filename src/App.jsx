@@ -8,6 +8,7 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 import SearchIcon from '@mui/icons-material/Search'
 import UnfoldLessIcon from '@mui/icons-material/UnfoldLess'
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore'
+import InstallMobileIcon from '@mui/icons-material/InstallMobile'
 import CharacterCard from './components/CharacterCard.jsx'
 import { parseFile } from './parser.js'
 import {
@@ -169,6 +170,25 @@ export default function App() {
   const [dragOver, setDragOver] = useState(false)
   // Per-campaign collapse of the card details (languages + tabs). Default expanded.
   const [collapsed, setCollapsed] = useState({})
+  // PWA install prompt. Installing keeps the folder permission across sessions.
+  const [installEvt, setInstallEvt] = useState(null)
+
+  useEffect(() => {
+    const onPrompt = (e) => { e.preventDefault(); setInstallEvt(e) }
+    const onInstalled = () => setInstallEvt(null)
+    window.addEventListener('beforeinstallprompt', onPrompt)
+    window.addEventListener('appinstalled', onInstalled)
+    return () => {
+      window.removeEventListener('beforeinstallprompt', onPrompt)
+      window.removeEventListener('appinstalled', onInstalled)
+    }
+  }, [])
+
+  const install = async () => {
+    if (!installEvt) return
+    installEvt.prompt()
+    try { await installEvt.userChoice } finally { setInstallEvt(null) }
+  }
 
   return (
     <Box sx={{ minHeight: '100vh' }}>
@@ -185,6 +205,11 @@ export default function App() {
             InputProps={{ startAdornment: (<InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment>) }}
             sx={{ minWidth: 220 }}
           />
+          {installEvt && (
+            <Button variant="outlined" color="secondary" startIcon={<InstallMobileIcon />} onClick={install}>
+              Instalar
+            </Button>
+          )}
           {fsApiSupported && (
             <Button variant="contained" startIcon={<FolderOpenIcon />} onClick={openFolder}>
               Abrir carpeta

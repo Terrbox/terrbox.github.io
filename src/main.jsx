@@ -12,3 +12,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </ThemeProvider>
   </React.StrictMode>,
 )
+
+// Register the service worker so the app can be installed as a PWA. Installed
+// PWAs keep the File System Access permission across sessions (no reconnect).
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => { /* ignore */ })
+  })
+}
