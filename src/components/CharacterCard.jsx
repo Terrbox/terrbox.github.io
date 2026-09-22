@@ -177,6 +177,16 @@ export default function CharacterCard({ c, detailsOpen = true }) {
   const p = c.player || {}
   const actions = c.blocks.filter((b) => b.type === 'action')
 
+  // HP shown as "current (+temp) / max"; temp only exists in the player file.
+  // With temp HP the max drops to a second line: "35 (+10)" / "/ 35".
+  const hpTemp = p.hpTemp || 0
+  const hpCur = c.hp.current ?? c.hp.max
+  const hpValue = c.hp.max
+    ? (hpTemp
+        ? <>{`${hpCur} (+${hpTemp})`}<br />{`/ ${c.hp.max}`}</>
+        : `${hpCur}/${c.hp.max}`)
+    : c.hp.current
+
   const hasSpells = c.slots.length > 0 || (p.slots && p.slots.length) ||
     (p.spells && p.spells.length) || (c.spells && c.spells.length)
 
@@ -239,10 +249,11 @@ export default function CharacterCard({ c, detailsOpen = true }) {
       </Box>
 
       <CardContent sx={{ flexGrow: 1 }}>
-        <Stack direction="row" spacing={detailsOpen ? 2 : 1.5} alignItems="center" flexWrap="wrap" useFlexGap>
+        <Stack direction="row" spacing={detailsOpen ? 2 : 1} alignItems="center" flexWrap="wrap" useFlexGap
+               sx={detailsOpen ? undefined : { justifyContent: 'space-between' }}>
           <Shield value={c.ac.value} source={c.ac.source} compact={!detailsOpen} />
           <Stat icon={<FavoriteIcon fontSize="small" />} label="PV" compact={!detailsOpen}
-                value={c.hp.max ? `${c.hp.current ?? c.hp.max}/${c.hp.max}` : c.hp.current} />
+                value={hpValue} />
           <Stat icon={<DirectionsRunIcon fontSize="small" />} label="Vel" value={c.speed} compact={!detailsOpen} />
           <Stat icon={<BoltIcon fontSize="small" />} label="Inic" value={signed(c.init)} compact={!detailsOpen} />
           <Stat icon={<VisibilityIcon fontSize="small" />} label="P.Percep" value={c.passive} compact={!detailsOpen} />

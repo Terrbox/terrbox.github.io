@@ -209,12 +209,16 @@ function parsePlayer(doc) {
   const slotsCurrent = parseCsvInts(childText(character, 'slotsCurrent'))
   const slots = slotsFromArrays(slotsTotal, slotsCurrent)
 
+  // Temporary hit points (only in the player file, as <hpTemp>).
+  const hpTemp = parseInt(childText(character, 'hpTemp'), 10)
+
   return {
     spells: extractSpells(doc),
     items,
     trackers,
     slots,
     slotsCurrent,
+    hpTemp: Number.isNaN(hpTemp) ? 0 : hpTemp,
     raceTraits: directFeats(raceEl),
     bgTraits: directFeats(bgEl),
     classTraits: directFeats(classEl),
