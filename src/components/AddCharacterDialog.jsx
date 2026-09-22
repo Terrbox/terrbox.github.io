@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Dialog, DialogTitle, DialogContent, DialogActions, Stack, TextField, MenuItem, Button, Autocomplete,
 } from '@mui/material'
@@ -10,14 +10,20 @@ const KIND_OPTIONS = [
 ]
 
 // Only Tipo + Nombre are required; CA/PV/Campaña are optional and editable later.
+// Defaults: "Enemigo" (the most common thing a GM adds mid-session) and the
+// first known campaign (so it lands somewhere sensible without extra clicks).
 export default function AddCharacterDialog({ open, onClose, onCreate, folderOptions = [] }) {
-  const [kind, setKind] = useState('pj')
+  const [kind, setKind] = useState('enemy')
   const [name, setName] = useState('')
   const [ac, setAc] = useState('')
   const [hp, setHp] = useState('')
   const [folder, setFolder] = useState('')
 
-  const reset = () => { setKind('pj'); setName(''); setAc(''); setHp(''); setFolder('') }
+  useEffect(() => {
+    if (open) { setKind('enemy'); setFolder(folderOptions[0] || '') }
+  }, [open, folderOptions])
+
+  const reset = () => { setName(''); setAc(''); setHp('') }
   const close = () => { onClose(); reset() }
 
   const submit = () => {
@@ -42,13 +48,15 @@ export default function AddCharacterDialog({ open, onClose, onCreate, folderOpti
             <TextField label="CA" value={ac} onChange={(e) => setAc(e.target.value)} fullWidth />
             <TextField label="PV" value={hp} onChange={(e) => setHp(e.target.value)} fullWidth />
           </Stack>
-          <Autocomplete
-            freeSolo options={folderOptions} value={folder}
-            onInputChange={(e, v) => setFolder(v)}
-            renderInput={(params) => (
-              <TextField {...params} label="Campaña" placeholder="Sin campaña" />
-            )}
-          />
+          {folderOptions.length !== 1 && (
+            <Autocomplete
+              freeSolo options={folderOptions} value={folder}
+              onInputChange={(e, v) => setFolder(v)}
+              renderInput={(params) => (
+                <TextField {...params} label="Campaña" placeholder="Sin campaña" />
+              )}
+            />
+          )}
         </Stack>
       </DialogContent>
       <DialogActions>

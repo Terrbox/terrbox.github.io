@@ -6,6 +6,8 @@ import {
 import CloseIcon from '@mui/icons-material/Close'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import ShieldIcon from '@mui/icons-material/ShieldOutlined'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 const KIND_LABELS = { pj: 'PJ', npc: 'NPC', enemy: 'Enemigo' }
 const KIND_COLORS = { pj: 'primary', npc: 'secondary', enemy: 'error' }
@@ -74,6 +76,73 @@ function StatEdit({ label, value, onCommit }) {
   )
 }
 
+// A grid cell matching the compact ability-mods table style: bordered box,
+// hairline separators between columns/rows, small centered content.
+function Cell({ children, header = false, first = false, row = 0 }) {
+  return (
+    <Box sx={{
+      textAlign: 'center', py: header ? 0.4 : 0.5, px: 0.25,
+      display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: header ? 22 : 28,
+      borderLeft: first ? 'none' : '1px solid', borderColor: 'divider',
+      borderTop: row === 0 ? 'none' : '1px solid',
+    }}>
+      {children}
+    </Box>
+  )
+}
+
+// Compact table of enemy instances (one row per enemy, each with its own
+// editable CA/PV), styled like the collapsed ability-mods grid.
+function EnemyTable({ instances, onUpdateInstance, onAddInstance, onRemoveInstance }) {
+  return (
+    <Box>
+      <Box sx={{
+        display: 'grid', gridTemplateColumns: '28px 1fr 1fr 28px',
+        border: '1px solid', borderColor: 'divider', borderRadius: 1, overflow: 'hidden',
+      }}>
+        <Cell header first row={0}>
+          <Typography sx={{ fontSize: 9, letterSpacing: 0.5, color: 'secondary.main' }}>#</Typography>
+        </Cell>
+        <Cell header row={0}>
+          <ShieldIcon sx={{ fontSize: 14, color: 'secondary.main' }} />
+        </Cell>
+        <Cell header row={0}>
+          <FavoriteIcon sx={{ fontSize: 14, color: 'secondary.main' }} />
+        </Cell>
+        <Cell header row={0} />
+        {instances.map((inst, i) => (
+          <Box key={inst.id} sx={{ display: 'contents' }}>
+            <Cell first row={i + 1}>
+              <Typography sx={{ fontSize: 12, color: 'text.secondary' }}>{i + 1}</Typography>
+            </Cell>
+            <Cell row={i + 1}>
+              <InlineEditable value={inst.ac} onCommit={(v) => onUpdateInstance(inst.id, { ac: v })}
+                               sx={{ fontSize: 14, fontWeight: 700 }}
+                               inputProps={{ sx: { width: 44, '& input': { textAlign: 'center', fontSize: 14 } } }} />
+            </Cell>
+            <Cell row={i + 1}>
+              <InlineEditable value={inst.hp} onCommit={(v) => onUpdateInstance(inst.id, { hp: v })}
+                               sx={{ fontSize: 14, fontWeight: 700 }}
+                               inputProps={{ sx: { width: 44, '& input': { textAlign: 'center', fontSize: 14 } } }} />
+            </Cell>
+            <Cell row={i + 1}>
+              {instances.length > 1 && (
+                <IconButton size="small" onClick={() => onRemoveInstance(inst.id)}
+                            aria-label="Eliminar este enemigo" sx={{ p: 0.25 }}>
+                  <DeleteOutlineIcon sx={{ fontSize: 15 }} />
+                </IconButton>
+              )}
+            </Cell>
+          </Box>
+        ))}
+      </Box>
+      <Button size="small" startIcon={<AddIcon />} onClick={onAddInstance} sx={{ mt: 1 }}>
+        Añadir enemigo
+      </Button>
+    </Box>
+  )
+}
+
 export default function ManualCharacterCard({
   m, onUpdate, onUpdateInstance, onAddInstance, onRemoveInstance, onDelete,
   dragging = false, dragOverActive = false,
@@ -117,35 +186,12 @@ export default function ManualCharacterCard({
                            onCommit={(v) => { if (v) onUpdate({ name: v }) }}
                            sx={{ fontSize: 20, fontWeight: 700, lineHeight: 1.15, flexGrow: 1 }} />
         </Stack>
-        <Stack direction="row" alignItems="center" spacing={0.5} sx={{ mt: 0.25 }}>
-          <Typography sx={{ fontSize: 11, color: 'text.secondary' }}>Campaña:</Typography>
-          <InlineEditable value={m.folder} placeholder="Sin campaña"
-                           onCommit={(v) => onUpdate({ folder: v })}
-                           sx={{ fontSize: 12, color: 'text.secondary' }} />
-        </Stack>
       </Box>
 
       <CardContent sx={{ flexGrow: 1 }}>
         {isEnemy ? (
-          <Stack spacing={1}>
-            {m.instances.map((inst, i) => (
-              <Stack key={inst.id} direction="row" alignItems="center" spacing={2}
-                     sx={{ p: 1, border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}>
-                <Typography sx={{ fontSize: 11, color: 'text.secondary', minWidth: 18 }}>#{i + 1}</Typography>
-                <StatEdit label="CA" value={inst.ac} onCommit={(v) => onUpdateInstance(inst.id, { ac: v })} />
-                <StatEdit label="PV" value={inst.hp} onCommit={(v) => onUpdateInstance(inst.id, { hp: v })} />
-                {m.instances.length > 1 && (
-                  <IconButton size="small" onClick={() => onRemoveInstance(inst.id)}
-                              aria-label="Eliminar este enemigo" sx={{ ml: 'auto' }}>
-                    <DeleteOutlineIcon fontSize="small" />
-                  </IconButton>
-                )}
-              </Stack>
-            ))}
-            <Button size="small" startIcon={<AddIcon />} onClick={onAddInstance} sx={{ alignSelf: 'flex-start' }}>
-              Añadir enemigo
-            </Button>
-          </Stack>
+          <EnemyTable instances={m.instances} onUpdateInstance={onUpdateInstance}
+                      onAddInstance={onAddInstance} onRemoveInstance={onRemoveInstance} />
         ) : (
           <Stack direction="row" spacing={4}>
             <StatEdit label="CA" value={m.instances[0]?.ac}
