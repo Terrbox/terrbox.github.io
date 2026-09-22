@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import {
-  Dialog, DialogTitle, DialogContent, DialogActions, Stack, TextField, MenuItem, Button,
+  Dialog, DialogTitle, DialogContent, DialogActions, Stack, TextField, MenuItem, Button, Autocomplete,
 } from '@mui/material'
 
 const KIND_OPTIONS = [
@@ -9,20 +9,21 @@ const KIND_OPTIONS = [
   { value: 'enemy', label: 'Enemigo' },
 ]
 
-// Only Tipo + Nombre are required; CA/PV are optional and editable later.
-export default function AddCharacterDialog({ open, onClose, onCreate }) {
+// Only Tipo + Nombre are required; CA/PV/Campaña are optional and editable later.
+export default function AddCharacterDialog({ open, onClose, onCreate, folderOptions = [] }) {
   const [kind, setKind] = useState('pj')
   const [name, setName] = useState('')
   const [ac, setAc] = useState('')
   const [hp, setHp] = useState('')
+  const [folder, setFolder] = useState('')
 
-  const reset = () => { setKind('pj'); setName(''); setAc(''); setHp('') }
+  const reset = () => { setKind('pj'); setName(''); setAc(''); setHp(''); setFolder('') }
   const close = () => { onClose(); reset() }
 
   const submit = () => {
     const trimmed = name.trim()
     if (!trimmed) return
-    onCreate({ kind, name: trimmed, ac: ac.trim(), hp: hp.trim() })
+    onCreate({ kind, name: trimmed, ac: ac.trim(), hp: hp.trim(), folder: folder.trim() })
     close()
   }
 
@@ -41,6 +42,13 @@ export default function AddCharacterDialog({ open, onClose, onCreate }) {
             <TextField label="CA" value={ac} onChange={(e) => setAc(e.target.value)} fullWidth />
             <TextField label="PV" value={hp} onChange={(e) => setHp(e.target.value)} fullWidth />
           </Stack>
+          <Autocomplete
+            freeSolo options={folderOptions} value={folder}
+            onInputChange={(e, v) => setFolder(v)}
+            renderInput={(params) => (
+              <TextField {...params} label="Campaña" placeholder="Sin campaña" />
+            )}
+          />
         </Stack>
       </DialogContent>
       <DialogActions>

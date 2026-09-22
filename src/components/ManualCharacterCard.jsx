@@ -12,8 +12,9 @@ const KIND_COLORS = { pj: 'primary', npc: 'secondary', enemy: 'error' }
 
 // Click-to-edit text: shows a Typography, swaps to a TextField on click and
 // commits on blur/Enter (Escape reverts without saving).
-function InlineEditable({ value, onCommit, placeholder = '—', inputProps, sx }) {
-  const [editing, setEditing] = useState(false)
+function InlineEditable({ value, onCommit, placeholder = '—', inputProps, sx, onEditingChange }) {
+  const [editing, setEditingState] = useState(false)
+  const setEditing = (v) => { setEditingState(v); onEditingChange?.(v) }
   const [draft, setDraft] = useState(value ?? '')
   useEffect(() => { if (!editing) setDraft(value ?? '') }, [value, editing])
 
@@ -75,12 +76,25 @@ function StatEdit({ label, value, onCommit }) {
 
 export default function ManualCharacterCard({
   m, onUpdate, onUpdateInstance, onAddInstance, onRemoveInstance, onDelete,
+  dragging = false, dragOverActive = false,
+  onNameDragStart, onNameDragEnd, onCardDragOver, onCardDrop,
 }) {
   const [confirmOpen, setConfirmOpen] = useState(false)
+  const [nameEditing, setNameEditing] = useState(false)
   const isEnemy = m.kind === 'enemy'
 
   return (
-    <Card elevation={6} sx={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Card elevation={6}
+          onDragOver={onCardDragOver}
+          onDrop={onCardDrop}
+          sx={{
+            position: 'relative', height: '100%', display: 'flex', flexDirection: 'column',
+            transition: 'opacity .15s',
+            opacity: dragging ? 0.4 : 1,
+            ...(dragOverActive
+              ? { outline: '2px dashed', outlineColor: 'secondary.main', outlineOffset: '-2px' }
+              : {}),
+          }}>
       <IconButton size="small" onClick={() => setConfirmOpen(true)} aria-label="Eliminar personaje"
                   sx={{
                     position: 'absolute', top: 6, right: 6, zIndex: 1, color: '#ff6b6b',
@@ -89,15 +103,25 @@ export default function ManualCharacterCard({
         <CloseIcon fontSize="small" />
       </IconButton>
 
-      <Box sx={{
-        px: 2, py: 1.5, pr: 5, borderBottom: '2px solid', borderColor: 'primary.main',
-        background: 'linear-gradient(180deg, rgba(193,39,45,0.18), rgba(0,0,0,0))',
-      }}>
+      <Box draggable={!!onNameDragStart && !nameEditing}
+           onDragStart={onNameDragStart}
+           onDragEnd={onNameDragEnd}
+           sx={{
+             px: 2, py: 1.5, pr: 5, borderBottom: '2px solid', borderColor: 'primary.main',
+             background: 'linear-gradient(180deg, rgba(193,39,45,0.18), rgba(0,0,0,0))',
+             ...(onNameDragStart ? { cursor: 'grab', '&:active': { cursor: 'grabbing' } } : {}),
+           }}>
         <Stack direction="row" alignItems="center" spacing={1}>
           <Chip size="small" label={KIND_LABELS[m.kind] || m.kind} color={KIND_COLORS[m.kind]} sx={{ fontWeight: 700 }} />
-          <InlineEditable value={m.name} placeholder="Nombre"
+          <InlineEditable value={m.name} placeholder="Nombre" onEditingChange={setNameEditing}
                            onCommit={(v) => { if (v) onUpdate({ name: v }) }}
                            sx={{ fontSize: 20, fontWeight: 700, lineHeight: 1.15, flexGrow: 1 }} />
+        </Stack>
+        <Stack direction="row" alignItems="center" spacing={0.5} sx={{ mt: 0.25 }}>
+          <Typography sx={{ fontSize: 11, color: 'text.secondary' }}>Campaña:</Typography>
+          <InlineEditable value={m.folder} placeholder="Sin campaña"
+                           onCommit={(v) => onUpdate({ folder: v })}
+                           sx={{ fontSize: 12, color: 'text.secondary' }} />
         </Stack>
       </Box>
 

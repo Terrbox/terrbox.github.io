@@ -22,11 +22,14 @@ export function saveManualCharacters(list) {
 
 // `kind`: 'pj' | 'npc' | 'enemy'. Only 'enemy' cards support several
 // instances (each with its own CA/PV); pj/npc always keep a single one.
-export function newManualCharacter({ kind, name, ac, hp }) {
+// `folder` groups the card alongside synced characters from that campaign
+// (falls back to "Sin campaña", same as characters with no synced folder).
+export function newManualCharacter({ kind, name, ac, hp, folder = '' }) {
   return {
     id: makeId(),
     kind,
     name,
+    folder,
     notes: '',
     instances: [{ id: makeId(), ac: ac || '', hp: hp || '' }],
   }

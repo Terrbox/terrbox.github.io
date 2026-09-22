@@ -196,8 +196,8 @@ export default function App() {
 
   const persistManual = (list) => { setManualChars(list); saveManualCharacters(list) }
 
-  const addManualCharacter = ({ kind, name, ac, hp }) => {
-    persistManual([...manualChars, newManualCharacter({ kind, name, ac, hp })])
+  const addManualCharacter = ({ kind, name, ac, hp, folder }) => {
+    persistManual([...manualChars, newManualCharacter({ kind, name, ac, hp, folder })])
   }
   const updateManualCharacter = (id, patch) => {
     persistManual(manualChars.map((m) => (m.id === id ? { ...m, ...patch } : m)))
@@ -211,7 +211,7 @@ export default function App() {
     persistManual(manualChars.map((m) => {
       if (m.id !== id) return m
       const last = m.instances[m.instances.length - 1]
-      return { ...m, instances: [...m.instances, { id: makeId(), ac: last?.ac || '', hp: '' }] }
+      return { ...m, instances: [...m.instances, { id: makeId(), ac: last?.ac || '', hp: last?.hp || '' }] }
     }))
   }
   const removeManualInstance = (id, instanceId) => {
@@ -229,18 +229,33 @@ export default function App() {
     return manualChars.filter((m) => (m.name || '').toLowerCase().includes(term))
   }, [manualChars, q])
 
+  // Existing campaign names, offered as suggestions when adding a manual character.
+  const folderOptions = useMemo(() => {
+    const set = new Set()
+    for (const c of chars) if (c.folder) set.add(c.folder)
+    for (const m of manualChars) if (m.folder) set.add(m.folder)
+    return Array.from(set).sort((a, b) => a.localeCompare(b))
+  }, [chars, manualChars])
+
   // Manual card order per campaign (drag & drop), persisted in localStorage.
   const [order, setOrder] = useState(loadOrder)
   // Currently dragged card ({ folder, key }) and the key it's hovering over.
   const [dragState, setDragState] = useState(null)
   const [overKey, setOverKey] = useState(null)
 
+  // Both file-synced and manual characters are grouped together by campaign
+  // (a manual character's "folder" is a freeform field the user sets).
   const groups = useMemo(() => {
     const g = new Map()
     for (const c of filtered) {
       const k = c.folder || 'Sin campaña'
       if (!g.has(k)) g.set(k, [])
-      g.get(k).push(c)
+      g.get(k).push({ type: 'file', data: c, key: keyOf(c) })
+    }
+    for (const m of filteredManual) {
+      const k = m.folder || 'Sin campaña'
+      if (!g.has(k)) g.set(k, [])
+      g.get(k).push({ type: 'manual', data: m, key: `manual:${m.id}` })
     }
     const entries = Array.from(g.entries())
     for (const [folder, items] of entries) {
@@ -248,13 +263,13 @@ export default function App() {
       if (!saved || !saved.length) continue
       const idx = new Map(saved.map((k, i) => [k, i]))
       items.sort((a, b) => {
-        const ia = idx.has(keyOf(a)) ? idx.get(keyOf(a)) : Infinity
-        const ib = idx.has(keyOf(b)) ? idx.get(keyOf(b)) : Infinity
+        const ia = idx.has(a.key) ? idx.get(a.key) : Infinity
+        const ib = idx.has(b.key) ? idx.get(b.key) : Infinity
         return ia - ib
       })
     }
     return entries
-  }, [filtered, order])
+  }, [filtered, filteredManual, order])
 
   const handleDragStart = (folder, key) => (e) => {
     setDragState({ folder, key })
@@ -278,7 +293,7 @@ export default function App() {
     e.preventDefault()
     const group = groups.find(([f]) => f === folder)
     if (group) {
-      const keys = group[1].map(keyOf)
+      const keys = group[1].map((entry) => entry.key)
       const from = keys.indexOf(dragState.key)
       const to = keys.indexOf(key)
       if (from !== -1 && to !== -1) {
@@ -363,37 +378,11 @@ export default function App() {
         )}
         {error && <Alert severity="warning" sx={{ mb: 2 }}>{error}</Alert>}
 
-        {filteredManual.length > 0 && (
-          <Box sx={{ mb: 4 }}>
-            <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 1.5 }}>
-              <Typography variant="h5" sx={{ color: 'secondary.main' }}>Personajes manuales</Typography>
-              <Chip size="small" label={`${filteredManual.length} personaje${filteredManual.length === 1 ? '' : 's'}`} />
-            </Stack>
-            <Box sx={{
-              display: 'grid', gap: 2, alignItems: 'stretch',
-              gridTemplateColumns: {
-                xs: '1fr',
-                sm: 'repeat(2, minmax(0, 1fr))',
-                md: 'repeat(3, minmax(0, 1fr))',
-              },
-            }}>
-              {filteredManual.map((m) => (
-                <ManualCharacterCard key={m.id} m={m}
-                                      onUpdate={(patch) => updateManualCharacter(m.id, patch)}
-                                      onUpdateInstance={(instanceId, patch) => updateManualInstance(m.id, instanceId, patch)}
-                                      onAddInstance={() => addManualInstance(m.id)}
-                                      onRemoveInstance={(instanceId) => removeManualInstance(m.id, instanceId)}
-                                      onDelete={() => deleteManualCharacter(m.id)} />
-              ))}
-            </Box>
-          </Box>
-        )}
-
         {loading && (
           <Stack alignItems="center" sx={{ py: 6 }}><CircularProgress color="secondary" /></Stack>
         )}
 
-        {!loading && chars.length === 0 && (
+        {!loading && groups.length === 0 && (
           <Box
             onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
             onDragLeave={() => setDragOver(false)}
@@ -428,7 +417,7 @@ export default function App() {
           </Box>
         )}
 
-        {!loading && chars.length > 0 && groups.map(([folder, items]) => (
+        {!loading && groups.length > 0 && groups.map(([folder, items]) => (
           <Box key={folder} sx={{ mb: 4 }}>
             <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 1.5 }}>
               <Typography variant="h5" sx={{ color: 'secondary.main' }}>{folder}</Typography>
@@ -450,18 +439,35 @@ export default function App() {
                 md: 'repeat(3, minmax(0, 1fr))',
               },
             }}>
-              {items.map((c, i) => {
-                const key = keyOf(c) || String(i)
+              {items.map((entry, i) => {
+                const key = entry.key || String(i)
+                const dragProps = {
+                  dragging: dragState?.folder === folder && dragState.key === key,
+                  dragOverActive: !!dragState && dragState.folder === folder &&
+                    dragState.key !== key && overKey === key,
+                  onCardDragOver: handleDragOverCard(folder, key),
+                  onCardDrop: handleDropCard(folder, key),
+                }
+                if (entry.type === 'manual') {
+                  const m = entry.data
+                  return (
+                    <ManualCharacterCard key={`${folder}|${key}`} m={m}
+                                          onUpdate={(patch) => updateManualCharacter(m.id, patch)}
+                                          onUpdateInstance={(instanceId, patch) => updateManualInstance(m.id, instanceId, patch)}
+                                          onAddInstance={() => addManualInstance(m.id)}
+                                          onRemoveInstance={(instanceId) => removeManualInstance(m.id, instanceId)}
+                                          onDelete={() => deleteManualCharacter(m.id)}
+                                          onNameDragStart={handleDragStart(folder, key)}
+                                          onNameDragEnd={handleDragEnd}
+                                          {...dragProps} />
+                  )
+                }
                 return (
                   <CharacterCard key={`${folder}|${key}`}
-                                 c={c} detailsOpen={!collapsed[folder]}
-                                 dragging={dragState?.folder === folder && dragState.key === key}
-                                 dragOverActive={!!dragState && dragState.folder === folder &&
-                                   dragState.key !== key && overKey === key}
+                                 c={entry.data} detailsOpen={!collapsed[folder]}
                                  onNameDragStart={handleDragStart(folder, key)}
                                  onNameDragEnd={handleDragEnd}
-                                 onCardDragOver={handleDragOverCard(folder, key)}
-                                 onCardDrop={handleDropCard(folder, key)} />
+                                 {...dragProps} />
                 )
               })}
             </Box>
@@ -469,7 +475,8 @@ export default function App() {
         ))}
       </Container>
 
-      <AddCharacterDialog open={addOpen} onClose={() => setAddOpen(false)} onCreate={addManualCharacter} />
+      <AddCharacterDialog open={addOpen} onClose={() => setAddOpen(false)} onCreate={addManualCharacter}
+                          folderOptions={folderOptions} />
     </Box>
   )
 }
